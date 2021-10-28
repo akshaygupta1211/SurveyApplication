@@ -5,16 +5,16 @@
         </h3>
         <template if:true = {questions}> 
             <template for:each={questions} for:item="question">
-                <template if:true = {isCheckbox}>
-                    <h2 class="header" key={question.Id}>{question.Name}</h2>
+                <template if:true = {question.responseType}>
+                    <h2 class="header" key={question.Id}>{question.name}</h2>
                     <template if:true = {question.answers}>
                         <template for:each={question.answers} for:item="answer">
-                            <lightning-input type="checkbox" label={answer.name} name="input1" key={answer.Id}>{answer.Name}</lightning-input>
+                            <lightning-input type="checkbox" label={answer.Name} name="input1" key={answer.Id}></lightning-input>
                         </template>  
                     </template>                   
                 </template> 
-                <template if:true = {isRadioButton}>
-                    <h2 class="header" key={question.Id}>{question.Name}</h2>
+                <template if:false = {question.responseType}>
+                    <h2 class="header" key={question.Id}>{question.name}</h2>
                     <template if:true = {question.answers}>
                         <lightning-radio-group name="radioGroup"
                         label="Radio Group"
