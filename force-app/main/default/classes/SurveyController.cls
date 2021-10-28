@@ -14,7 +14,7 @@ public with sharing class SurveyController {
                 questionIdSet.add(question.Id);
             }
 
-            List<Survey_Question__c> questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r) FROM Survey_Question__c WHERE Id IN :questionIdSet];
+            List<Survey_Question__c> questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet];
 
             for(Survey_Question__c question : questionList) {
                 QuestionWrapper wrapper = new QuestionWrapper();
