@@ -1,32 +1,29 @@
 <template>
-    <lightning-card>
-        <template if:true = {surveyWrapper}>   
-            <h3 slot="title">
-                <lightning-icon icon-name="action:new_note" alternative-text="New survey" title="New survey" size="small"></lightning-icon>
-                {surveyWrapper.title}
-            </h3>
-            <template if:true = {surveyWrapper.questions}> 
-                <template for:each={surveyWrapper.questions} for:item="question">
-                    <template if:true = {isCheckbox}>
-                        <h2 class="header" key={question.Id}>{question.Name}</h2>
-                        <template if:true = {question.answers}>
-                            <template for:each={question.answers} for:item="answer">
-                                <lightning-input type="checkbox" label={answer.name} name="input1" key={answer.Id}></lightning-input>
-                            </template>  
-                        </template>                   
-                    </template> 
-                    <template if:true = {isRadioButton}>
-                        <h2 class="header" key={question.Id}>{question.Name}</h2>
-                        <template if:true = {question.answers}>
-                            <lightning-radio-group name="radioGroup"
-                            label="Radio Group"
-                            options={question.answers}
-                            value={value}
-                            type="radio" key={answer.Id}></lightning-radio-group>
-                        </template>                   
-                    </template>                     
-                </template>
-            </template>              
-        </template>
-    </lightning-card>
+    <template if:true = {surveyWrapper}>   
+        <h3 slot="title">
+            {surveyWrapper.title}
+        </h3>
+        <template if:true = {questions}> 
+            <template for:each={questions} for:item="question">
+                <template if:true = {isCheckbox}>
+                    <h2 class="header" key={question.Id}>{question.Name}</h2>
+                    <template if:true = {question.answers}>
+                        <template for:each={question.answers} for:item="answer">
+                            <lightning-input type="checkbox" label={answer.name} name="input1" key={answer.Id}>{answer.Name}</lightning-input>
+                        </template>  
+                    </template>                   
+                </template> 
+                <template if:true = {isRadioButton}>
+                    <h2 class="header" key={question.Id}>{question.Name}</h2>
+                    <template if:true = {question.answers}>
+                        <lightning-radio-group name="radioGroup"
+                        label="Radio Group"
+                        options={question.answers}
+                        value={value}
+                        type="radio" key={question.Id}></lightning-radio-group>
+                    </template>                   
+                </template>                     
+            </template>
+        </template>              
+    </template>
 </template>

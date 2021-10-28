@@ -7,14 +7,15 @@ export default class SurveyComponent extends LightningElement {
 
     surveyWrapper;
     errorMessage;
-    isCheckbox;
-    isRadioButton;
+    isCheckbox = true;
+    isRadioButton = false;
+    questions = [];
 
     @wire(getDetails) 
     wiredSurvey({data, error}) {
         if(data) {
             this.surveyWrapper = data;
-            console.log('wrapper: ' + this.surveyWrapper);
+            this.questions = data.questions;        
         } else if(error) {
             this.errorMessage = error.body.message;
             console.log('error: ' + this.errorMessage)
