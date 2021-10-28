@@ -4,6 +4,8 @@ import submitSurvey from '@salesforce/apex/SurveyController.submitSurvey';
 
 export default class SurveyComponent extends LightningElement {
 
+    surveyWrapper;
+
     connectedCallback() {
         
     }

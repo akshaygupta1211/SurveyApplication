@@ -1,3 +1,14 @@
 <template>
-    
+    <lightning-card>
+        <template if:true = {surveyWrapper}>   
+            <h3 slot="title">
+                <lightning-icon icon-name="action:new_note" alternative-text="New survey" title="New survey" size="small"></lightning-icon>
+                {surveyWrapper.title}
+            </h3>
+            <template if:true = {surveyWrapper.questions}> 
+                <template for:each={surveyWrapper.questions} for:item="question">
+                </template>
+            </template>              
+        </template>
+    </lightning-card>
 </template>
