@@ -1,0 +1,32 @@
+<aura:component controller = 'CustomContactController' implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="AccountsList" type="Account[]" />
+    <aura:attribute name="CasesList" type="Cases[]" />
+    <aura:attribute type="String" name="contactattr" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler event="aura:locationChange" action="{! c.handleLocationChange }" />
+    <aura:handler event="c:AppEvent" action="{! c.handleEvent}" />
+    Message from Contact Retriever : {! v.contactattr }
+    <aura:iteration items="{! v.AccountsList }" var="a">
+        <ul class="list-group"><li class="list-group-item"><a href="{! '#account/' + a.Id }" > {! a.Name }</a> :::: {! a.Phone }</li></ul>                    
+    </aura:iteration>
+    
+    <aura:iteration items="{! v.CasesList }" var="c">
+        <ul class="list-group">
+            <table>
+                <tr>
+                    <th>Case Number</th>
+                    <th>Origin</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                </tr>
+                <tr>
+                    <td>{! c.CaseNumber }</td>
+                    <td>{! c.Origin }</td>
+                    <td>{! c.Status }</td>
+                    <td>{! c.Priority }</td>
+                </tr> 
+            </table>
+        </ul>                    
+    </aura:iteration>    
+</aura:component>

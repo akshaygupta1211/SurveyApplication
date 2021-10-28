@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="parentattr" type="String" />
+    <aura:handler event="c:CompEvent" name="cmpevent" action="{! c.handleEvent}" />
+    Message from child event {! v.parentattr }
+    <br />
+    <c:ChildComponent aura:id="childComp" childattr="Get out of here"/>
+    <lightning:button variant="destructive" label="Parent" title="Parent action" onclick="{! c.handleClick }"/>
+</aura:component>

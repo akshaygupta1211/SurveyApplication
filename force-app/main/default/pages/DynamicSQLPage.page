@@ -1,0 +1,72 @@
+<apex:page controller="DynamicSQLClass" id="page">
+    <script>
+    function disableOtherThanAccountCheckbox() {
+        var isAccount = document.getElementById('{!$Component.page.form.accountCheckbox}').checked;
+        
+        if(isAccount) {
+            document.getElementById('{!$Component.page.form.contactCheckbox}').disabled = true;
+            document.getElementById('{!$Component.page.form.opportunityCheckbox}').disabled = true;
+        } else if(!isAccount) {
+            document.getElementById('{!$Component.page.form.contactCheckbox}').disabled = false;
+            document.getElementById('{!$Component.page.form.opportunityCheckbox}').disabled = false;            
+        }
+        
+    }
+    function disableOtherThanContactCheckbox() {
+        
+        var isContact = document.getElementById('{!$Component.page.form.contactCheckbox}').checked;
+        
+        if(isContact) {
+            document.getElementById('{!$Component.page.form.accountCheckbox}').disabled = true;
+            document.getElementById('{!$Component.page.form.opportunityCheckbox}').disabled = true;
+        } else if(!isContact) {
+            document.getElementById('{!$Component.page.form.accountCheckbox}').disabled = false;
+            document.getElementById('{!$Component.page.form.opportunityCheckbox}').disabled = false;            
+        }
+    }
+    function disableOtherThanOpportunityCheckbox() {
+        
+        var isOpportunity = document.getElementById('{!$Component.page.form.opportunityCheckbox}').checked;
+        
+        if(isOpportunity) {
+            document.getElementById('{!$Component.page.form.contactCheckbox}').disabled = true;
+            document.getElementById('{!$Component.page.form.accountCheckbox}').disabled = true;
+        } else if(!isOpportunity) {
+            document.getElementById('{!$Component.page.form.contactCheckbox}').disabled = false;
+            document.getElementById('{!$Component.page.form.accountCheckbox}').disabled = false;            
+        }        
+        
+    }
+    </script>
+    <apex:form id="form">
+        <apex:inputText value="{! searchParameter }" /><br />
+        <apex:inputCheckbox value="{! isAccount }" id="accountCheckbox" onclick="disableOtherThanAccountCheckbox()"/>Account <br />
+        <apex:inputCheckbox value="{! isContact }" id="contactCheckbox" onclick="disableOtherThanContactCheckbox()"/>Contact <br />
+        <apex:inputCheckbox value="{! isOpportunity }" id="opportunityCheckbox" onclick="disableOtherThanOpportunityCheckbox()"/>Opportunity <br />
+        <apex:commandButton value="Search" action="{! search }" reRender="accountOutput, contactOutput, opportunityOutput"/>        
+    </apex:form>
+    <apex:outputPanel id="accountOutput">
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{! accountList }" var="account" >
+                <apex:column value="{! account.Id }" />
+                <apex:column value="{! account.Name }"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>         
+    </apex:outputPanel>
+    <apex:outputPanel id="contactOutput">
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{! contactList }" var="contact" >
+                <apex:column value="{! contact.Id }" />
+                <apex:column value="{! contact.Name }"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>         
+    </apex:outputPanel>
+    <apex:outputPanel id="opportunityOutput">
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{! opportunityList }" var="opportunity" >
+                <apex:column value="{! opportunity.Id }" />
+                <apex:column value="{! opportunity.Name }"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>         
+    </apex:outputPanel>    
+</apex:page>

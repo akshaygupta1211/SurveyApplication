@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <label>Enter Contact Name : </label><input type="text" onkeyup="{! c.handleTextChange }" class="form-control" id="searchText"/>
+    <aura:attribute type="String" name="searchParameter" />
+    <aura:registerEvent name="searchevent" type="c:SearchKeyChange" />
+</aura:component>

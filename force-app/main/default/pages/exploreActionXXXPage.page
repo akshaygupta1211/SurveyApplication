@@ -1,0 +1,26 @@
+<apex:page controller="exploreActionXXXClass">
+    <script>
+    function someJavascriptFunction() {
+        functionName();
+    }
+    </script>
+    <apex:form >
+        <apex:inputCheckbox onclick="someJavascriptFunction()" />
+        <apex:inputText value="{! someText }"/>     
+        <apex:actionFunction action="{! callMe }" name="functionName" />
+        <br />
+        <apex:outputText value="3 + 2 " />
+        <apex:outputpanel id="sum">
+            <apex:outputText value="= : {! sum }"/>
+            <apex:actionSupport event="onclick" 
+                                action="{!calculateSum}" 
+                                rerender="sum" status="calculationStatus"/>
+        </apex:outputpanel>
+        <apex:actionStatus id="calculationStatus" 
+                           startText=" (calculating...)" 
+                           stopText="{! finalText }"/>
+        <br />
+        <apex:outputText value="Time Elapsed in  minutes : {!count}" id="counter"/>
+        <apex:actionPoller action="{!incrementCounter}" reRender="counter" interval="60"/>
+    </apex:form>
+</apex:page>

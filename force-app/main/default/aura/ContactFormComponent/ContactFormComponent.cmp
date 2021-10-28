@@ -1,0 +1,58 @@
+<aura:component controller="RandomContactController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:ActionOverride" access="global" >
+    <aura:attribute name="contact" type="Contact" default="{ 'sobject' : 'Contact'}" />
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="selectedValue" type="String"/>
+    <aura:attribute name="options" type="String[]" />
+    <aura:attribute name="flag" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit}" />
+    
+    <fieldset class="slds-form-element slds-form-element_compound">
+        <legend class="slds-form-element__legend slds-form-element__label">Contact Detail</legend>
+        <div class="slds-form-element__control">
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-2">
+                    <div class="slds-form-element">
+                        
+                        <div class="slds-form-element__control">
+                            <lightning:input type="text" label="Enter Last Name" value="{! v.contact.LastName }" /> 
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-size_1-of-2">
+                    <div class="slds-form-element">
+                        
+                        <div class="slds-form-element__control">
+                            <lightning:select name="select1" label="Lead Source" required="true" value="{! v.selectedValue }">
+                                <aura:iteration items="{! v.options }" var="option">
+                                    <option text="{!option}" value="{!option.Contact.LeadSource}" selected="{!option==v.selectedValue}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    
+    <lightning:button variant="success" label="Create" title="Create" onclick="{! c.saveContact }" />
+    <lightning:button variant="destructive" label="Delete" title="Delete" onclick="{! c.deleteContact }" />
+    <br />
+    <aura:if isTrue="{! v.flag }" >
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"  onclick="{! c.resetFlag }" title="Close">
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Error</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{! v.errorMessage }</p>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>        
+    </aura:if>
+    
+</aura:component>

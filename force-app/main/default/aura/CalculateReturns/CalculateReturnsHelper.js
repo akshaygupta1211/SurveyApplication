@@ -1,0 +1,4 @@
+({
+    helperCalculate : function(component) {	
+    }
+})

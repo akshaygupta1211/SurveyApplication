@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="childattr" type="String" />
+    <aura:registerEvent name="cmpevent" type="c:CompEvent" />    
+    <aura:method name="childMethod" action="{! c.handleClick }"/>
+</aura:component>

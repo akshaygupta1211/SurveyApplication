@@ -1,0 +1,9 @@
+<apex:page controller="RandomController">
+    <apex:form >
+    	<!--<apex:inputText value="{! name }"/>-->
+    	
+        <apex:commandButton action="{! getText}" value="Send"/>
+        
+		<!--<apex:outputText>{! name }</apex:outputText>-->        
+    </apex:form>
+</apex:page>

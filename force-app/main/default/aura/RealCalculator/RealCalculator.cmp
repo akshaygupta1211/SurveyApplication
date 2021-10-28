@@ -1,0 +1,13 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="Input" type="double" />
+    
+    <lightning:input type="number" label="Enter Variable :" value="{! v.Input }"/>
+    
+    <lightning:button variant="neutral" label=" + " title="Add" onclick="{! c.addition }"/>
+    <lightning:button variant="neutral" label=" - " title="Sub" onclick="{! c.subtraction }"/>
+    <lightning:button variant="neutral" label=" * " title="Mul" onclick="{! c.multiplication }"/>
+    <lightning:button variant="neutral" label=" / " title="Div" onclick="{! c.division }"/>
+    <lightning:button variant="success" label=" = " title="Result" onclick="{! c.getResult }"/>
+    <br />
+    
+</aura:component>

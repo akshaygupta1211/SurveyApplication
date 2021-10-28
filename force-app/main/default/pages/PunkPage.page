@@ -1,0 +1,20 @@
+<apex:page controller="PunkController"  action="{! loopOver }">
+    <apex:pageBlock >
+        <apex:outputText >{! name }</apex:outputText>->
+        <apex:outputText >{! location }</apex:outputText>
+        <!--
+        <apex:pageBlockSection title="Locations" collapsible="false">
+    		<apex:repeat value="{! locations }" var="loc">
+        		<apex:outputText>{! loc }</apex:outputText><br />
+    		</apex:repeat>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection >
+            <apex:pageBlockTable value="{! accounts }" var="account">
+                <apex:column value="{! account.Name }"/>
+                <apex:column value="{! account.Industry }"/>
+                <apex:column value="{! account.Phone }"/>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    -->
+    </apex:pageBlock>
+</apex:page>

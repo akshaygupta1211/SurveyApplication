@@ -1,0 +1,44 @@
+<aura:component controller="AuraClass1" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute type="String" name="id" />
+    <aura:attribute type="String" name="accountName" />
+    <aura:attribute name="AccountList" type="Account[]" />
+    <aura:attribute name="AssociatedContactList" type="Account[]" />
+    <aura:attribute name="AssociatedCasesList" type="Account[]" />
+    
+    <aura:registerEvent name="appevent" type="c:AppEvent" />
+    
+    <lightning:input type="text" value="{! v.id }" label="Enter Id"/>
+    <br />
+    <lightning:input type="text" value="{! v.accountName }" label="Enter Account Name"/>
+    <br />    
+    <lightning:button variant="success" label="Search Contacts" title="Search" onclick="{! c.getLastName }"/>
+    <lightning:button variant="brand" label="Retrieve Accounts" title="Search" onclick="{! c.fetchAccounts }"/>
+    <lightning:button variant="destructive" label="Retrieve Contacts" title="Search" onclick="{! c.fetchContacts }"/>
+    <lightning:button variant="neutral" label="Retrieve Cases" title="Search" onclick="{! c.fetchCases }"/>
+    <br />
+    <aura:iteration items="{! v.AccountList }" var="a">
+        <ul>
+            <li>{! a.Name }</li>
+        </ul>
+    </aura:iteration> 
+    <aura:iteration items="{! v.AssociatedContactList }" var="a">
+        <ul>
+            <li>{! a.Name }</li>
+            <aura:iteration items="{! a.Contacts }" var="c">
+                <ul>
+                    <li>{! c.LastName }</li>                   
+                </ul>
+            </aura:iteration> 
+        </ul>
+    </aura:iteration> 
+    <aura:iteration items="{! v.AssociatedCasesList }" var="a">
+        <ul>
+            <li>{! a.Name }</li>
+            <aura:iteration items="{! a.Cases }" var="c">
+                <ul>
+                    <li>{! c.CaseNumber }</li>                   
+                </ul>
+            </aura:iteration> 
+        </ul>
+    </aura:iteration>     
+</aura:component>

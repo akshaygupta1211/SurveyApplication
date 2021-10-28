@@ -1,0 +1,18 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="newContact" type="Object" access="private"/>
+    <aura:attribute name="simpleNewContact" type="Object" access="private"/>
+    <aura:attribute name="newContactError" type="String" access="private"/>
+    <aura:attribute name="showandhide" type="Boolean"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <force:recordData aura:id="contactRecordCreator" 
+                      layoutType="FULL" 
+                      targetRecord="{!v.newContact}"
+                      targetFields="{!v.simpleNewContact}"
+                      targetError="{!v.newContactError}"
+                      Recordid="{!v.recordid}"
+                      mode="EDIT"
+                      />
+    <lightning:input type="text" label="Enter Last Name" value="{!v.simpleNewContact.LastName}"/>
+    <lightning:button class="slds-button slds-button_brand" name="Click here to save" label="Save" onclick="{!c.savedata}"/> 
+</aura:component>

@@ -1,0 +1,24 @@
+<aura:component controller = 'CustomContactController' implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="ContactsList" type="Contact[]" />
+    <aura:attribute name="ContactById" type="Contact" default="{'sobjectType' : 'Contact'}" />
+    <aura:attribute name="ContactByName" type="Contact" default="{'sobjectType' : 'Contact'}" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler event="aura:locationChange" action="{! c.handleLocationChange }" />
+    <aura:handler event="c:SearchKeyChange" action="{! c.handleEvent }" />
+    <aura:iteration items="{! v.ContactsList }" var="c">
+        <ul class="list-group"><li class="list-group-item"><a href="{! '#contact/' + c.Id }" > {! c.Name }</a> :::: {! c.Phone } :::: {! c.Title }</li></ul>                    
+    </aura:iteration>
+ 	  
+    <div>
+       Name :  {! v.ContactById.Name } <br />
+       Phone : {! v.ContactById.Phone } <br />
+       Email : {! v.ContactById.Email } <br />
+    </div>
+    <div>
+       Name :  {! v.ContactByName.Name } <br />
+       Phone : {! v.ContactByName.Phone } <br />
+       Email : {! v.ContactByName.Email } <br />
+    </div>    
+    
+</aura:component>

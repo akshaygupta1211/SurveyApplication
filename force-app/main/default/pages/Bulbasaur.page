@@ -1,0 +1,5 @@
+<apex:page controller="Venasaur">
+    <apex:form >
+        <apex:commandButton value="Invoke" action="{! doSomething }" />
+    </apex:form>
+</apex:page>
