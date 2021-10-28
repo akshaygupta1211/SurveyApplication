@@ -155,9 +155,8 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>Survey</label>
     <nameField>
-        <displayFormat>S-{00000}</displayFormat>
-        <label>Survey Number</label>
-        <type>AutoNumber</type>
+        <label>Name</label>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Surveys</pluralLabel>
     <searchLayouts></searchLayouts>

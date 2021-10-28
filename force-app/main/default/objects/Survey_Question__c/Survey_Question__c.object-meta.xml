@@ -155,9 +155,8 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>Survey Question</label>
     <nameField>
-        <displayFormat>SQ-{00000}</displayFormat>
-        <label>Survey Question Number</label>
-        <type>AutoNumber</type>
+        <label>Question</label>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Survey Questions</pluralLabel>
     <searchLayouts></searchLayouts>
