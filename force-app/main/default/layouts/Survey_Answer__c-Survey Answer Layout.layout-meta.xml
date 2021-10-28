@@ -13,7 +13,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Type__c</field>
+                <field>Response_Type__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

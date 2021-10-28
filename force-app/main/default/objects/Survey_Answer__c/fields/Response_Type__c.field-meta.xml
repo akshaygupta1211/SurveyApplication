@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Type__c</fullName>
+    <fullName>Response_Type__c</fullName>
     <externalId>false</externalId>
-    <label>Type</label>
+    <label>Response Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -11,19 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Text</fullName>
+                <fullName>Checkbox</fullName>
                 <default>false</default>
-                <label>Text</label>
+                <label>Checkbox</label>
             </value>
             <value>
-                <fullName>Number</fullName>
+                <fullName>Radio Button</fullName>
                 <default>false</default>
-                <label>Number</label>
-            </value>
-            <value>
-                <fullName>Boolean</fullName>
-                <default>false</default>
-                <label>Boolean</label>
+                <label>Radio Button</label>
             </value>
         </valueSetDefinition>
     </valueSet>
