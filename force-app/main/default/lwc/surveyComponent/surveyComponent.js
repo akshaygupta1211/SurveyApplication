@@ -8,14 +8,12 @@ export default class SurveyComponent extends LightningElement {
     surveyWrapper;
     errorMessage;
     questions = [];
-    noOfQuestions = 0;
 
     @wire(getDetails) 
     wiredSurvey({data, error}) {
         if(data) {
             this.surveyWrapper = data;
-            this.questions = data.questions;
-            this.noOfQuestions = this.questions.length;                
+            this.questions = data.questions;                       
         } else if(error) {
             this.errorMessage = error.body.message;
             console.log('error: ' + this.errorMessage)

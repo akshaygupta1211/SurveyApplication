@@ -14,10 +14,9 @@
                     </template>                   
                 </template> 
                 <template if:false = {question.responseType}>
-                    <h2 class="header" key={question.Id}>{question.name}</h2>
                     <template if:true = {question.answers}>
                         <lightning-radio-group name="radioGroup"
-                        label="Radio Group"
+                        label={question.name}
                         options={question.answers}
                         value={value}
                         type="radio" key={question.Id}></lightning-radio-group>
