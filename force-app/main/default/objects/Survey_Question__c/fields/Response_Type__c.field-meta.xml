@@ -16,9 +16,9 @@
                 <label>Checkbox</label>
             </value>
             <value>
-                <fullName>Radio Button</fullName>
+                <fullName>Radio-button</fullName>
                 <default>false</default>
-                <label>Radio Button</label>
+                <label>Radio-button</label>
             </value>
         </valueSetDefinition>
     </valueSet>
