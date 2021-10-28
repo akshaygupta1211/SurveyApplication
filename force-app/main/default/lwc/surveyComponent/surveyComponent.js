@@ -1,14 +1,25 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import submitSurvey from '@salesforce/apex/SurveyController.submitSurvey';
+import getDetails from '@salesforce/apex/SurveyController.getDetails';
 
 export default class SurveyComponent extends LightningElement {
 
     surveyWrapper;
+    errorMessage;
+    isCheckbox;
+    isRadioButton;
 
-    connectedCallback() {
-        
-    }
+    @wire(getDetails) 
+    wiredSurvey({data, error}) {
+        if(data) {
+            this.surveyWrapper = data;
+            console.log('wrapper: ' + this.surveyWrapper);
+        } else if(error) {
+            this.errorMessage = error.body.message;
+            console.log('error: ' + this.errorMessage)
+        }
+    };
 
     handleClick(event) {
 
