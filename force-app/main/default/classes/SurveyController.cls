@@ -8,7 +8,7 @@ public with sharing class SurveyController {
         try {
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId].get(0);
+            Survey__c survey = [SELECT Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
@@ -26,6 +26,7 @@ public with sharing class SurveyController {
 
             surveyWrapper.title = survey.Name;
             surveyWrapper.questions = questionWrapperList;
+
             return surveyWrapper;
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
