@@ -3,7 +3,7 @@
         <h2 class="header" key={question.Id}>{question.name}</h2>
         <template if:true = {question.answers}>
             <template for:each={question.answers} for:item="answer">
-                <lightning-input type="checkbox" label={answer.Name} key={answer.Id} class="slds-m-bottom_small" value={answer.Name}></lightning-input>
+                <lightning-input type="checkbox" label={answer.Name} key={answer.Id} class="slds-var-m-bottom_xx-small" onchange={handleChange} value={answer.Name}></lightning-input>
             </template>  
         </template>
     </template>     
