@@ -4,6 +4,7 @@ export default class RadionButtonQuestionComponent extends LightningElement {
     @api question;
     @api value;
     @api key;
+    options = [];
     selectedOption;
 
     connectedCallback() {

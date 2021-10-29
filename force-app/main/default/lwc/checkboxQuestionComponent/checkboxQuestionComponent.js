@@ -4,7 +4,6 @@ export default class CheckboxQuestionComponent extends LightningElement {
     @api question;
     @api value;
     @api key;
-    options = [];
     selectedOption;
 
     connectedCallback() {
