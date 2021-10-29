@@ -3,10 +3,10 @@ public class SurveyControllerTest {
 
     @TestSetup
     static void prepareData(){
-        User testUser = new User(Alias = 'standt', Email='standarduser@testorg.com', 
+        User testUser = new User(Alias = 'standt', Email='standarduser@testorgmail.com', 
             EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
             LocaleSidKey='en_US', ProfileId = [SELECT Id FROM Profile WHERE Name = 'System Administrator'].Id, 
-            TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@testorg.com');
+            TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@testorgmail.com');
         insert testUser;    
 
         Survey__c survey = new Survey__c();
@@ -36,9 +36,9 @@ public class SurveyControllerTest {
     }
 
     public static testMethod void testGetDetails() {
-        List<User> userList = [SELECT Id FROM User LIMIT 1];
+        List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
 
-        Test.stopTest();
+        Test.startTest();
 
         System.runAs(userList[0]) {
             SurveyController.SurveyWrapper wrapper = SurveyController.getDetails();
@@ -50,10 +50,10 @@ public class SurveyControllerTest {
     }
 
     public static testMethod void testSubmitResponses() {
-        List<User> userList = [SELECT Id FROM User LIMIT 1];
+        List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
         List<Survey_Question__c> questionList = [SELECT Id, Survey__c FROM Survey_Question__c LIMIT 2];
 
-        Test.stopTest();
+        Test.startTest();
 
         System.runAs(userList[0]) {
             List<SurveyController.ResponseWrapper> wrapperList = new List<SurveyController.ResponseWrapper>();
@@ -65,7 +65,7 @@ public class SurveyControllerTest {
 
             SurveyController.ResponseWrapper wrapper2 = new SurveyController.ResponseWrapper();
             wrapper2.questionId = questionList[1].Id;
-            wrapper2.surveyId = questionList[2].Survey__c;
+            wrapper2.surveyId = questionList[1].Survey__c;
             wrapper2.response = '3';
 
             wrapperList.add(wrapper1);  
@@ -78,5 +78,13 @@ public class SurveyControllerTest {
         
         Test.stopTest();
     }
+
+    public static testMethod void testGenerateException() {
+        try {
+            SurveyController.submitResponses(null);
+        } catch(Exception ex) {
+
+        }
+    }    
 
 }
