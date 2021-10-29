@@ -7,7 +7,7 @@
             <template if:true = {questions}> 
                 <template for:each={questions} for:item="question">
                     <template if:false = {question.responseType}>
-                        <c-checkbox-question-component question={question} key={question.Id}></c-checkbox-question-component>
+                        <c-checkbox-question-component question={question} key={question.Id} onselected={handleSelection}></c-checkbox-question-component>
                     </template>
                     <template if:true = {question.responseType}>
                         <c-radion-button-question-component question={question} key={question.Id} onselected={handleSelection}></c-radion-button-question-component>
