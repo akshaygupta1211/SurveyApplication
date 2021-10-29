@@ -1,6 +1,6 @@
 import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import submitSurvey from '@salesforce/apex/SurveyController.submitSurvey';
+import submitResponses from '@salesforce/apex/SurveyController.submitResponses';
 import getDetails from '@salesforce/apex/SurveyController.getDetails';
 
 export default class SurveyComponent extends LightningElement {
@@ -9,6 +9,7 @@ export default class SurveyComponent extends LightningElement {
     errorMessage;
     questions = [];
     responseWrapper = [];
+    noOfResponses = this.responseWrapper.length;
 
     @wire(getDetails) 
     wiredSurvey({data, error}) {
@@ -17,7 +18,6 @@ export default class SurveyComponent extends LightningElement {
             this.questions = data.questions;                                                         
         } else if(error) {
             this.errorMessage = error.body.message;
-            console.log('error: ' + this.errorMessage)
         }
     };
 
@@ -27,13 +27,12 @@ export default class SurveyComponent extends LightningElement {
             questionId : event.detail.questionId,
             surveyId : this.surveyWrapper.surveyId
         }
-        console.log(answer)
-        var noOfResponses = this.responseWrapper.length;
-        if(noOfResponses > 0) {
+        console.log(answer);
+        if(this.noOfResponses > 0) {
             for(let i = 0; i < noOfResponses; i++) {
-                if(this.responseWrapper[i].questionId == answer.questionId && this.responseWrapper.length > 1) {
-                    this.responseWrapper.pop(answer);
-                } else {
+                if(this.responseWrapper[i].questionId == answer.questionId && this.responseWrapper[i].response != answer.response) {
+                    this.responseWrapper[i].response = answer.response;
+                } else if(this.responseWrapper[i].questionId != answer.questionId && this.responseWrapper[i].response != answer.response) {
                     this.responseWrapper.push(answer);
                 } 
             }
@@ -44,7 +43,7 @@ export default class SurveyComponent extends LightningElement {
     }
 
     handleSave(event) {
-        submitSurvey({responseWrapper : JSON.stringify(this.responseWrapper)})
+        submitResponses({responseWrapper : JSON.stringify(this.responseWrapper)})
         .then(() => {
             this.showToast("Survey Record Inserted", "success", "dismissable");
         })
