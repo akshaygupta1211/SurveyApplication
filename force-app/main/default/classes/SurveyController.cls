@@ -8,7 +8,7 @@ public with sharing class SurveyController {
         try {
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
+            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
@@ -18,12 +18,13 @@ public with sharing class SurveyController {
 
             for(Survey_Question__c question : questionList) {
                 QuestionWrapper wrapper = new QuestionWrapper();
+                wrapper.questionId = question.Id;
                 wrapper.name = question.Name;
                 wrapper.responseType = question.Response_Type__c;
                 wrapper.answers = question.Survey_Answers__r;
                 questionWrapperList.add(wrapper);
             }
-
+            surveyWrapper.surveyId = survey.Id;
             surveyWrapper.title = survey.Name;
             surveyWrapper.questions = questionWrapperList;
 
@@ -34,23 +35,42 @@ public with sharing class SurveyController {
     } 
 
     @AuraEnabled
-    public static void submitSurvey(String surveyWrapper) {
+    public static void submitSurvey(String responseWrapper) {
+        List<Survey_Response__c> responseList = new List<Survey_Response__c>();        
         try {
+            List<ResponseWrapper> responseWrapperList = (List<ResponseWrapper>)JSON.deserialize(responseWrapper, List<ResponseWrapper>.class);
 
+            for(ResponseWrapper wrapper : responseWrapperList) {
+                Survey_Response__c response = new Survey_Response__c();
+                response.Value__c = wrapper.response;
+                response.Survey_Question__c = wrapper.questionId;
+                response.Survey__c = wrapper.surveyId;
+                responseList.add(response);
+            }
+
+            insert responseList;
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
         }
     } 
 
     public class SurveyWrapper {
+        @AuraEnabled public String surveyId;
         @AuraEnabled public String title;
         @AuraEnabled public List<QuestionWrapper> questions;
     }
 
     public class QuestionWrapper {
+        @AuraEnabled public String questionId;
         @AuraEnabled public String name;
         @AuraEnabled public String responseType;
         @AuraEnabled public List<Survey_Answer__c> answers;        
     }    
+
+    public class ResponseWrapper {
+        @AuraEnabled public String questionId;
+        @AuraEnabled public String surveyId;
+        @AuraEnabled public String response;
+    }
 
 }
