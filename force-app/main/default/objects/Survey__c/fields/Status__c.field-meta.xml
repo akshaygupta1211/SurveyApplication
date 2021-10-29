@@ -11,9 +11,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>In preparation</fullName>
-                <default>false</default>
-                <label>In preparation</label>
+                <fullName>Preparation</fullName>
+                <default>true</default>
+                <label>Preparation</label>
             </value>
             <value>
                 <fullName>Assigned</fullName>
