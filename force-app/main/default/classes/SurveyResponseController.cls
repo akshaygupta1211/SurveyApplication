@@ -10,13 +10,15 @@ public with sharing class SurveyResponseController {
             List<Survey__c> surveyListToUpdate = new List<Survey__c>();
     
             for(Survey__c survey : surveyList) {
+                Integer sumOfScore = 0;
                 Integer finalScore = 0;
                 for(Survey_Response__c response : survey.Survey_Responses__r) {
-                    finalScore = finalScore + Integer.valueOf(response.Value__c);
+                    sumOfScore = sumOfScore + Integer.valueOf(response.Value__c);
                 }
+                finalScore = sumOfScore / survey.Survey_Responses__r.size();
                 Survey__c surveyToUpdate = new Survey__c();
                 surveyToUpdate.Id = survey.Id;
-                surveyToUpdate.Score__c = String.valueOf(finalScore / surveyList.size());
+                surveyToUpdate.Score__c = String.valueOf(finalScore);
                 surveyListToUpdate.add(surveyToUpdate);
             }
     
