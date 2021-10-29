@@ -3,8 +3,9 @@
         <template if:true = {question.answers}>
             <lightning-radio-group name="radioGroup"
             label={question.name}
-            options={question.answers}
+            options={options}
             value={value}
+            onchange={handleChange}
             type="radio" key={question.Id}></lightning-radio-group>
         </template>                            
     </template>    

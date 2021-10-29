@@ -1,17 +1,24 @@
 <template>
-    <template if:true = {surveyWrapper}>   
-        <h3 slot="title">
-            {surveyWrapper.title}
-        </h3>
-        <template if:true = {questions}> 
-            <template for:each={questions} for:item="question">
-                <template if:true = {question.responseType}>
-                    <c-checkbox-question-component question={question} key={question.Id}></c-checkbox-question-component>
-                </template> 
-                <template if:false = {question.responseType}>
-                    <c-radion-button-question-component question={question} key={question.Id}></c-radion-button-question-component>
-                </template>                     
+    <section tabindex="-1">    
+        <template if:true = {surveyWrapper}>
+            <header>
+                <h2 class="slds-text-heading_medium slds-hyphenate header-string">{surveyWrapper.title}</h2>
+            </header>               
+            <template if:true = {questions}> 
+                <template for:each={questions} for:item="question">
+                    <!--<template if:true = {question.responseType}>
+                        <c-checkbox-question-component question={question} key={question.Id}></c-checkbox-question-component>
+                    </template>--> 
+                    <template if:true = {question.responseType}>
+                        <c-radion-button-question-component question={question} key={question.Id} onselected={handleSelection}></c-radion-button-question-component>
+                    </template>                     
+                </template>
             </template>
-        </template>              
-    </template>
+            <lightning-button variant="brand" label="Save" title="Save" icon-name="utility:save" icon-position="right" class="slds-var-m-left_x-small" onclick={handleSave}></lightning-button>
+            <lightning-button variant="destructive" label="Reset" title="Reset" icon-name="utility:rotate" icon-position="left" class="slds-var-m-left_x-small" onclick={handleReset}></lightning-button>              
+        </template>
+        <template if:true = {errorMessage}>
+            {errorMessage}
+        </template>
+    </section>      
 </template>
