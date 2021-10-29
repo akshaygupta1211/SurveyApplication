@@ -1,7 +1,7 @@
 <template>
     <template if:true= {question}>
         <template if:true = {question.answers}>
-            <lightning-radio-group name="radioGroup"
+            <lightning-radio-group class="slds-m-bottom_small"
             label={question.name}
             options={options}
             value={value}

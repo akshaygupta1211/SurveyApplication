@@ -21,6 +21,10 @@
                 <behavior>Edit</behavior>
                 <field>Assign_To__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -59,10 +63,13 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Response_Type__c</fields>
         <relatedList>Survey_Question__c.Survey__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Survey_Question__c</fields>
+        <fields>Value__c</fields>
         <relatedList>Survey_Response__c.Survey__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

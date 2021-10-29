@@ -6,6 +6,7 @@ public with sharing class SurveyController {
         SurveyWrapper surveyWrapper = new SurveyWrapper();
         List<QuestionWrapper> questionWrapperList = new List<QuestionWrapper>();
         try {
+
             Id assigneeUserId = UserInfo.getUserId();
 
             Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
@@ -29,14 +30,15 @@ public with sharing class SurveyController {
             surveyWrapper.questions = questionWrapperList;
 
             return surveyWrapper;
+
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
         }
     } 
 
     @AuraEnabled
-    public static void submitSurvey(String responseWrapper) {
-        List<Survey_Response__c> responseList = new List<Survey_Response__c>();        
+    public static void submitResponses(String responseWrapper) {
+        List<Survey_Response__c> responseList = new List<Survey_Response__c>();       
         try {
             List<ResponseWrapper> responseWrapperList = (List<ResponseWrapper>)JSON.deserialize(responseWrapper, List<ResponseWrapper>.class);
 
@@ -49,6 +51,12 @@ public with sharing class SurveyController {
             }
 
             insert responseList;
+
+            Survey__c survey = new Survey__c();
+            survey.Id = responseWrapperList[0].surveyId;
+            survey.Status__c = 'Closed';
+            update survey;
+
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
         }
