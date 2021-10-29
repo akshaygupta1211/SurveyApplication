@@ -11,7 +11,7 @@ public with sharing class SurveyResponseController {
     
             for(Survey__c survey : surveyList) {
                 Integer sumOfScore = 0;
-                Integer finalScore = 0;
+                Decimal finalScore = 0;
                 for(Survey_Response__c response : survey.Survey_Responses__r) {
                     sumOfScore = sumOfScore + Integer.valueOf(response.Value__c);
                 }
