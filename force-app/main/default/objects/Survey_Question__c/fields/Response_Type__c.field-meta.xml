@@ -11,12 +11,12 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>true</fullName>
+                <fullName>false</fullName>
                 <default>false</default>
                 <label>Checkbox</label>
             </value>
             <value>
-                <fullName>false</fullName>
+                <fullName>true</fullName>
                 <default>false</default>
                 <label>Radio-button</label>
             </value>
