@@ -21,7 +21,7 @@ public with sharing class SurveyController {
                 QuestionWrapper wrapper = new QuestionWrapper();
                 wrapper.questionId = question.Id;
                 wrapper.name = question.Name;
-                wrapper.responseType = question.Response_Type__c;
+                wrapper.responseType = question.Response_Type__c == 'Checkbox' ? false : true;
                 wrapper.answers = question.Survey_Answers__r;
                 questionWrapperList.add(wrapper);
             }
@@ -71,7 +71,7 @@ public with sharing class SurveyController {
     public class QuestionWrapper {
         @AuraEnabled public String questionId;
         @AuraEnabled public String name;
-        @AuraEnabled public String responseType;
+        @AuraEnabled public Boolean responseType;
         @AuraEnabled public List<Survey_Answer__c> answers;        
     }    
 

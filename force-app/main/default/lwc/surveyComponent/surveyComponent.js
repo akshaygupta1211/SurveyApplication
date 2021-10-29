@@ -9,13 +9,14 @@ export default class SurveyComponent extends LightningElement {
     errorMessage;
     questions = [];
     responseWrapper = [];
+    selectedValue;
     noOfResponses = this.responseWrapper.length;
 
     @wire(getDetails) 
     wiredSurvey({data, error}) {
         if(data) {
             this.surveyWrapper = data;
-            this.questions = data.questions;                                                         
+            this.questions = data.questions;                                                   
         } else if(error) {
             this.errorMessage = error.body.message;
         }
@@ -53,7 +54,7 @@ export default class SurveyComponent extends LightningElement {
     }
 
     handleReset(event) {
-
+        window.location.reload();
     }    
 
     showToast(message, variant, mode) {
