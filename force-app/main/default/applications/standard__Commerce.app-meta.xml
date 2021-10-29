@@ -6,6 +6,7 @@
     <label>Commerce</label>
     <navType>Console</navType>
     <tabs>standard-home</tabs>
+    <tabs>Fill_Survey</tabs>
     <tabs>standard-Pricebook2</tabs>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
@@ -17,6 +18,9 @@
     <tabs>Survey_Response__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Fill_Survey</tab>
+        </mappings>
         <mappings>
             <tab>Survey_Answer__c</tab>
         </mappings>

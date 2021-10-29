@@ -1,0 +1,11 @@
+<template>
+    <template if:true= {question}>
+        <template if:true = {question.answers}>
+            <lightning-radio-group name="radioGroup"
+            label={question.name}
+            options={question.answers}
+            value={value}
+            type="radio" key={question.Id}></lightning-radio-group>
+        </template>                            
+    </template>    
+</template>
