@@ -19,7 +19,7 @@ export default class SurveyComponent extends LightningElement {
     wiredSurvey({data, error}) {
         if(data) {
             this.surveyWrapper = data;
-            this.questions = data.questions;                                                   
+            this.questions = data.questions;                                                 
         } else if(error) {
             this.errorMessage = error.body.message;
             this.showError = true;
@@ -50,10 +50,12 @@ export default class SurveyComponent extends LightningElement {
     handleSave(event) {
         submitResponses({responseWrapper : JSON.stringify(this.responseWrapper)})
         .then(() => {
+            this.hideButton = true;            
             this.showSurvey = false;
             this.showSuccess = true;
         })
         .catch(error => {
+            this.hideButton = true;
             this.showError = true;
             this.errorMessage = error.body.message;
         });
