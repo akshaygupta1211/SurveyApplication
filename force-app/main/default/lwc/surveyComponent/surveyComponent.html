@@ -1,24 +1,41 @@
-<template>
-    <section tabindex="-1">    
-        <template if:true = {surveyWrapper}>
-            <header>
-                <h2 class="slds-text-heading_medium slds-hyphenate header-string">{surveyWrapper.title}</h2>
-            </header>               
-            <template if:true = {questions}> 
-                <template for:each={questions} for:item="question">
-                    <template if:false = {question.responseType}>
-                        <c-checkbox-question-component question={question} key={question.Id} onselected={handleSelection}></c-checkbox-question-component>
+<template>   
+    <lightning-card>
+        <template if:true={showSurvey}>    
+            <template if:true={surveyWrapper}>
+                <h3 slot="title">{surveyWrapper.title}</h3>
+                <div class="slds-form-element">
+                    <template if:true = {questions}> 
+                        <template for:each={questions} for:item="question">
+                            <template if:false = {question.responseType}>
+                                <div class="slds-form-element__control" key={question.Id}>
+                                    <c-checkbox-question-component question={question} onselected={handleSelection}></c-checkbox-question-component>
+                                </div> 
+                            </template>
+                            <template if:true = {question.responseType}>
+                                <div class="slds-form-element__control" key={question.Id}>
+                                    <c-radion-button-question-component question={question} key={question.Id} onselected={handleSelection}></c-radion-button-question-component>
+                                </div>                            
+                            </template>                     
+                        </template>
                     </template>
-                    <template if:true = {question.responseType}>
-                        <c-radion-button-question-component question={question} key={question.Id} onselected={handleSelection}></c-radion-button-question-component>
-                    </template>                     
-                </template>
+                </div>
+                <div slot="footer">
+                    <lightning-button variant="brand" label="Save" title="Save" icon-name="utility:save" icon-position="right" class="slds-var-m-left_small slds-var-m-top_xx-large" onclick={handleSave}></lightning-button>
+                    <lightning-button variant="destructive" label="Reset" title="Reset" icon-name="utility:rotate" icon-position="right" class="slds-var-m-left_x-small slds-var-m-top_xx-large" onclick={handleReset}></lightning-button>  
+                </div>
             </template>
-            <lightning-button variant="brand" label="Save" title="Save" icon-name="utility:save" icon-position="right" class="slds-var-m-top_xx-large" onclick={handleSave}></lightning-button>
-            <lightning-button variant="destructive" label="Reset" title="Reset" icon-name="utility:rotate" icon-position="left" class="slds-var-m-left_x-small slds-var-m-top_xx-large" onclick={handleReset}></lightning-button>              
         </template>
-        <template if:true = {errorMessage}>
-            {errorMessage}
-        </template>
-    </section>      
+        <template if:true={showSuccess}>
+            <div class="slds-text-heading_large">
+                <p class="slds-text-align_center slds-text-color_success">{successMessage}</p>                
+            </div>
+        </template>    
+        <template if:true={showError}>
+            <template if:true = {errorMessage}>
+                <div class="slds-text-heading_large">
+                    <p class="slds-text-align_center slds-text-color_error">{errorMessage}</p>
+                </div>
+            </template>              
+        </template>                                                                  
+    </lightning-card>   
 </template>
