@@ -1,5 +1,4 @@
 import { LightningElement, wire } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import submitResponses from '@salesforce/apex/SurveyController.submitResponses';
 import getDetails from '@salesforce/apex/SurveyController.getDetails';
 
@@ -10,6 +9,10 @@ export default class SurveyComponent extends LightningElement {
     questions = [];
     responseWrapper = [];
     selectedValue;
+    showSurvey = true;
+    showError = false;
+    showSuccess = false;
+    successMessage = 'Your responses have been submitted.'
     noOfResponses = this.responseWrapper.length;
 
     @wire(getDetails) 
@@ -19,6 +22,7 @@ export default class SurveyComponent extends LightningElement {
             this.questions = data.questions;                                                   
         } else if(error) {
             this.errorMessage = error.body.message;
+            this.showError = true;
         }
     };
 
@@ -46,24 +50,17 @@ export default class SurveyComponent extends LightningElement {
     handleSave(event) {
         submitResponses({responseWrapper : JSON.stringify(this.responseWrapper)})
         .then(() => {
-            this.showToast("Survey Record Inserted", "success", "dismissable");
+            this.showSurvey = false;
+            this.showSuccess = true;
         })
         .catch(error => {
-            this.showToast(JSON.stringify(error.body.message), "error", "sticky");
+            this.showError = true;
+            this.errorMessage = error.body.message;
         });
     }
 
     handleReset(event) {
         window.location.reload();
     }    
-
-    showToast(message, variant, mode) {
-        const event = new ShowToastEvent({
-            message : message,
-            variant : variant,
-            mode : mode
-        });
-        this.dispatchEvent(event);
-    }
 
 }
