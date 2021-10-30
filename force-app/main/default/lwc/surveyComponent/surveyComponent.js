@@ -19,7 +19,7 @@ export default class SurveyComponent extends LightningElement {
     wiredSurvey({data, error}) {
         if(data) {
             this.surveyWrapper = data;
-            this.questions = data.questions;                                                 
+            this.questions = data.questions;                                                
         } else if(error) {
             this.errorMessage = error.body.message;
             this.showError = true;
@@ -32,7 +32,6 @@ export default class SurveyComponent extends LightningElement {
             questionId : event.detail.questionId,
             surveyId : this.surveyWrapper.surveyId
         }
-        console.log(answer);
         if(this.noOfResponses > 0) {
             for(let i = 0; i < noOfResponses; i++) {
                 if(this.responseWrapper[i].questionId == answer.questionId && this.responseWrapper[i].response != answer.response) {
@@ -44,18 +43,15 @@ export default class SurveyComponent extends LightningElement {
         } else {
             this.responseWrapper.push(answer);
         }
-        console.log(this.responseWrapper);
     }
 
     handleSave(event) {
         submitResponses({responseWrapper : JSON.stringify(this.responseWrapper)})
-        .then(() => {
-            this.hideButton = true;            
+        .then(() => {        
             this.showSurvey = false;
             this.showSuccess = true;
         })
         .catch(error => {
-            this.hideButton = true;
             this.showError = true;
             this.errorMessage = error.body.message;
         });
