@@ -21,7 +21,11 @@ export default class SurveyComponent extends LightningElement {
             this.surveyWrapper = data;
             this.questions = data.questions;                                                
         } else if(error) {
-            this.errorMessage = error.body.message;
+            if(error.body.message == 'List index out of bounds: 0') {
+                this.errorMessage = 'Currently no survey is assigned to you.';
+            } else {
+                this.errorMessage = error.body.message;
+            }
             this.showSurvey = false;
             this.showError = true;
         }
