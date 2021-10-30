@@ -5,6 +5,7 @@ public with sharing class SurveyController {
         Set<Id> questionIdSet = new Set<Id>();
         SurveyWrapper surveyWrapper = new SurveyWrapper();
         List<QuestionWrapper> questionWrapperList = new List<QuestionWrapper>();
+        List<Survey_Question__c> questionList = new List<Survey_Question__c>();
         try {
 
             Id assigneeUserId = UserInfo.getUserId();
@@ -15,16 +16,21 @@ public with sharing class SurveyController {
                 questionIdSet.add(question.Id);
             }
 
-            List<Survey_Question__c> questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet];
-
-            for(Survey_Question__c question : questionList) {
-                QuestionWrapper wrapper = new QuestionWrapper();
-                wrapper.questionId = question.Id;
-                wrapper.name = question.Name;
-                wrapper.responseType = question.Response_Type__c == 'Checkbox' ? false : true;
-                wrapper.answers = question.Survey_Answers__r;
-                questionWrapperList.add(wrapper);
+            if(questionIdSet.size() > 0) {
+                questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet];                
             }
+
+            if(questionList.size() > 0) {
+                for(Survey_Question__c question : questionList) {
+                    QuestionWrapper wrapper = new QuestionWrapper();
+                    wrapper.questionId = question.Id;
+                    wrapper.name = question.Name;
+                    wrapper.responseType = question.Response_Type__c == 'Checkbox' ? false : true;
+                    wrapper.answers = question.Survey_Answers__r;
+                    questionWrapperList.add(wrapper);
+                }
+            }
+
             surveyWrapper.surveyId = survey.Id;
             surveyWrapper.title = survey.Name;
             surveyWrapper.questions = questionWrapperList;
@@ -50,7 +56,9 @@ public with sharing class SurveyController {
                 responseList.add(response);
             }
 
-            insert responseList;
+            if(responseList.size() > 0) {
+                insert responseList;
+            }
 
             Survey__c survey = new Survey__c();
             survey.Id = responseWrapperList[0].surveyId;
