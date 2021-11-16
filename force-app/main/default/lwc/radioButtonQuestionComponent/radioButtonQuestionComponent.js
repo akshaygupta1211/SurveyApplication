@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-export default class RadionButtonQuestionComponent extends LightningElement {
+export default class RadioButtonQuestionComponent extends LightningElement {
     @api question;
     @api value;
     @api key;
