@@ -1,0 +1,8 @@
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isExposed>true</isExposed>
+    <apiVersion>52.0</apiVersion>
+    <targets>
+        <target>lightning__Inbox</target>
+    </targets>
+    <description>A custom built Email Application Pane for outlook</description>
+</LightningComponentBundle>

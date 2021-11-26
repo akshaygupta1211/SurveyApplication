@@ -1,0 +1,117 @@
+<template>
+    <template if:true={showModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-fade-in-open slds-modal_large"
+        >
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon
+                        class="slds-modal__close"
+                        title="Close"
+                        icon-name="utility:close"
+                        icon-class="slds-button_icon-inverse"
+                        onclick={handleDialogClose}
+                    ></lightning-button-icon>
+                        <h2 class="slds-text-heading_medium slds-hyphenate header-string">Potential Duplicate Records</h2>
+                </header>
+                <div
+                    class="slds-modal__content slds-var-p-around_large"
+                    id="modal-content-id-1"
+                >
+                    <slot>
+                        <lightning-card>
+                            <lightning-layout>
+                                <lightning-layout-item flexibility="auto" padding="around-small">
+                                    <h2 id="element-with-table-label" class="slds-text-heading_medium slds-var-m-bottom_xx-small">Contacts ({noOfContacts})</h2>
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label="Contacts">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Name">Name</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Record Type">Record Type</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Contact Status">Contact Status</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Account Name">Account Name</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Email">Email</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Professional Country">Professional Country</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Owner Last Name">Owner Last Name</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Owner First Name">Owner First Name</div>
+                                                </th>                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template if:true = {contacts}> 
+                                                <template for:each={contacts} for:item="contact">
+                                                    <tr class="slds-hint-parent" key={contact.Id}>
+                                                        <th data-label="Name" scope="row" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.Name}>
+                                                                <a href="" onclick={navigateToContactRecordViewPage} data-id={contact.Id}>{contact.Name}</a>
+                                                            </div>
+                                                        </th>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.RecordType.Name}>{contact.RecordType.Name}</div>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.ContactStatus__c}>{contact.ContactStatus__c}</div>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <template if:true = {contact.Account}>
+                                                                <div class="slds-truncate" title={contact.Account.Name}>
+                                                                    <a href="" onclick={navigateToAccountRecordViewPage} data-id={contact.Account.Id}>{contact.Account.Name}</a>
+                                                                </div>                                                                
+                                                            </template>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.Email}><lightning-formatted-email value={contact.Email}></lightning-formatted-email></div>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.MailingCountry}>{contact.MailingCountry}</div>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.Owner.LastName}>{contact.Owner.LastName}</div>
+                                                        </td>
+                                                        <td data-label="Record Type Name" key={contact.Id}>
+                                                            <div class="slds-truncate" title={contact.Owner.FirstName}>{contact.Owner.FirstName}</div>
+                                                        </td>
+                                                    </tr>                                                                                                                                       
+                                                </template>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                    <div class="slds-text-body_regular slds-text-align_center sectionTagline"></div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-card>                        
+                    </slot>
+                </div>
+            </div>
+            <footer class="slds-modal__footer modal-hidden">
+                <slot>
+                    <template if:true = {err}>
+                        {error}
+                    </template>  
+                </slot>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>      
+</template>

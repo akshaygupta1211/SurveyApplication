@@ -1,0 +1,93 @@
+<template>
+    <div class={flexipageRegionWidth}>
+        <template if:false={showForm}>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_2-of-2">
+                    <div class="slds-box slds-box_x-small noBorder-box slds-align_absolute-center slds-var-m-around_xx-small">
+                        <lightning-button variant="brand" label={buttonLabel} title={buttonLabel} onclick={handleButtonClick} class="slds-button slds-button_brand slds-button_stretch"></lightning-button> 
+                    </div>    
+                </div>
+            </div>      
+        </template>
+        <template if:true={showForm}>
+            <section>
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate header-string">{heading}</h2>
+                </header>            
+                <div class="slds-var-m-around_large">
+                    <slot>
+                        <lightning-layout>
+                            <lightning-layout-item flexibility="auto">
+                                <div class="slds-form slds-var-p-around_x-small">
+                                    <template if:true={showField}>
+                                        <div class="slds-form-element slds-var-p-bottom_x-small">
+                                            <lightning-combobox
+                                            name="eventType"
+                                            label="Event Type"
+                                            value={eventTypeValue}
+                                            placeholder="--None--"
+                                            options={eventTypeOptions}
+                                            onchange={handleEventTypeChange} ></lightning-combobox>
+                                        </div>      
+                                        <div class="slds-form-element slds-var-p-bottom_x-small">
+                                            <lightning-combobox
+                                            name="purpose"
+                                            label="Purpose (Level 1)"
+                                            value={purposeValue}
+                                            placeholder="--None--"
+                                            options={purposeOptions}
+                                            onchange={handlePurposeChange} ></lightning-combobox>
+                                        </div> 
+                                        <div class="slds-form-element slds-var-p-bottom_x-small">
+                                            <lightning-combobox
+                                            name="subPurpose"
+                                            label="Purpose (Level 2)"
+                                            value={subPurposeValue}
+                                            placeholder="--None--"
+                                            options={subPurposeOptions}
+                                            onchange={handleSubPurposeChange} disabled={disableSubPurpose}></lightning-combobox>
+                                        </div>    
+                                    </template>
+                                    <div class="slds-form-element slds-var-p-bottom_x-small">
+                                        <label class="slds-form-element__label">Related To</label>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-size_1-of-8 slds-var-p-right_x-small">
+                                                <lightning-button-menu alternative-text="Show menu" variant="border-filled" onselect={handleWhatMenuSelect} icon-name={whatMenuIcon}>
+                                                    <template if:true={objectNameIconList}>
+                                                        <template for:each={objectNameIconList} for:item="object">
+                                                            <lightning-menu-item key={object.Name} value={object.Value} label={object.Name} icon-name={object.IconName}></lightning-menu-item>
+                                                        </template>
+                                                    </template>
+                                                </lightning-button-menu>
+                                            </div>
+                                            <div class="slds-size_7-of-8  slds-var-p-left_x-small">
+                                                <c-custom-lookup obj-name={selectedWhatObject} search-placeholder={whatPlaceHolder} icon-name={whatMenuIcon} onlookupselected={handleWhatSelection}></c-custom-lookup>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-var-p-bottom_small">
+                                        <c-people-in-email-component relatedrecords={relatedRecords} onpeopleselection={handlePeopleSelection}></c-people-in-email-component>
+                                    </div>
+                                    <div class="slds-form-element slds-var-p-bottom_small">
+                                        <c-others-in-email-component></c-others-in-email-component> 
+                                    </div>                                                                                                        
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>                     
+                    </slot>
+                    <template if:false={isLoaded}>
+                        <div class="slds-spinner_container">
+                            <lightning-spinner alternative-text="Loading..." variant="brand"></lightning-spinner>
+                        </div>
+                    </template> 
+                </div>
+                <footer class="slds-modal__footer modal-hidden">
+                    <slot>
+                        <lightning-button label="Cancel" title="Cancel" onclick={handleCancel} class="slds-var-m-left_x-small"></lightning-button>
+                        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-var-m-left_x-small"></lightning-button>   
+                    </slot>
+                </footer>
+            </section>
+        </template>
+    </div>
+</template>
