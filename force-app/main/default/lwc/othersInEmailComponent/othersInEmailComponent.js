@@ -8,10 +8,7 @@ import {
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
 
 export default class OthersInEmailComponent extends LightningElement {
-    value = '';
-    booleanOne = false;
-    booleanTwo = false;
-    booleanThree = false;
+    value = 'None';
     subscription = null;
 
     @track otherRecords = [];
@@ -53,15 +50,12 @@ export default class OthersInEmailComponent extends LightningElement {
     handleMessage(message) {
         let recordId = message.recordId;
         let name = message.recordName;
-        console.log(message);
         if(recordId != undefined && name != undefined) {
             if(recordId.startsWith('001')) {
                 this.otherRecords.push(
                 {
-                    'obj' : {
-                        'Id' : recordId,
-                        'Name' : name
-                    },
+                    'Id' : recordId,
+                    'Name' : name,
                     'booleanOne' : false,
                     'booleanTwo' : false,
                     'booleanThree' : false
@@ -69,10 +63,8 @@ export default class OthersInEmailComponent extends LightningElement {
             } else if(recordId.startsWith('500')) {
                 this.otherRecords.push(
                 {
-                    'obj' : {
-                        'Id' : recordId,
-                        'Name' : name
-                    },
+                    'Id' : recordId,
+                    'Name' : name,
                     'booleanOne' : true,
                     'booleanTwo' : false,
                     'booleanThree' : false
@@ -80,10 +72,8 @@ export default class OthersInEmailComponent extends LightningElement {
             } else if(recordId.startsWith('800')) {
                 this.otherRecords.push(
                 {
-                    'obj' : {
-                        'Id' : recordId,
-                        'Name' : name
-                    },
+                    'Id' : recordId,
+                    'Name' : name,
                     'booleanOne' : false,
                     'booleanTwo' : true,
                     'booleanThree' : false
@@ -91,10 +81,8 @@ export default class OthersInEmailComponent extends LightningElement {
             } else if(recordId.startsWith('006')) {
                 this.otherRecords.push(
                 {
-                    'obj' : {
-                        'Id' : recordId,
-                        'Name' : name
-                    },
+                    'Id' : recordId,
+                    'Name' : name,
                     'booleanOne' : true,
                     'booleanTwo' : true,
                     'booleanThree' : false
@@ -102,16 +90,13 @@ export default class OthersInEmailComponent extends LightningElement {
             } else if(recordId.startsWith('aKv')) {
                 this.otherRecords.push(
                 {
-                    'obj' : {
-                        'Id' : recordId,
-                        'Name' : name
-                    },
+                    'Id' : recordId,
+                    'Name' : name,
                     'booleanOne' : false,
                     'booleanTwo' : false,
                     'booleanThree' : true
                 });                
             }
-            console.log(this.otherRecords[0].obj); 
         }
     }  
 
@@ -121,5 +106,22 @@ export default class OthersInEmailComponent extends LightningElement {
         .forEach((element) => {
             element.checked = true;
         });   
+    }
+
+    handleRecordSelection(event) {
+        let recordId = event.target.dataset.id;
+        let value = event.detail.value;  
+        if(value == 'None') {
+            recordId = null;
+        } 
+
+        const selectedEvent = new CustomEvent('otherselection', 
+        { 
+            detail : {
+                selectedOther: recordId
+            } 
+        });
+
+        this.dispatchEvent(selectedEvent); 
     }
 }

@@ -249,6 +249,10 @@ export default class IMD_Email_Application_Pane extends LightningElement {
             }
         }        
     }    
+
+    handleOtherSelection(event) {
+        this.whatTypeValue = event.detail.selectedOther.recordId;
+    }    
     
     handleSave(event) {
         this.isLoaded = false;
@@ -305,7 +309,7 @@ export default class IMD_Email_Application_Pane extends LightningElement {
             if(this.source != undefined && this.source == 'email') {
                 this.showToast('Email related!', "success", "dismissable");
             } else if(this.source != undefined && this.source == 'event') {
-                this.showToast('Event logged successfully!', "success", "dismissable");
+                this.showToast('Event related!', "success", "dismissable");
             }
         })
         .catch(error => {

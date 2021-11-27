@@ -11,110 +11,139 @@
             <div class="slds-size_1-of-8">
                 <lightning-radio-group
                 options={options}
+                onchange={handleRecordSelection}
                 value={value}
                 name="noneGroup"
                 data-element="other-radio"
                 type="radio" variant="label-hidden"></lightning-radio-group>
             </div>
-            <template if:true={otherRecords}>
-                <template for:each={otherRecords} for:item="otherRecord">
-                    <template if:false={otherRecord.booleanOne}>
-                        <template if:false={otherRecord.booleanTwo}>
-                            <template if:false={otherRecord.booleanThree}>
-                                <template if:true={otherRecord.obj}>
-                                    <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.obj.Id}>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-icon icon-name="standard:account" size="small" alternative-text="Account" title="Account"></lightning-icon>
-                                        </div>
-                                        <div class="slds-size_6-of-8">
-                                            {otherRecord.obj.Name}
-                                        </div>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-input type="checkbox" data-element="other-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-                    </template>
-                    <template if:true={otherRecord.booleanOne}>
-                        <template if:false={otherRecord.booleanTwo}>
-                            <template if:false={otherRecord.booleanThree}>
-                                <template if:true={otherRecord.obj}>
-                                    <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.obj.Id}>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-icon icon-name="standard:case" size="small" alternative-text="Case" title="Case"></lightning-icon>
-                                        </div>
-                                        <div class="slds-size_6-of-8">
-                                            {otherRecord.obj.Name}
-                                        </div>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-input type="checkbox" data-element="other-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-                    </template>
-                    <template if:false={otherRecord.booleanOne}>
-                        <template if:true={otherRecord.booleanTwo}>
-                            <template if:false={otherRecord.booleanThree}>
-                                <template if:true={otherRecord.obj}>
-                                    <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.obj.Id}>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-icon icon-name="standard:contract" size="small" alternative-text="Contract" title="Contract"></lightning-icon>
-                                        </div>
-                                        <div class="slds-size_6-of-8">
-                                            {otherRecord.obj.Name}
-                                        </div>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-input type="checkbox" data-element="other-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-                    </template>
-                    <template if:true={otherRecord.booleanOne}>
-                        <template if:true={otherRecord.booleanTwo}>
-                            <template if:false={otherRecord.booleanThree}>
-                                <template if:true={otherRecord.obj}>
-                                    <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.obj.Id}>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-icon icon-name="standard:opportunity" size="small" alternative-text="Opportunity" title="Opportunity"></lightning-icon>
-                                        </div>
-                                        <div class="slds-size_6-of-8">
-                                            {otherRecord.obj.Name}
-                                        </div>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-input type="checkbox" data-element="other-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-                    </template>
-                    <template if:false={otherRecord.booleanOne}>
-                        <template if:false={otherRecord.booleanTwo}>
-                            <template if:true={otherRecord.booleanThree}>
-                                <template if:true={otherRecord.obj}>
-                                    <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.obj.Id}>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-icon icon-name="custom:custom72" size="small" alternative-text="Application" title="Application"></lightning-icon>
-                                        </div>
-                                        <div class="slds-size_6-of-8">
-                                            {otherRecord.obj.Name}
-                                        </div>
-                                        <div class="slds-size_1-of-8">
-                                            <lightning-input type="checkbox" data-element="other-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-                    </template>                                                                             
-                </template>
-            </template>
         </div>
+        <template if:true={otherRecords}>
+            <template for:each={otherRecords} for:item="otherRecord">
+                <template if:false={otherRecord.booleanOne}>
+                    <template if:false={otherRecord.booleanTwo}>
+                        <template if:false={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:account" size="small" alternative-text="Account" title="Account"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-radio-group
+                                    options={options}
+                                    value={otherRecord.Id}
+                                    onchange={handleRecordSelection}
+                                    name={otherRecord.Name}
+                                    data-id={otherRecord.Id}
+                                    type="radio" variant="label-hidden"></lightning-radio-group>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template if:true={otherRecord.booleanOne}>
+                    <template if:false={otherRecord.booleanTwo}>
+                        <template if:false={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:case" size="small" alternative-text="Case" title="Case"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <div class="slds-size_1-of-8">
+                                        <lightning-radio-group
+                                        options={options}
+                                        value={otherRecord.Id}
+                                        onchange={handleRecordSelection}
+                                        name={otherRecord.Name}
+                                        data-id={otherRecord.Id}
+                                        type="radio" variant="label-hidden"></lightning-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template if:false={otherRecord.booleanOne}>
+                    <template if:true={otherRecord.booleanTwo}>
+                        <template if:false={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:contract" size="small" alternative-text="Contract" title="Contract"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <div class="slds-size_1-of-8">
+                                        <lightning-radio-group
+                                        options={options}
+                                        value={otherRecord.Id}
+                                        onchange={handleRecordSelection}
+                                        name={otherRecord.Name}
+                                        data-id={otherRecord.Id}
+                                        type="radio" variant="label-hidden"></lightning-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template if:true={otherRecord.booleanOne}>
+                    <template if:true={otherRecord.booleanTwo}>
+                        <template if:false={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:opportunity" size="small" alternative-text="Opportunity" title="Opportunity"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <div class="slds-size_1-of-8">
+                                        <lightning-radio-group
+                                        options={options}
+                                        value={otherRecord.Id}
+                                        onchange={handleRecordSelection}
+                                        name={otherRecord.Name}
+                                        data-id={otherRecord.Id}
+                                        type="radio" variant="label-hidden"></lightning-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template if:false={otherRecord.booleanOne}>
+                    <template if:false={otherRecord.booleanTwo}>
+                        <template if:true={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="custom:custom72" size="small" alternative-text="Application" title="Application"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <div class="slds-size_1-of-8">
+                                        <lightning-radio-group
+                                        options={options}
+                                        value={otherRecord.Id}
+                                        onchange={handleRecordSelection}
+                                        name={otherRecord.Name}
+                                        data-id={otherRecord.Id}
+                                        type="radio" variant="label-hidden"></lightning-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>                                                                             
+            </template>
+        </template>
     </lightning-card>
 </template>
