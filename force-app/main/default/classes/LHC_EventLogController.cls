@@ -118,7 +118,6 @@ public with sharing class LHC_EventLogController {
             }
 
         } catch(Exception ex) {
-            GEN_ErrorTraceUtilityClass.errorTraceWithStream(ex, 'Activity', '', ex.getMessage(), GEN_Constants.Stream_CE);
             throw new AuraHandledException(ex.getMessage());
         }
 
@@ -130,13 +129,13 @@ public with sharing class LHC_EventLogController {
         List<WrapperClass> wrapperList = new List<WrapperClass>();
         try {
             if(isPeople) {
-                List<Lead> leadList = [SELECT Id, Name, Email FROM Lead WHERE Email IN: emailAddrressesJSON AND RecordTypeId =: GEN_Utility.recordTypeId(GEN_Constants.OBJ_LEAD, GEN_Constants.LEAD_NEW_INDIVIDUAL_RT)];
+                List<Lead> leadList = [SELECT Id, Name, Email FROM Lead WHERE Email IN: emailAddrressesJSON];
 
                 if(leadList.size() > 0) {
                     recordsList.addAll(leadList);
                 } 
 
-                List<Contact> contactList = [SELECT Id, Name, Email FROM Contact WHERE Email IN: emailAddrressesJSON AND RecordTypeId =: GEN_Utility.recordTypeId(GEN_Constants.CONT_OBJ_NAME, GEN_Constants.CONT_CONTACT_RT)];
+                List<Contact> contactList = [SELECT Id, Name, Email FROM Contact WHERE Email IN: emailAddrressesJSON];
 
                 if(contactList.size() > 0) {
                     recordsList.addAll(contactList);
@@ -155,7 +154,7 @@ public with sharing class LHC_EventLogController {
                     recordsList.addAll(oppContactRoleList);
                 }   
 
-                List<AccountContactRelation> acrList = [SELECT AccountId, Account.Name FROM AccountContactRelation WHERE Account.RecordTypeId =: GEN_Utility.recordTypeId(GEN_Constants.OBJ_ACCOUNT, GEN_Constants.ACC_CORPORATE_RT) AND Contact.Email IN: emailAddrressesJSON];
+                List<AccountContactRelation> acrList = [SELECT AccountId, Account.Name FROM AccountContactRelation WHERE Contact.Email IN: emailAddrressesJSON];
 
                 if(acrList.size() > 0) {
                     recordsList.addAll(acrList);
