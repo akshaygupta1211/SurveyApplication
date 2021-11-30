@@ -61,7 +61,7 @@
                                                 </lightning-button-menu>
                                             </div>
                                             <div class="slds-size_7-of-8  slds-var-p-left_x-small">
-                                                <c-custom-lookup obj-name={selectedWhatObject} search-placeholder={whatPlaceHolder} icon-name={whatMenuIcon} onlookupselected={handleWhatSelection}></c-custom-lookup>
+                                                <c-record-lookup-component obj-name={selectedWhatObject} search-placeholder={whatPlaceHolder} icon-name={whatMenuIcon} onlookupselected={handleWhatSelection}></c-record-lookup-component>
                                             </div>
                                         </div>
                                     </div>
@@ -69,8 +69,8 @@
                                         <c-people-in-email-component relatedrecords={relatedRecords} onpeopleselection={handlePeopleSelection}></c-people-in-email-component>
                                     </div>
                                     <div class="slds-form-element slds-var-p-bottom_small">
-                                        <c-others-in-email-component></c-others-in-email-component> 
-                                    </div>                                                                                                        
+                                        <c-others-in-email-component relatedrecords={relatedRecords} onotherselection={handleOtherSelection}></c-others-in-email-component> 
+                                    </div>
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>                     
@@ -84,7 +84,7 @@
                 <footer class="slds-modal__footer modal-hidden">
                     <slot>
                         <lightning-button label="Cancel" title="Cancel" onclick={handleCancel} class="slds-var-m-left_x-small"></lightning-button>
-                        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-var-m-left_x-small"></lightning-button>   
+                        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-var-m-left_x-small" disabled={isButtonDisabled}></lightning-button>   
                     </slot>
                 </footer>
             </section>

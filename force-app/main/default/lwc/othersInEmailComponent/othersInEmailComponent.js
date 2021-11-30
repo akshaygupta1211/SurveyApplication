@@ -1,15 +1,14 @@
-import { LightningElement, wire, track } from 'lwc';
-import {
-    subscribe,
-    unsubscribe,
-    APPLICATION_SCOPE,
-    MessageContext
-} from 'lightning/messageService';
+import { LightningElement, wire, track, api } from 'lwc';
+import { subscribe, unsubscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
+import getRelatedRecords from '@salesforce/apex/LHC_EventLogController.getRelatedRecords';
 
 export default class OthersInEmailComponent extends LightningElement {
     value = 'None';
+    emailAddressesJSON;
     subscription = null;
+    emailAddresses = [];
+    @api relatedrecords = [];
 
     @track otherRecords = [];
 
@@ -22,7 +21,43 @@ export default class OthersInEmailComponent extends LightningElement {
     @wire(MessageContext)
     messageContext;
 
+    @wire(getRelatedRecords, {emailAddrressesJSON : '$emailAddressesJSON', isPeople : false})
+    relatedRecordWired({error, data}) {
+        if(data) {
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].booleanOne == false &&  data[i].booleanTwo == false && data[i].booleanThree == false) {
+                    let tempObj = {
+                        'Id' : data[i].obj.AccountId,
+                        'Name' : data[i].obj.Account.Name,
+                        'booleanOne' : false,
+                        'booleanTwo' : false,
+                        'booleanThree' : false
+                    }
+                    this.otherRecords.push(tempObj);
+                }
+                if(data[i].booleanOne == true &&  data[i].booleanTwo == true && data[i].booleanThree == false) {
+                    let tempObj = {
+                        'Id' : data[i].obj.AccountId,
+                        'Name' : data[i].obj.Account.Name,
+                        'booleanOne' : false,
+                        'booleanTwo' : false,
+                        'booleanThree' : false
+                    }
+                    this.otherRecords.push(tempObj);
+                }
+            }
+        } else if(error) {
+            this.errorMessage = error.body.message;
+        }
+    }    
+
     connectedCallback() {
+        if(this.relatedrecords != undefined) {
+            for(let i = 0; i < this.relatedrecords.length; i++) {
+                this.emailAddresses.push(this.relatedrecords[i].email);
+            }
+        }
+        this.emailAddressesJSON = JSON.stringify(this.emailAddresses);
         this.subscribeToMessageChannel();
     }
 
@@ -60,15 +95,6 @@ export default class OthersInEmailComponent extends LightningElement {
                     'booleanTwo' : false,
                     'booleanThree' : false
                 });
-            } else if(recordId.startsWith('500')) {
-                this.otherRecords.push(
-                {
-                    'Id' : recordId,
-                    'Name' : name,
-                    'booleanOne' : true,
-                    'booleanTwo' : false,
-                    'booleanThree' : false
-                });                
             } else if(recordId.startsWith('800')) {
                 this.otherRecords.push(
                 {
@@ -110,11 +136,6 @@ export default class OthersInEmailComponent extends LightningElement {
 
     handleRecordSelection(event) {
         let recordId = event.target.dataset.id;
-        let value = event.detail.value;  
-        if(value == 'None') {
-            recordId = null;
-        } 
-
         const selectedEvent = new CustomEvent('otherselection', 
         { 
             detail : {

@@ -1,10 +1,9 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getPicklistValues from '@salesforce/apex/LHC_EventLogController.getPicklistValues';
-import saveEvent from '@salesforce/apex/LHC_EventLogController.saveEvent';
+import saveActivity from '@salesforce/apex/LHC_EventLogController.saveActivity';
 
-export default class IMD_Email_Application_Pane extends LightningElement {
-
+export default class LogActivityComponent extends LightningElement {
     whoTypeValue;
     whatTypeValue;
     buttonLabel;
@@ -17,7 +16,7 @@ export default class IMD_Email_Application_Pane extends LightningElement {
     isEvent = false;
     showField = false;
     isLoaded = false;
-    isButtonDisabled = true;
+    isButtonDisabled = false;
     disableSubPurpose = true;    
     purposeOptions = []; 
     subPurposeOptions = [];
@@ -26,11 +25,11 @@ export default class IMD_Email_Application_Pane extends LightningElement {
     selectedPeopleRecords = [];
     objectNameIconList = [
         {'Name' : 'Account', 'IconName' : 'standard:account', 'Value' : 'Account'},
-        {'Name' : 'Case', 'IconName' : 'standard:case', 'Value' : 'Case'},
         {'Name' : 'Contact', 'IconName' : 'standard:contact', 'Value' : 'Contact'},
         {'Name' : 'Contract', 'IconName' : 'standard:contract', 'Value' : 'Contract'},
         {'Name' : 'Lead', 'IconName' : 'standard:lead', 'Value' : 'Lead'},
-        {'Name' : 'Opportunity', 'IconName' : 'standard:opportunity', 'Value' : 'Opportunity'}, 
+        {'Name' : 'Opportunity', 'IconName' : 'standard:opportunity', 'Value' : 'Opportunity'},
+        {'Name' : 'User', 'IconName' : 'standard:user', 'Value' : 'User'}, 
         {'Name' : 'Application', 'IconName' : 'custom:custom72', 'Value' : 'Application__c'},                                                
     ];
 
@@ -42,42 +41,37 @@ export default class IMD_Email_Application_Pane extends LightningElement {
     @api location;
     @api dates;
 
-    @track whoMenuIcon = 'standard:contact';
     @track whatMenuIcon = 'standard:account';         
     @track purposeValue;
-    @track subPurposeValue;    
-    @track selectedWhoObject = 'Contact';
+    @track subPurposeValue;
     @track selectedWhatObject = 'Account';
-    @track whoPlaceHolder = 'Search Contacts...';
     @track whatPlaceholder = 'Search Accounts...';
 
-    @wire(getPicklistValues, { fieldApiName: 'Purpose__c' })
-    purposeOptionsWired({error, data}) {
+    @wire(getPicklistValues, { fieldApiNameList: ['Purpose__c', 'Type'] })
+    picklistOptionsWired({error, data}) {
         if(data) {
-            for(let i = 0; i < data.length; i++) {
-                this.purposeOptions.push({ label : data[i], value : data[i]});
+            if(data.Purpose__c != undefined) {
+                for(let i = 0; i < data.Purpose__c.length; i++) {
+                    this.purposeOptions.push({ label : data.Purpose__c[i], value : data.Purpose__c[i]});
+                }
             }
-        } else if(error) {
-            this.errorMessage = error.body.message;
-        }
-    }
-
-    @wire(getPicklistValues, { fieldApiName: 'Type' })
-    eventTypeOptionsWired({error, data}) {
-        if(data) {
-            for(let i = 0; i < data.length; i++) {
-                this.eventTypeOptions.push({ label : data[i], value : data[i]});
+            if(data.Type != undefined) {
+                for(let i = 0; i < data.Type.length; i++) {
+                    this.eventTypeOptions.push({ label : data.Type[i], value : data.Type[i]});
+                }
             }
             this.isLoaded = true;
         } else if(error) {
-            this.errorMessage = error.body.message;
+            this.isLoaded = true;
+            this.showToast(error.body.message, "error", "sticky");
         }
-    }    
+    }  
 
     connectedCallback() {
         if(this.source != undefined && this.source == 'email') {
             this.buttonLabel = 'Log Email';
             this.heading = 'Log Email';
+            this.isEvent = false;
             this.showField = false;
         }
         if(this.source != undefined && this.source == 'event') {
@@ -91,9 +85,7 @@ export default class IMD_Email_Application_Pane extends LightningElement {
     renderedCallback() {
         if(this.people != undefined) {
             if(this.people.from != undefined) {
-                for(let i = 0; i< this.people.from.length; i ++) {
-                    this.relatedRecords.push(this.people.from[i]);
-                }
+                this.relatedRecords.push(this.people.from);
             }
             if(this.people.to != undefined) {
                 for(let i = 0; i< this.people.to.length; i ++) {
@@ -121,21 +113,6 @@ export default class IMD_Email_Application_Pane extends LightningElement {
         this.showForm = false;
     }
 
-    handleWhoMenuSelect(event) {
-        // retrieve the selected item's value
-        const selectedItemValue = event.detail.value;
-
-        if(selectedItemValue == 'lead') {
-            this.whoPlaceHolder = 'Search Leads...';
-            this.selectedWhoObject = 'Lead';
-            this.whoMenuIcon = 'standard:lead';
-        } else if(selectedItemValue == 'contact') {
-            this.whoPlaceHolder = 'Search Contacts...';
-            this.selectedWhoObject = 'Contact';
-            this.whoMenuIcon = 'standard:contact';
-        }
-    }
-
     handleWhatMenuSelect(event) {
         // retrieve the selected item's value
         const selectedItemValue = event.detail.value;
@@ -144,10 +121,6 @@ export default class IMD_Email_Application_Pane extends LightningElement {
             this.whatPlaceHolder = 'Search Accounts...';
             this.selectedWhatObject = 'Account';
             this.whatMenuIcon = 'standard:account';
-        } else if(selectedItemValue == 'Case') {
-            this.whatPlaceHolder = 'Search Cases...';
-            this.selectedWhatObject = 'Case';
-            this.whatMenuIcon = 'standard:case';
         } else if(selectedItemValue == 'Contact') {
             this.whatPlaceHolder = 'Search Contacts...';
             this.selectedWhatObject = 'Contact';
@@ -164,20 +137,26 @@ export default class IMD_Email_Application_Pane extends LightningElement {
             this.whatPlaceHolder = 'Search Opportunities...';
             this.selectedWhatObject = 'Opportunity';
             this.whatMenuIcon = 'standard:opportunity';
+        } else if(selectedItemValue == 'User') {
+            this.whatPlaceHolder = 'Search Users...';
+            this.selectedWhatObject = 'User';
+            this.whatMenuIcon = 'standard:user';
         } else if(selectedItemValue == 'Application__c') {
             this.whatPlaceHolder = 'Search Applications...';
             this.selectedWhatObject = 'Application__c';
             this.whatMenuIcon = 'custom:custom72';
-        }           
+        }              
     }  
     
     handleWhatSelection(event) {
-        this.whatTypeValue = event.detail;
+        if(event.detail.startsWith('003') || event.detail.startsWith('00Q') || event.detail.startsWith('005')) {
+            this.whoTypeValue = event.detail;
+        } else {
+            if(event.detail != 'null') {
+                this.whatTypeValue = event.detail;
+            }
+        }
     }
-
-    handleWhoSelection(event) {
-        this.whoTypeValue = event.detail;
-    } 
     
     handleSubPurposeChange(event) {
         this.subPurposeValue = event.detail.value;
@@ -219,22 +198,6 @@ export default class IMD_Email_Application_Pane extends LightningElement {
             this.subPurposeOptions = [];
         }        
     }
-
-    handleSubjectChange(event) {
-        this.subject = event.detail.value;
-    }
-
-    handleDescriptionChange(event) {
-        this.messageBody = event.detail.value;
-    }
-    
-    handleStartDateTimeChange(event) {
-        this.startDateTimeValue = event.detail.value;
-    }
-    
-    handleEndDateTimeChange(event) {
-        this.endDateTimeValue = event.detail.value;
-    }   
     
     handlePeopleSelection(event) {
         this.selectedPeopleRecords = event.detail.selectedPeople;
@@ -251,7 +214,9 @@ export default class IMD_Email_Application_Pane extends LightningElement {
     }    
 
     handleOtherSelection(event) {
-        this.whatTypeValue = event.detail.selectedOther.recordId;
+        if(event.detail.selectedOther != 'null') {
+            this.whatTypeValue = event.detail.selectedOther;
+        }
     }    
     
     handleSave(event) {
@@ -263,6 +228,7 @@ export default class IMD_Email_Application_Pane extends LightningElement {
                 'Subject' : this.subject,
                 'Description' : this.messageBody,                
                 'WhoId' : this.whoTypeValue,
+                'Location' : this.location,
                 'WhatId' : this.whatTypeValue,
                 'StartDateTime' : this.dates.start,
                 'EndDateTime' : this.dates.end,
@@ -270,10 +236,10 @@ export default class IMD_Email_Application_Pane extends LightningElement {
                 'Sub_Purpose__c' : this.subPurposeValue        
             };
         } else if(this.source != undefined && this.source == 'email') {
-            let fromList = [];
-            if(this.people != undefined && this.people.from != undefined) {
-                fromList.push({'name' : this.people.from.name, 'email' : this.people.from.email});
-            }
+            let from = {
+                'name' : this.people.from.name, 
+                'email' : this.people.from.email
+            };
             let toList = [];
             if(this.people != undefined && this.people.to != undefined) {
                 for(let i = 0; i < this.people.to.length; i++) {
@@ -293,16 +259,17 @@ export default class IMD_Email_Application_Pane extends LightningElement {
                 }
             }                                    
             this.record = {
-                'fromAddressList' : fromList,
+                'fromAddress' : from,
                 'toAddressList' : toList,
                 'ccAddressList' : ccList,
                 'bccAddressList' : bccList,
                 'subject' : this.subject,
                 'messageBody' : this.messageBody,
-                'relatedRecordList' : this.selectedPeopleRecords   
+                'relatedRecordList' : this.selectedPeopleRecords,
+                'relatedToId' : this.whatTypeValue   
             };
         }
-        saveEvent({recordJSON : JSON.stringify(this.record), isEvent : this.isEvent})
+        saveActivity({recordJSON : JSON.stringify(this.record), isEvent : this.isEvent})
         .then(() => {
             this.isLoaded = true;
             this.showForm = false;

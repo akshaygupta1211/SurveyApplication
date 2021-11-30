@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is a lightning message channel to send selected record's id.</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>This is the Id of the record that changed</description>
+        <fieldName>recordId</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>This is the record email of the record that changed</description>
+        <fieldName>recordAddress</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>This is the record name of the record that changed</description>
+        <fieldName>recordName</fieldName>
+    </lightningMessageFields>
+    <masterLabel>RecordSelectedChannel</masterLabel>
+</LightningMessageChannel>

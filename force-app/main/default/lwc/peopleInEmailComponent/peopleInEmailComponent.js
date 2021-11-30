@@ -1,37 +1,42 @@
 import { LightningElement, api, wire, track } from 'lwc';
+import { subscribe, unsubscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import getRelatedRecords from '@salesforce/apex/LHC_EventLogController.getRelatedRecords';
-import {
-    subscribe,
-    unsubscribe,
-    APPLICATION_SCOPE,
-    MessageContext
-} from 'lightning/messageService';
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
 
 export default class PeopleInEmailComponent extends LightningElement {
-    buttonLabel = 'Select All';
-    relatedRecordExist = false;
-    isButtonDisabled = false;
-    @api relatedrecords = [];
-    emailAddressesJSON;
-    emailAddresses = [];
-    @track peopleRecords = [];
-    subscription = null;
-    emailSelectedList = [];
-    @track emailSelectedListJSON;
     errorMessage = 'No records to display';
+    isButtonDisabled = false;
+    emailAddressesJSON;
+    subscription = null;
+    emailAddresses = [];
+    emailSelectedList = [];
+
+    @api relatedrecords = [];
+
+    @track relatedRecordExist = false;
+    @track buttonLabel = 'Select All';
+    @track peopleRecords = [{
+        'obj' : {
+            'Email' : '',
+            'Id' : '',
+            'Name' : ''
+        },
+        'booleanOne' : true,
+        'booleanTwo' : true,
+    }];
+    @track emailSelectedListJSON;
     
     @wire(MessageContext)
     messageContext;
 
-    @wire(getRelatedRecords, {emailAddrressesJSON : '$emailAddressesJSON'})
+    @wire(getRelatedRecords, {emailAddrressesJSON : '$emailAddressesJSON', isPeople : true})
     relatedRecordWired({error, data}) {
         if(data) {
             for(let i = 0; i < data.length; i++) {
                 this.peopleRecords.push(data[i]);
             }
-            if(this.peopleRecords.length == 0) {
-                this.relatedRecordExist = false;
+            if(this.peopleRecords.length > 1) {
+                this.relatedRecordExist = true;
             }
         } else if(error) {
             this.errorMessage = error.body.message;
@@ -40,7 +45,6 @@ export default class PeopleInEmailComponent extends LightningElement {
 
     connectedCallback() {
         if(this.relatedrecords != undefined) {
-            this.relatedRecordExist = true;
             for(let i = 0; i < this.relatedrecords.length; i++) {
                 this.emailAddresses.push(this.relatedrecords[i].email);
             }
@@ -75,6 +79,7 @@ export default class PeopleInEmailComponent extends LightningElement {
         let email = message.recordAddress;
         let name = message.recordName;
         if(email != undefined) {
+            this.relatedRecordExist = true;
             if(recordId.startsWith('00Q')) {
                 this.peopleRecords.push(
                 {
@@ -83,7 +88,8 @@ export default class PeopleInEmailComponent extends LightningElement {
                         'Id' : recordId,
                         'Name' : name
                     },
-                    'objectType' : true
+                    'booleanOne' : false,
+                    'booleanTwo' : false,
                 });
             } else if(recordId.startsWith('003')) {
                 this.peopleRecords.push(
@@ -93,16 +99,26 @@ export default class PeopleInEmailComponent extends LightningElement {
                         'Id' : recordId,
                         'Name' : name
                     },
-                    'objectType' : false
+                    'booleanOne' : false,
+                    'booleanTwo' : true,
                 });                
-            }
+            } else if(recordId.startsWith('005')) {
+                this.peopleRecords.push(
+            {
+                'obj' : {
+                    'Email' : email,
+                    'Id' : recordId,
+                    'Name' : name
+                },
+                'booleanOne' : true,
+                'booleanTwo' : false,
+            });                
+            }            
         }
     }    
 
-    handleCheckboxSelection(event) {
-        
+    handleCheckboxSelection(event) {        
         let recordId = event.currentTarget.dataset.id;
-
         let email = event.currentTarget.dataset.email;
 
         this.emailSelectedList.push({'relatedId': recordId, 'relatedAddress' : email});
@@ -116,7 +132,7 @@ export default class PeopleInEmailComponent extends LightningElement {
 
         this.dispatchEvent(selectedEvent); 
 
-        if(this.emailSelectedList.length != 0 && this.emailSelectedList.length == this.peopleRecords.length) {
+        if(this.emailSelectedList.length != 0 && this.emailSelectedList.length == this.peopleRecords.length - 1) {
             this.buttonLabel = 'Unselect All';
         }
     }

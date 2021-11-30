@@ -1,36 +1,55 @@
 <template>
-    <lightning-card  title="People">
+    <lightning-card title="People">
         <lightning-button variant="base" label={buttonLabel} slot="actions" onclick={handleRecordSelectClick}></lightning-button>
         <p class="slds-var-p-horizontal_medium">Select one or more people records.</p>
         <template if:true={relatedRecordExist}>
             <template if:true={peopleRecords}>
                 <template for:each={peopleRecords} for:item="peopleRecord">
-                    <template if:true={peopleRecord.objectType}>
-                        <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={peopleRecord.obj.Email}>
-                            <div class="slds-size_1-of-8">
-                                <lightning-icon icon-name="standard:lead" size="small" alternative-text="Lead" title="Lead"></lightning-icon>
+                    <template if:false={peopleRecord.booleanOne}>
+                        <template if:false={peopleRecord.booleanTwo}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={peopleRecord.obj.Email}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:lead" size="small" alternative-text="Lead" title="Lead"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {peopleRecord.obj.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-input type="checkbox" data-element="people-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
+                                </div>
                             </div>
-                            <div class="slds-size_6-of-8">
-                                {peopleRecord.obj.Name}
-                            </div>
-                            <div class="slds-size_1-of-8">
-                                <lightning-input type="checkbox" data-element="people-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                            </div>
-                        </div>
+                        </template>
                     </template>
-                    <template if:false={peopleRecord.objectType}>
-                        <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={peopleRecord.obj.Email}>
-                            <div class="slds-size_1-of-8">
-                                <lightning-icon icon-name="standard:contact" size="small" alternative-text="Contact" title="Contact"></lightning-icon>
+                    <template if:false={peopleRecord.booleanOne}>
+                        <template if:true={peopleRecord.booleanTwo}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={peopleRecord.obj.Email}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:contact" size="small" alternative-text="Contact" title="Contact"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {peopleRecord.obj.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-input type="checkbox" data-element="people-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
+                                </div>
                             </div>
-                            <div class="slds-size_6-of-8">
-                                {peopleRecord.obj.Name}
+                        </template>
+                    </template>   
+                    <template if:true={peopleRecord.booleanOne}>
+                        <template if:false={peopleRecord.booleanTwo}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={peopleRecord.obj.Email}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:user" size="small" alternative-text="User" title="User"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {peopleRecord.obj.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-input type="checkbox" data-element="people-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
+                                </div>
                             </div>
-                            <div class="slds-size_1-of-8">
-                                <lightning-input type="checkbox" data-element="people-checkbox" onchange={handleCheckboxSelection} data-id={peopleRecord.obj.Id} data-email={peopleRecord.obj.Email}></lightning-input>
-                            </div>
-                        </div>
-                    </template>                    
+                        </template>
+                    </template>                                        
                 </template>
             </template>
         </template>

@@ -4,5 +4,6 @@
     <targets>
         <target>lightning__Inbox</target>
     </targets>
-    <description>A custom built Email Application Pane for outlook</description>
+    <description>A component built for logging activity from Salesforce for outlook.</description>
+    <masterLabel>LogActivityComponent</masterLabel>
 </LightningComponentBundle>

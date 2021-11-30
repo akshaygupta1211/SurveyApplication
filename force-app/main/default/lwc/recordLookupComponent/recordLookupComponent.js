@@ -1,19 +1,19 @@
-import lookUp from '@salesforce/apex/LHC_EventLogController.search';
 import { api, LightningElement, track, wire } from 'lwc';
 import { publish, MessageContext, APPLICATION_SCOPE } from 'lightning/messageService';
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
+import lookUp from '@salesforce/apex/LHC_EventLogController.search';
 
-export default class customLookUp extends LightningElement {
+export default class RecordLookupComponent extends LightningElement {
+    searchTerm;
 
     @api objName;
     @api iconName;
-    @api filter = '';
-    @api searchPlaceholder='Search Accounts...';
+    @api searchPlaceholder;
+
     @track selectedName;
     @track records;
     @track isValueSelected;
     @track blurTimeout;
-    searchTerm;
 
     @wire(MessageContext)
     messageContext;
@@ -21,7 +21,7 @@ export default class customLookUp extends LightningElement {
     //css
     @track boxClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-has-focus';
     @track inputClass = '';
-    @wire(lookUp, {searchTerm : '$searchTerm', myObject : '$objName', filter : '$filter'})
+    @wire(lookUp, {searchTerm : '$searchTerm', myObject : '$objName'})
     wiredRecords({ error, data }) {
         if (data) {
             this.error = undefined;
@@ -46,13 +46,12 @@ export default class customLookUp extends LightningElement {
         let selectedId = event.currentTarget.dataset.id;
         let selectedName = event.currentTarget.dataset.name;
         let selectedEmail;
-        if(this.objName == 'Contact' || this.objName == 'Lead') {
+        if(this.objName == 'Contact' || this.objName == 'Lead' || this.objName == 'User') {
             selectedEmail = event.currentTarget.dataset.email
         }
         this.sendMessageService(selectedId, selectedName, selectedEmail);
         const valueSelectedEvent = new CustomEvent('lookupselected', {detail:  selectedId });
         this.dispatchEvent(valueSelectedEvent);
-        this.isValueSelected = true;
         this.selectedName = selectedName;
         if(this.blurTimeout) {
             clearTimeout(this.blurTimeout);
@@ -70,7 +69,7 @@ export default class customLookUp extends LightningElement {
 
     sendMessageService(recordId, recordName, recordAddress) {
         var payLoad = {};
-        if(this.objName == 'Contact' || this.objName == 'Lead') {
+        if(this.objName == 'Contact' || this.objName == 'Lead' || this.objName == 'User') {
             payLoad = {
                 recordId : recordId,
                 recordName : recordName,
@@ -83,5 +82,5 @@ export default class customLookUp extends LightningElement {
             }            
         }
         publish(this.messageContext, RECORDSELECTED, payLoad, {scope : APPLICATION_SCOPE});
-    }
+    }    
 }
