@@ -19,16 +19,7 @@
                         <lightning-layout>
                             <lightning-layout-item flexibility="auto">
                                 <div class="slds-form slds-var-p-around_x-small">
-                                    <template if:true={showField}>
-                                        <div class="slds-form-element slds-var-p-bottom_x-small">
-                                            <lightning-combobox
-                                            name="eventType"
-                                            label="Event Type"
-                                            value={eventTypeValue}
-                                            placeholder="--None--"
-                                            options={eventTypeOptions}
-                                            onchange={handleEventTypeChange} ></lightning-combobox>
-                                        </div>      
+                                    <template if:true={showField}>    
                                         <div class="slds-form-element slds-var-p-bottom_x-small">
                                             <lightning-combobox
                                             name="purpose"

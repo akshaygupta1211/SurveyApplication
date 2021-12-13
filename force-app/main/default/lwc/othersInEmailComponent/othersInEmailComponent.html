@@ -44,6 +44,31 @@
                         </template>
                     </template>
                 </template>
+                <template if:true={otherRecord.booleanOne}>
+                    <template if:false={otherRecord.booleanTwo}>
+                        <template if:true={otherRecord.booleanThree}>
+                            <div class="slds-var-p-left_large slds-var-p-vertical_small slds-grid slds-wrap" key={otherRecord.Id}>
+                                <div class="slds-size_1-of-8">
+                                    <lightning-icon icon-name="standard:case" size="small" alternative-text="Case" title="Case"></lightning-icon>
+                                </div>
+                                <div class="slds-size_6-of-8">
+                                    {otherRecord.Name}
+                                </div>
+                                <div class="slds-size_1-of-8">
+                                    <div class="slds-size_1-of-8">
+                                        <lightning-radio-group
+                                        options={options}
+                                        value={otherRecord.Id}
+                                        onchange={handleRecordSelection}
+                                        name={otherRecord.Name}
+                                        data-id={otherRecord.Id}
+                                        type="radio" variant="label-hidden"></lightning-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
                 <template if:false={otherRecord.booleanOne}>
                     <template if:true={otherRecord.booleanTwo}>
                         <template if:false={otherRecord.booleanThree}>
@@ -68,7 +93,7 @@
                             </div>
                         </template>
                     </template>
-                </template>
+                </template>                
                 <template if:true={otherRecord.booleanOne}>
                     <template if:true={otherRecord.booleanTwo}>
                         <template if:false={otherRecord.booleanThree}>

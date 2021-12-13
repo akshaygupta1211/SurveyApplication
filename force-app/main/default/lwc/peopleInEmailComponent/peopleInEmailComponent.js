@@ -12,7 +12,8 @@ export default class PeopleInEmailComponent extends LightningElement {
     emailSelectedList = [];
 
     @api relatedrecords = [];
-
+    
+    @track checkboxVal = false;
     @track relatedRecordExist = false;
     @track buttonLabel = 'Select All';
     @track peopleRecords = [{
@@ -101,18 +102,18 @@ export default class PeopleInEmailComponent extends LightningElement {
                     },
                     'booleanOne' : false,
                     'booleanTwo' : true,
-                });                
+                });           
             } else if(recordId.startsWith('005')) {
                 this.peopleRecords.push(
-            {
-                'obj' : {
-                    'Email' : email,
-                    'Id' : recordId,
-                    'Name' : name
-                },
-                'booleanOne' : true,
-                'booleanTwo' : false,
-            });                
+                {
+                    'obj' : {
+                        'Email' : email,
+                        'Id' : recordId,
+                        'Name' : name
+                    },
+                    'booleanOne' : true,
+                    'booleanTwo' : false,
+                });                
             }            
         }
     }    
@@ -140,25 +141,20 @@ export default class PeopleInEmailComponent extends LightningElement {
     handleRecordSelectClick(event) {
         if(this.buttonLabel == 'Select All') {
             this.buttonLabel = 'Unselect All';
-            this.template
-            .querySelectorAll('[data-element="people-checkbox"]')
-            .forEach((element) => {
-                element.checked = true;
-            });            
+            this.checkboxVal = true;            
             this.emailSelectedList = [];           
             for(let i = 0; i < this.peopleRecords.length; i++) {
                 this.emailSelectedList.push({'relatedId': this.peopleRecords[i].obj.Id, 'relatedAddress' : this.peopleRecords[i].obj.Email});
             }
             this.isButtonDisabled = false;
-        }
-
-        if(this.buttonLabel == 'Unselect All') {
+        } else if(this.buttonLabel == 'Unselect All') {
             this.buttonLabel = 'Select All';
+            this.checkboxVal = false; 
             this.template
             .querySelectorAll('[data-element="people-checkbox"]')
-            .forEach((checkBox) => {
-                checkBox.checked = false;
-            });           
+            .forEach((element) => {
+                element.checked = false;
+            });             
             this.emailSelectedList = [];
             this.isButtonDisabled = true;
         }

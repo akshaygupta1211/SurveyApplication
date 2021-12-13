@@ -45,6 +45,16 @@ export default class OthersInEmailComponent extends LightningElement {
                     }
                     this.otherRecords.push(tempObj);
                 }
+                if(data[i].booleanOne == true &&  data[i].booleanTwo == false && data[i].booleanThree == true) {
+                    let tempObj = {
+                        'Id' : data[i].obj.Id,
+                        'Name' : data[i].obj.Subject,
+                        'booleanOne' : true,
+                        'booleanTwo' : false,
+                        'booleanThree' : true
+                    }
+                    this.otherRecords.push(tempObj);
+                }                
             }
         } else if(error) {
             this.errorMessage = error.body.message;
@@ -122,20 +132,22 @@ export default class OthersInEmailComponent extends LightningElement {
                     'booleanTwo' : false,
                     'booleanThree' : true
                 });                
+            } else if(recordId.startsWith('500')) {
+                this.otherRecords.push(
+                {
+                    'Id' : recordId,
+                    'Name' : name,
+                    'booleanOne' : true,
+                    'booleanTwo' : false,
+                    'booleanThree' : true
+                });                
             }
         }
     }  
 
-    renderedCallback() {
-        this.template
-        .querySelectorAll('[data-element="other-radio"]')
-        .forEach((element) => {
-            element.checked = true;
-        });   
-    }
-
     handleRecordSelection(event) {
         let recordId = event.target.dataset.id;
+
         const selectedEvent = new CustomEvent('otherselection', 
         { 
             detail : {

@@ -1,14 +1,13 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getPicklistValues from '@salesforce/apex/LHC_EventLogController.getPicklistValues';
-import saveActivity from '@salesforce/apex/LHC_EventLogController.saveActivity';
+import getPicklistValues from '@salesforce/apex/EventLogController.getPicklistValues';
+import saveActivity from '@salesforce/apex/EventLogController.saveActivity';
 
 export default class LogActivityComponent extends LightningElement {
     whoTypeValue;
     whatTypeValue;
     buttonLabel;
     heading;
-    eventTypeValue;
     errorMessage;
     startDateTimeValue;
     endDateTimeValue;
@@ -40,6 +39,7 @@ export default class LogActivityComponent extends LightningElement {
     @api source;
     @api location;
     @api dates;
+    @api emails;
 
     @track whatMenuIcon = 'standard:account';         
     @track purposeValue;
@@ -84,24 +84,40 @@ export default class LogActivityComponent extends LightningElement {
 
     renderedCallback() {
         if(this.people != undefined) {
-            if(this.people.from != undefined) {
-                this.relatedRecords.push(this.people.from);
-            }
-            if(this.people.to != undefined) {
-                for(let i = 0; i< this.people.to.length; i ++) {
-                    this.relatedRecords.push(this.people.to[i]);
+            if(this.isEvent) {
+                if(this.people.organizer != undefined) {                   
+                    this.relatedRecords.push(this.people.organizer);
                 }
-            }
-            if(this.people.cc != undefined) {
-                for(let i = 0; i< this.people.cc.length; i ++) {
-                    this.relatedRecords.push(this.people.cc[i]);
+                if(this.people.requiredAttendees != undefined) {
+                    for(let i = 0; i< this.people.requiredAttendees.length; i ++) {
+                        this.relatedRecords.push(this.people.requiredAttendees[i]);
+                    }
                 }
-            } 
-            if(this.people.bcc != undefined) {
-                for(let i = 0; i< this.people.bcc.length; i ++) {
-                    this.relatedRecords.push(this.people.cc[i]);
+                if(this.people.optionalAttendees != undefined) {
+                    for(let i = 0; i< this.people.optionalAttendees.length; i ++) {
+                        this.relatedRecords.push(this.people.optionalAttendees[i]);
+                    }
+                } 
+            } else {
+                if(this.people.from != undefined) {
+                    this.relatedRecords.push(this.people.from);
                 }
-            }                                    
+                if(this.people.to != undefined) {
+                    for(let i = 0; i< this.people.to.length; i ++) {
+                        this.relatedRecords.push(this.people.to[i]);
+                    }
+                }
+                if(this.people.cc != undefined) {
+                    for(let i = 0; i< this.people.cc.length; i ++) {
+                        this.relatedRecords.push(this.people.cc[i]);
+                    }
+                } 
+                if(this.people.bcc != undefined) {
+                    for(let i = 0; i< this.people.bcc.length; i ++) {
+                        this.relatedRecords.push(this.people.cc[i]);
+                    }
+                }                  
+            }                                 
         }
     }
 
@@ -145,6 +161,10 @@ export default class LogActivityComponent extends LightningElement {
             this.whatPlaceHolder = 'Search Applications...';
             this.selectedWhatObject = 'Application__c';
             this.whatMenuIcon = 'custom:custom72';
+        } else if(selectedItemValue == 'Case') {
+            this.whatPlaceHolder = 'Search Cases...';
+            this.selectedWhatObject = 'Case';
+            this.whatMenuIcon = 'standard:case';
         }              
     }  
     
@@ -160,10 +180,6 @@ export default class LogActivityComponent extends LightningElement {
     
     handleSubPurposeChange(event) {
         this.subPurposeValue = event.detail.value;
-    }
-
-    handleEventTypeChange(event) {
-        this.eventTypeValue = event.detail.value;
     }
 
     handlePurposeChange(event) {
@@ -202,15 +218,9 @@ export default class LogActivityComponent extends LightningElement {
     handlePeopleSelection(event) {
         this.selectedPeopleRecords = event.detail.selectedPeople;
         if(this.selectedPeopleRecords != undefined && this.selectedPeopleRecords.length > 0) {
+            this.whoTypeValue = this.selectedPeopleRecords[0].relatedId;
             this.isButtonDisabled = false;
-        }
-        if(this.selectedPeopleRecords != undefined) {
-            for(let i = 0; i < this.selectedPeopleRecords.length; i++) {
-                if(this.selectedPeopleRecords[i].isSelected) {
-                    this.whoTypeValue = this.selectedPeopleRecords[i].Id;
-                }
-            }
-        }        
+        } 
     }    
 
     handleOtherSelection(event) {
@@ -224,7 +234,6 @@ export default class LogActivityComponent extends LightningElement {
         this.isButtonDisabled = true;
         if(this.source != undefined && this.source == 'event') {
             this.record = {
-                'Type' : this.eventTypeValue,
                 'Subject' : this.subject,
                 'Description' : this.messageBody,                
                 'WhoId' : this.whoTypeValue,
