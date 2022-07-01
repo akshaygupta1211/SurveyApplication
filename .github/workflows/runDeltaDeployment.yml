@@ -2,9 +2,9 @@ name: Salesforce Delta Deployment Job
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
+  # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
-    types: [closed]
+    types: [ closed ]
     branches: [ "master" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -39,7 +39,7 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta
 
       - name: Generate the package consisting of changed files
-        run: sfdx sgd:source:delta -d --to ${{ github.event.pull_request.head.sha }} --from ${{ github.event.pull_request.base.sha }} --output .
+        run: sfdx sgd:source:delta -d --repo ${{ github.repository }} --to origin/${{ github.head_ref }} --from origin/master --output .
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x package/package.xml
