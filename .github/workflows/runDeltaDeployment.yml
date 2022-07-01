@@ -1,4 +1,4 @@
-name: Salesforce Deployment Job
+name: Salesforce Delta Deployment Job
 
 # Controls when the workflow will run
 on:
@@ -25,9 +25,6 @@ jobs:
         with:
           repository: ${{ github.repository }}
 
-      - name : Create folder for later use
-        run : mkdir akshayguptadev && cd akshayguptadev
-      
       - name : Copy jwt token
         run : echo "${{ secrets.JWT_KEY }}" > jwt.key
       
@@ -38,7 +35,7 @@ jobs:
         run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
       - name : Add unsigned plugin to trusted
-        run : cd $HOME/.sfdx && ls -la && touch $HOME/.sfdx/unsignedPluginAllowList.json && echo '["sfdx-git-delta"]' > $HOME/.sfdx/unsignedPluginAllowList.json
+        run : echo '["sfdx-git-delta"]' > $HOME/.sfdx/unsignedPluginAllowList.json
 
       - name : Install delta deployment plugin
         run : sfdx plugins:install sfdx-git-delta
@@ -47,4 +44,4 @@ jobs:
         run : sfdx sgd:source:delta -d --to HEAD --from HEAD^ --output .
 
       - name : Running Deployment
-        run : sfdx force:source:deploy -x package/package.xml
+        run : ls -la && sfdx force:source:deploy -x package/package.xml
