@@ -17,9 +17,16 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Check sfdx version
-      - run : sfdx version
+      # Create folder for later use
+      - run : mkdir akshayguptadev && cd akshayguptadev
+      # Copy jwt token
+      - run : echo "$JWT_KEY" > jwt.key
+      # Authorize with the org
+      - run : sfdx auth:jwt:grant --clientid {{ $CLIENT_KEY }} --jwtkeyfile jwt.key --username {{ $USER_NAME }}
+      # Run validation
+      - run: sfdx force:source:deploy -c -p force-app
