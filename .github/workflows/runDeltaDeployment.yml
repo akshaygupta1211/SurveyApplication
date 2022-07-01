@@ -38,7 +38,7 @@ jobs:
         run : echo y | sfdx plugins:install sfdx-git-delta
 
       - name : Generate the package consisting of changed files
-        run : sfdx sgd:source:delta -d --to $GITHUB_HEAD_REF --from $GITHUB_REF --output .
+        run : sfdx sgd:source:delta -d --to ${{ github.head.ref }} --from ${{ github.ref }} --output .
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x package/package.xml
