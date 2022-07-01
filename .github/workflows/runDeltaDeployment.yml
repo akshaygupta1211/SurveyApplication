@@ -34,14 +34,11 @@ jobs:
       - name : Set configuration
         run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name : Add unsigned plugin to trusted
-        run : printf '[\n\t"sfdx-git-delta"\n]' > $HOME/.sfdx/unsignedPluginAllowList.json
-
       - name : Install delta deployment plugin
         run : echo y | sfdx plugins:install sfdx-git-delta
 
       - name : Generate the package consisting of changed files
-        run : sfdx sgd:source:delta -d --to HEAD --from HEAD^ --output .
+        run : ls -la && sfdx sgd:source:delta -d --to HEAD --from HEAD^ --output .
 
       - name : Running Deployment
-        run : ls -la && sfdx force:source:deploy -x package/package.xml
+        run : sfdx force:source:deploy -x package/package.xml
