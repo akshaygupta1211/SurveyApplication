@@ -76,7 +76,7 @@ export const EXPERIENCE_DATA={
                     "HTML5/CSS",
                     "SOQL",
                     "Aura",
-                    "Customer Experience"
+                    "Experience Sites"
                 ]
             }
         },
@@ -156,7 +156,13 @@ export const SKILLS_DATA ={
             SKILLS_LIST: [
                 { NAME: "Salesforce", LEVEL: "90" }
             ],
-        }
+        },
+        {
+            HEADING: "Cloud",
+            SKILLS_LIST: [
+                { NAME: "AWS", LEVEL: "50" }
+            ],
+        }        
     ],
     OTHERS_SKILLS:{
         HEADING: 'OTHERS',
