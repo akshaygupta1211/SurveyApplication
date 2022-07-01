@@ -1,5 +1,10 @@
 public with sharing class CustomContactController {
 
+    @AuraEnabled 
+    public static Boolean checkViewAccess() {
+        return true;
+    }
+
     @AuraEnabled
     public static List<Contact> findAll() {
         return [SELECT Id, Name, Email, Phone, Title FROM Contact];
