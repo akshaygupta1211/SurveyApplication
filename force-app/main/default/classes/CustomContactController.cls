@@ -2,13 +2,14 @@ public with sharing class CustomContactController {
 
     @AuraEnabled 
     public static String checkViewAccess() {
-        return 'Allowed';
+        return '';
     }
 
     @AuraEnabled
     public static string setDataQualityCheckRequired(Id recordId){
         try {
             /** TO-DO */
+            return '';
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
