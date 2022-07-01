@@ -55,7 +55,7 @@ public with sharing class LHC_EventLogController {
         try {
             if(isEvent) {
                 Event evt = (Event) JSON.deserialize(recordJSON, Event.class);
-                evt.RecordTypeId = GEN_Utility.recordTypeId('Event', 'B2B');
+                //evt.RecordTypeId = GEN_Utility.recordTypeId('Event', 'B2B');
                 insert evt;
             } else {
                 String toAddresses = '';
@@ -152,19 +152,7 @@ public with sharing class LHC_EventLogController {
     
                 if(oppContactRoleList.size() > 0) {
                     recordsList.addAll(oppContactRoleList);
-                }   
-
-                List<AccountContactRelation> acrList = [SELECT AccountId, Account.Name FROM AccountContactRelation WHERE Contact.Email IN: emailAddrressesJSON];
-
-                if(acrList.size() > 0) {
-                    recordsList.addAll(acrList);
-                }   
-
-                List<Application__c> appList = [SELECT Id, Name FROM Application__c WHERE Contact__r.Email IN: emailAddrressesJSON];
-
-                if(appList.size() > 0) {
-                    recordsList.addAll(appList);
-                }   
+                }    
 
             }                        
     

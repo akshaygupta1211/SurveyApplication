@@ -1,6 +1,6 @@
 import { LightningElement, wire, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import getDuplicateRecordListByIds from '@salesforce/apex/ContactCreatorController.getDuplicateRecordListByIds';
+import getDuplicateRecordListByIds from '@salesforce/apex/CustomContactController.findById';
 
 export default class DuplicateRecordComponent extends NavigationMixin(LightningElement) {
     contacts = [];
