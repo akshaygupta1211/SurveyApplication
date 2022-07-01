@@ -4,6 +4,7 @@ name: Salesforce Validation Job
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   pull_request:
+    types: [opened]
     branches: [ "master" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -14,28 +15,28 @@ jobs:
   Validation:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment : Production
+    environment: Production
     # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name : Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
 
-      - name : Create folder for later use
-        run : mkdir akshayguptadev && cd akshayguptadev
+      - name: Create folder for later use
+        run: mkdir akshayguptadev && cd akshayguptadev
       
-      - name : Copy jwt token
-        run : echo "${{ secrets.JWT_KEY }}" > jwt.key
+      - name: Copy jwt token
+        run: echo "${{ secrets.JWT_KEY }}" > jwt.key
       
-      - name : Authorize with the org
-        run : sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
+      - name: Authorize with the org
+        run: sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
       
-      - name : Set configuration
-        run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+      - name: Set configuration
+        run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name : Running validation
+      - name: Running validation
         run: sfdx force:source:deploy -c -p force-app

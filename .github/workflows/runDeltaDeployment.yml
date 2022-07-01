@@ -3,7 +3,8 @@ name: Salesforce Delta Deployment Job
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
-  push:
+  pull_request:
+    types: [closed]
     branches: [ "master" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -20,25 +21,25 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name : Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
 
-      - name : Copy jwt token
-        run : echo "${{ secrets.JWT_KEY }}" > jwt.key
+      - name: Copy jwt token
+        run: echo "${{ secrets.JWT_KEY }}" > jwt.key
       
-      - name : Authorize with the org
-        run : sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
+      - name: Authorize with the org
+        run: sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
       
-      - name : Set configuration
-        run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+      - name: Set configuration
+        run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name : Install delta deployment plugin
-        run : echo y | sfdx plugins:install sfdx-git-delta
+      - name: Install delta deployment plugin
+        run: echo y | sfdx plugins:install sfdx-git-delta
 
-      - name : Generate the package consisting of changed files
-        run : sfdx sgd:source:delta -d --to ${GITHUB_REF##*/} --from master --output .
+      - name: Generate the package consisting of changed files
+        run: sfdx sgd:source:delta -d --to ${{ github.head_ref }} --from master --output .
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x package/package.xml
