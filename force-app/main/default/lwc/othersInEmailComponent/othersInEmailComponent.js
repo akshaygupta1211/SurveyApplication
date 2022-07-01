@@ -1,7 +1,7 @@
 import { LightningElement, wire, track, api } from 'lwc';
 import { subscribe, unsubscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
-import getRelatedRecords from '@salesforce/apex/LHC_EventLogController.getRelatedRecords';
+import getRelatedRecords from '@salesforce/apex/EventLogController.getRelatedRecords';
 
 export default class OthersInEmailComponent extends LightningElement {
     value = 'None';
