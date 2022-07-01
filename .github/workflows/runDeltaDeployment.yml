@@ -38,7 +38,7 @@ jobs:
         run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
       - name : Add unsigned plugin to trusted
-        run : echo '["sfdx-git-delta"]' > ~/.config/sfdx/unsignedPluginAllowList.json
+        run : echo '["sfdx-git-delta"]' > $HOME/.config/sfdx/unsignedPluginAllowList.json
 
       - name : Install delta deployment plugin
         run : sfdx plugins:install sfdx-git-delta
