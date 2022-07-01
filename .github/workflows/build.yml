@@ -37,5 +37,8 @@ jobs:
       - name : Authorize with the org
         run : sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
       
+      - name : Set configuration
+        run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+
       - name : Run validation
         run: sfdx force:source:deploy -c -p force-app
