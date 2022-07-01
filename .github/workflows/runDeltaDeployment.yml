@@ -1,4 +1,4 @@
-name: Salesforce Validation Job
+name: Salesforce Deployment Job
 
 # Controls when the workflow will run
 on:
