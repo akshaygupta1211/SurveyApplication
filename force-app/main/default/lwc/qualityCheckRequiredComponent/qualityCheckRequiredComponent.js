@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import setDataQualityCheckRequired from '@salesforce/apex/HND_ContactSyncTrigger.setDataQualityCheckRequired';
+import setDataQualityCheckRequired from '@salesforce/apex/CustomContactController.setDataQualityCheckRequired';
 
 export default class QualityCheckRequiredComponent extends LightningElement {
     @api recordId;

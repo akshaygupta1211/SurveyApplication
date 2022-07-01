@@ -6,6 +6,15 @@ public with sharing class CustomContactController {
     }
 
     @AuraEnabled
+    public static string setDataQualityCheckRequired(Id recordId){
+        try {
+            /** TO-DO */
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
     public static List<Contact> findAll() {
         return [SELECT Id, Name, Email, Phone, Title FROM Contact];
     }
