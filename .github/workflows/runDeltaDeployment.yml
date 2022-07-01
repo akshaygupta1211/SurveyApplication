@@ -38,7 +38,7 @@ jobs:
         run : sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
       - name : Install delta deployment plugin
-        run: sfdx plugins:install sfdx-git-delta
+        run: sfdx plugins:install sfdx-git-delta -y
 
       - name : Generate the package consisting of changed files
         run : sfdx sgd:source:delta -d --to HEAD --from HEAD^ --output .
