@@ -23,16 +23,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name : Create folder for later use
-      - run : mkdir akshayguptadev && cd akshayguptadev
+        run : mkdir akshayguptadev && cd akshayguptadev
       
       - name : Checkout Code
-      - uses : action/checkout@v3
+        uses : action/checkout@v3
       
       - name : Copy jwt token
-      - run : echo "$JWT_KEY" > jwt.key
+        run : echo "$JWT_KEY" > jwt.key
       
       - name : Authorize with the org
-      - run : sfdx auth:jwt:grant --clientid $CLIENT_KEY --jwtkeyfile jwt.key --username  $USER_NAME
+        run : sfdx auth:jwt:grant --clientid $CLIENT_KEY --jwtkeyfile jwt.key --username  $USER_NAME
       
       - name : Run validation
-      - run: sfdx force:source:deploy -c -p force-app
+        run: sfdx force:source:deploy -c -p force-app
