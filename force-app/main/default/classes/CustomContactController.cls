@@ -1,8 +1,8 @@
 public with sharing class CustomContactController {
 
     @AuraEnabled 
-    public static Boolean checkViewAccess() {
-        return true;
+    public static String checkViewAccess() {
+        return 'Allowed';
     }
 
     @AuraEnabled
