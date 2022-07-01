@@ -26,7 +26,7 @@ jobs:
       - run : mkdir akshayguptadev && cd akshayguptadev
       
       - name : Checkout Code
-      - run : action/checkout@v3
+      - uses : action/checkout@v3
       
       - name : Copy jwt token
       - run : echo "$JWT_KEY" > jwt.key
