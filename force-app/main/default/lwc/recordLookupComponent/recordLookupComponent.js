@@ -1,7 +1,7 @@
 import { api, LightningElement, track, wire } from 'lwc';
 import { publish, MessageContext, APPLICATION_SCOPE } from 'lightning/messageService';
 import RECORDSELECTED from '@salesforce/messageChannel/RecordSelectedChannel__c';
-import lookUp from '@salesforce/apex/LHC_EventLogController.search';
+import lookUp from '@salesforce/apex/EventLogController.search';
 
 export default class RecordLookupComponent extends LightningElement {
     searchTerm;

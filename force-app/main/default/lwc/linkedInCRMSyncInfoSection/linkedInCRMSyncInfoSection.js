@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import checkViewAccess from '@salesforce/apex/HND_ContactHandler.checkViewAccess';
+import checkViewAccess from '@salesforce/apex/CustomContactController.checkViewAccess';
 
 export default class LinkedInCRMSyncInfoSection extends LightningElement {
     @api recordId;
