@@ -21,6 +21,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Download sfdx docker image
-      - run: docker pull salesforce/salesforcedx
+      - run: docker pull salesforce/salesforcedx:latest-full
       # Check sfdx version
       - run : sfdx version
