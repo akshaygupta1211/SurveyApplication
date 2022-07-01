@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
+          ref: master
+          fetch-depth: 0
 
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
@@ -39,7 +41,7 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta
 
       - name: Generate the package consisting of changed files
-        run: sfdx sgd:source:delta -d --repo https://github.com/${{ github.repository }}.git --to origin/${{ github.head_ref }} --from origin/master --output .
+        run: sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output . --generate-delta
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x package/package.xml
