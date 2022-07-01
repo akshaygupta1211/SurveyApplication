@@ -22,11 +22,11 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name : Checkout Code
+        uses : action/checkout@v2
+
       - name : Create folder for later use
         run : mkdir akshayguptadev && cd akshayguptadev
-      
-      - name : Checkout Code
-        uses : action/checkout@v3
       
       - name : Copy jwt token
         run : echo "$JWT_KEY" > jwt.key
