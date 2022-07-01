@@ -1,4 +1,4 @@
-public with sharing class LHC_EventLogController {
+public with sharing class EventLogController {
     
     @AuraEnabled(cacheable=true)
     public static List<sObject> search(String searchTerm, string myObject) {
