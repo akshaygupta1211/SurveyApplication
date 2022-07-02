@@ -47,4 +47,4 @@ jobs:
         run:  cd SurveyApplication && mkdir changed-sources && sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name : Running Deployment
-        run : sfdx force:source:deploy -x changed-sources/package/package.xml
+        run : sfdx force:source:deploy -x SurveyApplication/changed-sources/package/package.xml
