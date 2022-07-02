@@ -6,6 +6,6 @@
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
     </targets>
-    <description>A component built for displaying resume in Experience Site(s).</description>
+    <description>A component built for displaying Resume in Experience Site(s).</description>
     <masterLabel>MyResume</masterLabel>    
 </LightningComponentBundle>
