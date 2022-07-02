@@ -1,6 +1,6 @@
 /**
 * @description Custom controller class used by lwc(s) and aura components
-* to return records, update and check access. 
+* to return records, update and check access of the running user. 
 * @author Akshay Gupta
 */
 public with sharing class CustomContactController {

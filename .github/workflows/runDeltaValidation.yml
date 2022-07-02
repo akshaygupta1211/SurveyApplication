@@ -50,7 +50,7 @@ jobs:
         run: sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/package" --engine "eslint-lwc,pmd" --verbose
 
       - name: Check folder content
-        run: cd ${{ github.event.repository.name }}/changed-sources && ls -la
+        run: cd ${{ github.event.repository.name }}/changed-sources/package && ls -la
 
       - name: Running Validation
         run: sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
