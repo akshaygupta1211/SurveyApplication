@@ -23,7 +23,12 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Clone the repository, checkout and create a folder for delta changes
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Clone the repository for later use
         run: git clone https://github.com/akshaygupta-dev/SurveyApplication
 
       - name: Copy jwt token
