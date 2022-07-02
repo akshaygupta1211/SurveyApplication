@@ -4,7 +4,7 @@ name: Salesforce Delta Validation Job
 on:
   # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
-    types: [ closed ]
+    types: [ opened, synchronize ]
     branches: [ "master" ]
     paths: 
       - 'force-app/main/default/**'    
@@ -29,7 +29,7 @@ jobs:
           repository: ${{ github.repository }}
 
       - name: Clone the repository for later use
-        run: git clone https://github.com/${{ ${{ github.event.repository.name }}
+        run: git clone ${{ github.server_url }}/${{ github.repository }}
 
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key

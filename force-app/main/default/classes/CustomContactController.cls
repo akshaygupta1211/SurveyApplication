@@ -17,12 +17,12 @@ public with sharing class CustomContactController {
 
     @AuraEnabled
     public static List<Contact> findAll() {
-        return [SELECT Id, Name, Email, Phone, Title FROM Contact];
+        return [SELECT Id, Name, Email, Phone, Title FROM Contact WITH SECURITY_ENFORCED];
     }
     
     @AuraEnabled
     public static List<Account> findAllAccount() {
-        return [SELECT Name, Phone FROM Account LIMIT 10];
+        return [SELECT Name, Phone FROM Account WITH SECURITY_ENFORCED LIMIT 10];
     }    
     
     @AuraEnabled
@@ -33,12 +33,12 @@ public with sharing class CustomContactController {
 
     @AuraEnabled
     public static Contact findById(Id contactId) {
-        return [SELECT Name, Phone, Email, Title FROM Contact WHERE Id =: contactId];
+        return [SELECT Name, Phone, Email, Title FROM Contact WHERE Id =: contactId WITH SECURITY_ENFORCED];
     }
 
 	@AuraEnabled
     public static List<Case> findCasesById(Id accountId) {
-        return [SELECT CaseNumber, Origin, Priority, Status FROM Case WHERE AccountId =: accountId];
+        return [SELECT CaseNumber, Origin, Priority, Status FROM Case WHERE AccountId =: accountId WITH SECURITY_ENFORCED];
     }	    
     
 }
