@@ -46,5 +46,5 @@ jobs:
       - name: Generate the package consisting of changed files
         run:  cd SurveyApplication && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
-      - name : Running Deployment
+      - name : Running Validation
         run : sfdx force:source:deploy -c -x SurveyApplication/changed-sources/package/package.xml
