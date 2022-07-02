@@ -20,9 +20,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
-
-      - name: Create folder for later use
-        run: mkdir akshayguptadev && cd akshayguptadev
       
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
