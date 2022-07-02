@@ -81,5 +81,8 @@ jobs:
       - name: Generate the package consisting of delta changes
         run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
+      - name: Get test classes if any from delta changes
+        run: chmod +x bash-scripts/RetrieveTestClasses.sh && CLASS_NAMES=./bash-scripts/RetrieveTestClasses.sh && echo "${CLASS_NAMES}"
+
       - name: Running Validation
         run: sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
