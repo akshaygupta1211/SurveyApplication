@@ -40,11 +40,14 @@ jobs:
       - name: Set configuration
         run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name: Install delta deployment plugin
-        run: echo y | sfdx plugins:install sfdx-git-delta
+      - name: Install delta generator and code scanner plugin
+        run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
 
-      - name: Generate the package consisting of changed files
+      - name: Generate the package consisting of delta changes
         run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+
+      - name: Run code scan on delta changes
+        run: sfdx scanner:run --target "force-app/main/default/" --engine "eslint-lwc,pmd" --verbose
 
       - name : Running Validation
         run : sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
