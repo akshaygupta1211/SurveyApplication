@@ -27,7 +27,7 @@ public with sharing class CustomContactController {
     
     @AuraEnabled
     public static Contact findByName(String name) {
-        String query = 'SELECT Name, Phone, Email FROM Contact WHERE Name LIKE \'%' + name + '%\'';
+        String query = 'SELECT Name, Phone, Email FROM Contact WHERE Name LIKE \'%' + String.escapeSingleQuotes(name) + '%\'';
         return Database.query(query);
     }
 
