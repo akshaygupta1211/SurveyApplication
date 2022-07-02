@@ -14,7 +14,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Delta-Validation:
+  Code-Scan: 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment : Production
@@ -49,8 +49,37 @@ jobs:
       - name: Run code scan on delta changes
         run: sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/package" --engine "eslint-lwc,pmd" --verbose
 
-      - name: Check folder content
-        run: cd ${{ github.event.repository.name }}/changed-sources/package && ls -la
+  Delta-Validation:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    environment : Production
+    # Use salesforcedx container
+    container:
+      image: salesforce/salesforcedx:latest-full
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Clone the repository for later use
+        run: git clone ${{ github.server_url }}/${{ github.repository }}
+
+      - name: Copy jwt token
+        run: echo "${{ secrets.JWT_KEY }}" > jwt.key
+      
+      - name: Authorize with the org
+        run: sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
+      
+      - name: Set configuration
+        run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+
+      - name: Install delta generator and code scanner plugin
+        run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
+
+      - name: Generate the package consisting of delta changes
+        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name: Running Validation
         run: sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
