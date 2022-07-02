@@ -44,7 +44,7 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta
 
       - name: Generate the package consisting of changed files
-        run:  cd SurveyApplication && mkdir changed-sources && sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+        run:  cd SurveyApplication && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x SurveyApplication/changed-sources/package/package.xml
