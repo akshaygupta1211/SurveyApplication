@@ -1,4 +1,4 @@
-name: Salesforce Full Validation Job
+name: Salesforce Full Deployment Job
 
 # Controls when the workflow will run
 on:
@@ -7,7 +7,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Full-Validation:
+  Full-Deployment:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: Production
@@ -21,9 +21,6 @@ jobs:
         with:
           repository: ${{ github.repository }}
 
-      - name: Create folder for later use
-        run: mkdir akshayguptadev && cd akshayguptadev
-      
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
       
@@ -33,8 +30,5 @@ jobs:
       - name: Set configuration
         run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name: Install code analysis plugin
-        run: sfdx plugins:install @salesforce/sfdx-scanner
-
-      - name: Running validation
-        run: sfdx force:source:deploy -c -p force-app
+      - name: Running Deployment
+        run: sfdx force:source:deploy -p force-app/main/default
