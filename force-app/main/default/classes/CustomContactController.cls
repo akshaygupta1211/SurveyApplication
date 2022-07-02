@@ -17,7 +17,7 @@ public with sharing class CustomContactController {
 
     @AuraEnabled
     public static List<Contact> findAll() {
-        return [SELECT Id, Name, Email, Phone, Title FROM Contact];
+        return [SELECT Id, Name, Email, Phone, Title FROM Contact WITH SECURITY_ENFORCED];
     }
     
     @AuraEnabled
