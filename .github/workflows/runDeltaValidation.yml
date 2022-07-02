@@ -4,7 +4,7 @@ name: Salesforce Delta Validation Job
 on:
   # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
-    types: [ opened ]
+    types: [ opened, synchronize ]
     branches: [ "master" ]
     paths: 
       - 'force-app/main/default/**'    
