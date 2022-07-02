@@ -29,7 +29,7 @@ jobs:
           repository: ${{ github.repository }}
 
       - name: Clone the repository for later use
-        run: git clone ${{ github.repositoryUrl }}
+        run: git clone ${{ github.server_url }}/${{ github.repository }}
 
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
