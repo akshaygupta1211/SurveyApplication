@@ -47,7 +47,7 @@ jobs:
         run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name: Run code scan on delta changes
-        run: sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/package" --engine "eslint-lwc,eslint-plugin-aura,eslint-plugin-visualforce,retire-js,cpd,pmd" --verbose
+        run: sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/package" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
 
   Delta-Validation:
     # The type of runner that the job will run on

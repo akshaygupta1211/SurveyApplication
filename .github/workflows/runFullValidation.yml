@@ -34,7 +34,7 @@ jobs:
         run: sfdx plugins:install @salesforce/sfdx-scanner && sfdx plugins:install @salesforce/sfdx-scanner
 
       - name: Run code scan
-        run: sfdx scanner:run --target "force-app/main/default" --engine "eslint-lwc,eslint-plugin-aura,eslint-plugin-visualforce,retire-js,cpd,pmd" --verbose
+        run: sfdx scanner:run --target "force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
 
       - name: Running validation
         run: sfdx force:source:deploy -c -p force-app
