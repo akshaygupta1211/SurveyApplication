@@ -1,21 +1,23 @@
-name: Salesforce Validation Job
+name: Salesforce Delta Validation Job
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow when pull request is open or updated but only for the "master" branch
+  # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
     types: [ opened, synchronize ]
     branches: [ "master" ]
+    paths: 
+      - 'force-app/main/default/**'    
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Validation:
+  Delta-Validation:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: Production
+    environment : Production
     # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
@@ -26,9 +28,9 @@ jobs:
         with:
           repository: ${{ github.repository }}
 
-      - name: Create folder for later use
-        run: mkdir akshayguptadev && cd akshayguptadev
-      
+      - name: Clone the repository for later use
+        run: git clone ${{ github.server_url }}/${{ github.repository }}
+
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
       
@@ -38,5 +40,11 @@ jobs:
       - name: Set configuration
         run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
-      - name: Running validation
-        run: sfdx force:source:deploy -c -p force-app
+      - name: Install delta deployment plugin
+        run: echo y | sfdx plugins:install sfdx-git-delta
+
+      - name: Generate the package consisting of changed files
+        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+
+      - name : Running Validation
+        run : sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
