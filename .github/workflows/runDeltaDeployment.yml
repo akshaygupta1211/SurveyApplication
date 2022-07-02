@@ -23,11 +23,8 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          ref: master
-          fetch-depth: 0
+      - name: Clone the repository, checkout and create a folder for delta changes
+        run: git clone https://github.com/akshaygupta-dev/SurveyApplication && cd SurveyApplication && mkdir changed-sources
 
       - name: Copy jwt token
         run: echo "${{ secrets.JWT_KEY }}" > jwt.key
@@ -42,7 +39,7 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta
 
       - name: Generate the package consisting of changed files
-        run: git clone https://github.com/akshaygupta-dev/SurveyApplication && cd SurveyApplication && sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+        run:  sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name : Running Deployment
         run : sfdx force:source:deploy -x changed-sources/package/package.xml
