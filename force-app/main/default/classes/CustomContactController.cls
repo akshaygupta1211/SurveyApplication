@@ -22,7 +22,7 @@ public with sharing class CustomContactController {
     
     @AuraEnabled
     public static List<Account> findAllAccount() {
-        return [SELECT Name, Phone FROM Account LIMIT 10];
+        return [SELECT Name, Phone FROM Account WITH SECURITY_ENFORCED LIMIT 10];
     }    
     
     @AuraEnabled
