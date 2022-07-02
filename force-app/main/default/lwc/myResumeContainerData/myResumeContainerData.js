@@ -64,7 +64,7 @@ export const EXPERIENCE_DATA={
             COMPANY_NAME: "Capgemini",
             DURATION: "2019 - 2021",
             DESCRIPTION:
-                "Worked as a Salesforce Developer and Administrator, developed custom solution using LWC and Aura. Participated in the devops team as release manager and also performed data migration",
+                "Worked as a Salesforce Developer and Administrator, developed custom solution using LWC and Aura. Participated in the devops team as release manager and also performed data migration.",
             DESCRIPTION_POINTS: [
             ],
             TECHNOLOGIES_USED: {
