@@ -42,7 +42,7 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta
 
       - name: Generate the package consisting of changed files
-        run: git clone https://github.com/akshaygupta-dev/SurveyApplication && cd SurveyApplication && sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output . --generate-delta
+        run: git clone https://github.com/akshaygupta-dev/SurveyApplication && cd SurveyApplication && sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
 
       - name : Running Deployment
-        run : sfdx force:source:deploy -x package/package.xml
+        run : sfdx force:source:deploy -x changed-sources/package/package.xml
