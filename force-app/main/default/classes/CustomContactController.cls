@@ -66,7 +66,7 @@ public with sharing class CustomContactController {
     }
 
     /**
-    * @description Method for returning Case(s) by accountId
+    * @description Method for returning Case(s) and its details by accountId
     * @return List<Case>
     */    
 	@AuraEnabled
