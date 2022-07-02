@@ -1,6 +1,14 @@
+/**
+* @description test method for SurveyController class
+* @author Akshay Gupta
+*/
 @isTest
 public class SurveyControllerTest {
 
+    /**
+    *@description method for preparing data
+    *
+    */
     @TestSetup
     static void prepareData(){
         User testUser = new User(Alias = 'standt', Email='standarduser@testorgmail.com', 
@@ -16,8 +24,8 @@ public class SurveyControllerTest {
         insert survey;
         
         List<Survey_Question__c> questionList = new List<Survey_Question__c>();
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product?', Survey__c = survey.Id, Response_Type__c = 'true'));
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service?', Survey__c = survey.Id, Response_Type__c = 'true'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
         insert questionList;
 
         List<Survey_Answer__c> answerList = new List<Survey_Answer__c>();
@@ -35,6 +43,10 @@ public class SurveyControllerTest {
 
     }
 
+    /**
+    *@description test method checking if the survey is assigned to user
+    *
+    */
     public static testMethod void testGetDetails() {
         List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
 
@@ -43,13 +55,18 @@ public class SurveyControllerTest {
         System.runAs(userList[0]) {
             SurveyController.SurveyWrapper wrapper = SurveyController.getDetails();
 
-            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name);
+            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name, 'Survey should be assigned.');
         }
         
         Test.stopTest();
     }
 
-    public static testMethod void testSubmitResponses() {
+    /**
+    *@description test method simulating response submission
+    *
+    */
+    @isTest
+    public static void testSubmitResponses() {
         List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
         List<Survey_Question__c> questionList = [SELECT Id, Survey__c FROM Survey_Question__c LIMIT 2];
 
@@ -73,17 +90,22 @@ public class SurveyControllerTest {
             
             SurveyController.submitResponses(JSON.serialize(wrapperList));
 
-            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed');
+            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to closed.');
         }
         
         Test.stopTest();
     }
 
-    public static testMethod void testGenerateException() {
+    /**
+    *@description test method simulating exception
+    *
+    */
+    @isTest
+    public static void testGenerateException() {
         try {
             SurveyController.submitResponses(null);
         } catch(Exception ex) {
-
+            System.assertEquals('System.AuraHandledException', ex.getTypeName(), 'Exception should be thrown.');
         }
     }    
 
