@@ -8,7 +8,7 @@ public with sharing class CustomContactController {
     @AuraEnabled
     public static string setDataQualityCheckRequired(Id recordId){
         try {
-            /** TO-DO **/
+            /***TO-DO***/
             return '';
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
