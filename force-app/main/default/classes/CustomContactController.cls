@@ -33,12 +33,12 @@ public with sharing class CustomContactController {
 
     @AuraEnabled
     public static Contact findById(Id contactId) {
-        return [SELECT Name, Phone, Email, Title FROM Contact WHERE Id =: contactId];
+        return [SELECT Name, Phone, Email, Title FROM Contact WHERE Id =: contactId WITH SECURITY_ENFORCED];
     }
 
 	@AuraEnabled
     public static List<Case> findCasesById(Id accountId) {
-        return [SELECT CaseNumber, Origin, Priority, Status FROM Case WHERE AccountId =: accountId];
+        return [SELECT CaseNumber, Origin, Priority, Status FROM Case WHERE AccountId =: accountId WITH SECURITY_ENFORCED];
     }	    
     
 }
