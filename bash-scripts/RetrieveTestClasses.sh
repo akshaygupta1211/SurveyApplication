@@ -17,7 +17,7 @@ then
 
 fi
 
-if [[ ${#FILE_NAMES} == 0]]
+if [ ${#FILE_NAMES} == 0]
 then
     sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
 else
