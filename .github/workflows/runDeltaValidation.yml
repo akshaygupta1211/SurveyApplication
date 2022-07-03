@@ -82,7 +82,9 @@ jobs:
         run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
 
       - name: Generate the package consisting of delta changes
-        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && 
+              sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta && 
+              chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
 
       - name: Get test classes if any from delta changes and run validation.
         run: chmod +x bash-scripts/RetrieveTestClasses.sh && ./bash-scripts/RetrieveTestClasses.sh
