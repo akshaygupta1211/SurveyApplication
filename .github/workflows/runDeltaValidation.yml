@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate the package consisting of delta changes
         run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && 
-              sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta &&
+              sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "origin/master" --output changed-sources/ --generate-delta &&
               chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
 
       - name: Run code scan on delta changes
