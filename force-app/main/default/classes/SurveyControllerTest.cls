@@ -62,7 +62,7 @@ public class SurveyControllerTest {
     }
 
     /**
-    *@description test method simulating response submission
+    *@description test method simulating response submission and checking if status is updated or not.
     *
     */
     @isTest
