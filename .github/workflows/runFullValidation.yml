@@ -36,5 +36,5 @@ jobs:
       - name: Run code scan
         run: sfdx scanner:run --target "force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
 
-      - name: Running validation
-        run: sfdx force:source:deploy -c -p force-app
+      - name: Running validation and test classes
+        run: sfdx force:source:deploy -c -p force-app --testlevel RunLocalTests
