@@ -1,4 +1,4 @@
-public class DynamicSQLClass {
+public with sharing class DynamicSQLClass {
     public List<Account> accountList{set;get;}
     public List<Contact> contactList{set;get;}
     public List<Opportunity> opportunityList{set;get;}
@@ -17,7 +17,7 @@ public class DynamicSQLClass {
             objectName = 'Opportunity';
         }
         
-        String query = 'SELECT Id, Name FROM ' + objectName + ' WHERE Name LIKE \'%' + searchParameter + '%\'';
+        String query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objectName) + ' WHERE Name LIKE \'%' + String.escapeSingleQuotes(searchParameter) + '%\'';
         
         if(isAccount) {
             accountList = Database.query(query);
