@@ -80,4 +80,4 @@ jobs:
               chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
 
       - name: Get test classes if any from delta changes and run validation.
-        run: chmod +x bash-scripts/RetrieveTestClasses.sh && ./bash-scripts/RetrieveTestClasses.sh
+        run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
