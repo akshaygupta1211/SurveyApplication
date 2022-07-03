@@ -18,14 +18,15 @@ public class SurveyControllerTest {
         insert testUser;    
 
         Survey__c survey = new Survey__c();
-        survey.Name = 'Product Survey';
+        survey.Name = 'Product and Service Survey';
         survey.Status__c = 'Assigned';
         survey.Assign_To__c = testUser.Id;
         insert survey;
         
         List<Survey_Question__c> questionList = new List<Survey_Question__c>();
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product(s)?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service(s)?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'Would you recommend our service(s) to your colleague(s) and friend(s)?', Survey__c = survey.Id, Response_Type__c = 'Checkbox'));
         insert questionList;
 
         List<Survey_Answer__c> answerList = new List<Survey_Answer__c>();
@@ -39,6 +40,8 @@ public class SurveyControllerTest {
         answerList.add(new Survey_Answer__c(Name = '3', Survey_Question__c = questionList[1].Id));
         answerList.add(new Survey_Answer__c(Name = '4', Survey_Question__c = questionList[1].Id));
         answerList.add(new Survey_Answer__c(Name = '5', Survey_Question__c = questionList[1].Id));
+        answerList.add(new Survey_Answer__c(Name = 'Yes', Survey_Question__c = questionList[2].Id));
+        answerList.add(new Survey_Answer__c(Name = 'No', Survey_Question__c = questionList[2].Id));
         insert answerList;   
 
     }
@@ -86,8 +89,14 @@ public class SurveyControllerTest {
             wrapper2.surveyId = questionList[1].Survey__c;
             wrapper2.response = '3';
 
+            SurveyController.ResponseWrapper wrapper3 = new SurveyController.ResponseWrapper();
+            wrapper3.questionId = questionList[2].Id;
+            wrapper3.surveyId = questionList[2].Survey__c;
+            wrapper3.response = 'Yes';
+
             wrapperList.add(wrapper1);  
-            wrapperList.add(wrapper2);  
+            wrapperList.add(wrapper2);
+            wrapperList.add(wrapper3);  
             
             SurveyController.submitResponses(JSON.serialize(wrapperList));
 

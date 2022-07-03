@@ -52,7 +52,7 @@ public with sharing class SurveyController {
 
     /**
     * @description Method for handling the submission of response(s)
-    * @param ResponseWrapper
+    * @param responseWrapper
     */    
     @AuraEnabled
     public static void submitResponses(String responseWrapper) {
@@ -63,8 +63,8 @@ public with sharing class SurveyController {
             for(ResponseWrapper wrapper : responseWrapperList) {
                 Survey_Response__c response = new Survey_Response__c();
                 response.Value__c = wrapper.response;
-                response.Survey_Question__c = wrapper.questionId;
                 response.Survey__c = wrapper.surveyId;
+                response.Survey_Question__c = wrapper.questionId;                
                 responseList.add(response);
             }
 
