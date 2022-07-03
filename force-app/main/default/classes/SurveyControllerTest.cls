@@ -47,7 +47,8 @@ public class SurveyControllerTest {
     *@description test method checking if the survey is assigned to user
     *
     */
-    public static testMethod void testGetDetails() {
+    @isTest
+    public static void testGetDetails() {
         List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
 
         Test.startTest();
