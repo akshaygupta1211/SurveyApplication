@@ -69,13 +69,21 @@ public with sharing class SurveyController {
             }
 
             if(responseList.size() > 0) {
-                insert responseList;
+                if(Schema.sObjectType.Survey_Response__c.isCreateable()) {
+                    insert responseList;
+                } else {
+                    throw new SurveyControllerException('You are not allowed to create this record(s).');
+                }
             }
 
             Survey__c survey = new Survey__c();
             survey.Id = responseWrapperList[0].surveyId;
-            survey.Status__c = 'Closed';
-            update survey;
+            if (Schema.sObjectType.Survey__c.fields.Status__c.isUpdateable()) {
+                survey.Status__c = 'Closed';
+                update survey;
+            } else {
+                throw new SurveyControllerException('You are not allowed to update this record(s).');
+            }
 
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
@@ -112,5 +120,11 @@ public with sharing class SurveyController {
         @AuraEnabled public String surveyId;
         @AuraEnabled public String response;
     }
+
+    /**
+    * @description Custom exception class
+    * 
+    */       
+    public class SurveyControllerException extends Exception {}
 
 }
