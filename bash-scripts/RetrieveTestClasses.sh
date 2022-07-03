@@ -21,4 +21,5 @@ if [ ${#FILE_NAMES} == 0 ]
 then
     sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
 else
-    sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml --classnames "${FILE_NAMES}" --resultformat tap --codecoverage    
+    sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml --classnames "${FILE_NAMES}" --resultformat tap --codecoverage
+fi    
