@@ -1,5 +1,5 @@
 /**
-* @description controller class for SurveyComponent
+* @description Controller class for SurveyComponent
 * @author Akshay Gupta
 */
 public with sharing class SurveyController {
