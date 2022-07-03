@@ -19,6 +19,6 @@ then
     sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --verbose
 #If changes detected in test class(es) run test class(es) and validation  
 else
-    echo "Running validation with test classes"
+    echo "Running validation with test class(es)"
     sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --testlevel RunSpecifiedTests --runtests "${FILE_NAMES}" --verbose
 fi    
