@@ -18,7 +18,7 @@ public with sharing class SurveyController {
 
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned' WITH SECURITY_ENFORCED].get(0);
+            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
@@ -82,12 +82,20 @@ public with sharing class SurveyController {
         }
     } 
 
+    /**
+    * @description Wrapper class containing survey details and QuestionWrapper.
+    * 
+    */        
     public class SurveyWrapper {
         @AuraEnabled public String surveyId;
         @AuraEnabled public String title;
         @AuraEnabled public List<QuestionWrapper> questions;
     }
 
+    /**
+    * @description Wrapper class containing the question and answers' details.
+    * 
+    */        
     public class QuestionWrapper {
         @AuraEnabled public String questionId;
         @AuraEnabled public String name;
@@ -95,6 +103,10 @@ public with sharing class SurveyController {
         @AuraEnabled public List<Survey_Answer__c> answers;        
     }    
 
+    /**
+    * @description Wrapper class containing survey, question and responses
+    * 
+    */        
     public class ResponseWrapper {
         @AuraEnabled public String questionId;
         @AuraEnabled public String surveyId;
