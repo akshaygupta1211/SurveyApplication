@@ -1,14 +1,14 @@
 #!/bin/bash
 
 #Check if changed-sources contain salesforce changes
-if [[ -d changed-sources/force-app/main/default ]]
+if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default ]]
 then
     FILE_NAMES="" 
     #Check if changed-sources contain classes
-    if [[ -d changed-sources/force-app/main/default/classes ]]
+    if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default/classes ]]
     then
         #Loop through all the test classes files and store the names in csv format   
-        for file in changed-sources/force-app/main/default/classes/*Test.cls
+        for file in ${REPO_NAME}/changed-sources/force-app/main/default/classes/*Test.cls
         do
             FILE_NAMES+="$(basename ${file} .cls),"
         done
