@@ -1,5 +1,5 @@
 /**
-* @description test method for SurveyController class
+* @description test class for SurveyController class
 * @author Akshay Gupta
 */
 @isTest
