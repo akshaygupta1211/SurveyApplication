@@ -105,7 +105,7 @@ public class SurveyControllerTest {
     }
 
     /**
-    *@description test method simulating exception
+    *@description test method simulating exception in application
     *
     */
     @isTest
