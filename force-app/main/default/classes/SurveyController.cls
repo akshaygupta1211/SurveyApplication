@@ -52,7 +52,7 @@ public with sharing class SurveyController {
 
     /**
     * @description Method for handling the submission of response(s)
-    * @param ResponseWrapper
+    * @param responseWrapper
     */    
     @AuraEnabled
     public static void submitResponses(String responseWrapper) {
