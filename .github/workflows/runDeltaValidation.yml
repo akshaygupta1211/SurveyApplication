@@ -43,7 +43,7 @@ jobs:
               chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
 
       - name: Run code scan on delta changes
-        run: sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/package" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
+        run: if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default" ]] ; then sfdx scanner:run --target "${{ github.event.repository.name }}/changed-sources/force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose ; else ; then echo "No code change detected" ; fi
 
   Delta-Validation:
     # The type of runner that the job will run on

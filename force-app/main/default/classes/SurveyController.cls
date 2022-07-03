@@ -4,6 +4,11 @@
 */
 public with sharing class SurveyController {
     
+
+    /**
+    * @description Method for getting the details for survey assigned to the running user.
+    * 
+    */
     @AuraEnabled(cacheable=true)
     public static SurveyWrapper getDetails() {
         Set<Id> questionIdSet = new Set<Id>();
