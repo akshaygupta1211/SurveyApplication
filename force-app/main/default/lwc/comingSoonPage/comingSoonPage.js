@@ -4,7 +4,7 @@ export default class ComingSoonPage extends LightningElement {
     @track timeLeft = "0d 0h 0m 0s";
 
     x = setInterval(() => {
-        var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+        var countDownDate = new Date("Jan 5, 2023 15:37:25").getTime();
         // Get today's date and time
         var now = new Date().getTime();
         // Find the distance between now and the count down date
