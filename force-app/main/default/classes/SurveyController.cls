@@ -18,14 +18,14 @@ public with sharing class SurveyController {
 
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
+            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned' WITH SECURITY_ENFORCED].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
             }
 
             if(questionIdSet.size() > 0) {
-                questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet];                
+                questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet WITH SECURITY_ENFORCED];                
             }
 
             if(questionList.size() > 0) {
@@ -69,13 +69,21 @@ public with sharing class SurveyController {
             }
 
             if(responseList.size() > 0) {
-                insert responseList;
+                if(Schema.sObjectType.Survey_Response__c.isCreateable()) {
+                    insert responseList;
+                } else {
+                    throw new SurveyControllerException('You are not allowed to create this record(s).');
+                }
             }
 
             Survey__c survey = new Survey__c();
             survey.Id = responseWrapperList[0].surveyId;
-            survey.Status__c = 'Closed';
-            update survey;
+            if (Schema.sObjectType.Survey__c.fields.Status__c.isUpdateable()) {
+                survey.Status__c = 'Closed';
+                update survey;
+            } else {
+                throw new SurveyControllerException('You are not allowed to update this record(s).');
+            }
 
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage());
@@ -112,5 +120,11 @@ public with sharing class SurveyController {
         @AuraEnabled public String surveyId;
         @AuraEnabled public String response;
     }
+
+    /**
+    * @description Custom exception class
+    * 
+    */       
+    public class SurveyControllerException extends Exception {}
 
 }
