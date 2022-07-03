@@ -2,7 +2,7 @@ global class IvysaurBatchApex implements Database.Batchable<sObject>, Database.s
    global Integer number_batches = 0;
 
    global Database.QueryLocator start(Database.BatchableContext BC){
-      return Database.getQueryLocator('SELECT Id FROM Account');
+      return Database.getQueryLocator('SELECT Id FROM Account WITH SECURITY_ENFORCED');
    }
 
    global void execute(Database.BatchableContext BC, List<sObject> scope){
