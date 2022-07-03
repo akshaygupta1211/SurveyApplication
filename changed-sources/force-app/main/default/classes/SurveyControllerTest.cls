@@ -55,7 +55,7 @@ public class SurveyControllerTest {
         System.runAs(userList[0]) {
             SurveyController.SurveyWrapper wrapper = SurveyController.getDetails();
 
-            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name, 'Survey should be assigned.');
+            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name, 'Survey should be assigned');
         }
         
         Test.stopTest();
@@ -90,14 +90,14 @@ public class SurveyControllerTest {
             
             SurveyController.submitResponses(JSON.serialize(wrapperList));
 
-            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to closed.');
+            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to closed');
         }
         
         Test.stopTest();
     }
 
     /**
-    *@description test method simulating exception in application
+    *@description test method simulating exception
     *
     */
     @isTest
@@ -105,7 +105,7 @@ public class SurveyControllerTest {
         try {
             SurveyController.submitResponses(null);
         } catch(Exception ex) {
-            System.assertEquals('System.AuraHandledException', ex.getTypeName(), 'Exception should be thrown.');
+            System.assertEquals('System.AuraHandledException', ex.getTypeName(), 'Exception should be thrown');
         }
     }    
 
