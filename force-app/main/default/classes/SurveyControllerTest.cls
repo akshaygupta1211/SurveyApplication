@@ -24,8 +24,8 @@ public class SurveyControllerTest {
         insert survey;
         
         List<Survey_Question__c> questionList = new List<Survey_Question__c>();
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
-        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our product(s)?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
+        questionList.add(new Survey_Question__c(Name = 'How much you would rate our service(s)?', Survey__c = survey.Id, Response_Type__c = 'Radio-button'));
         insert questionList;
 
         List<Survey_Answer__c> answerList = new List<Survey_Answer__c>();
