@@ -7,11 +7,11 @@ then
     #Loop through all the test classes files and store the names in csv format   
     for file in changed-sources/force-app/main/default/classes/*Test.cls
     do
-        FILE_NAMES+="$file,"
+        FILE_NAMES+="$(basename ${file} .cls),"
     done
     FILE_NAMES=${FILE_NAMES:0:${#FILE_NAMES}-1}
 fi
-echo "${FILE_NAMES}"
+
 #If no changes detected in test class(es) just run validation
 if [ ${#FILE_NAMES} == 0 ]
 then
