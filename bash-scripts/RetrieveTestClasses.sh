@@ -3,11 +3,8 @@
 #Check if changed-sources contain classes
 if [[ -d changed-sources/force-app/main/default/classes ]]
 then
-    FILES=$(ls changed-sources/force-app/main/default/classes *Test.cls)
-    FILE_NAMES=""
-    
-    #Loop through all the files and store the names in csv format    
-    for file in $FILES
+    #Loop through all the test classes files and store the names in csv format    
+    for file in force-app/main/default/classes/*Test.cls
     do
         FILE_NAMES+="$file,"
     done
