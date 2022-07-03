@@ -4,7 +4,6 @@
 */
 public with sharing class SurveyController {
     
-
     /**
     * @description Method for getting the details for survey assigned to the running user.
     * 
@@ -19,7 +18,7 @@ public with sharing class SurveyController {
 
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
+            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned' WITH SECURITY_ENFORCED].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
@@ -51,6 +50,10 @@ public with sharing class SurveyController {
         }
     } 
 
+    /**
+    * @description Method for handling the submission of response(s)
+    * 
+    */    
     @AuraEnabled
     public static void submitResponses(String responseWrapper) {
         List<Survey_Response__c> responseList = new List<Survey_Response__c>();       
