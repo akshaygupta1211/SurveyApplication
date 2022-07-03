@@ -31,7 +31,10 @@ jobs:
         run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
 
       - name: Install code analysis plugin
-        run: sfdx plugins:install @salesforce/sfdx-scanner
+        run: sfdx plugins:install @salesforce/sfdx-scanner && sfdx plugins:install @salesforce/sfdx-scanner
+
+      - name: Run code scan
+        run: sfdx scanner:run --target "force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
 
       - name: Running validation
         run: sfdx force:source:deploy -c -p force-app
