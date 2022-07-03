@@ -44,7 +44,7 @@ public class SurveyControllerTest {
     }
 
     /**
-    *@description test method checking if the survey is assigned to user
+    *@description test method for checking if the survey is assigned to user
     *
     */
     @isTest
