@@ -82,12 +82,20 @@ public with sharing class SurveyController {
         }
     } 
 
+    /**
+    * @description Wrapper class containing survey details and QuestionWrapper.
+    * 
+    */        
     public class SurveyWrapper {
         @AuraEnabled public String surveyId;
         @AuraEnabled public String title;
         @AuraEnabled public List<QuestionWrapper> questions;
     }
 
+    /**
+    * @description Wrapper class containing the question and answers' details.
+    * 
+    */        
     public class QuestionWrapper {
         @AuraEnabled public String questionId;
         @AuraEnabled public String name;
@@ -95,6 +103,10 @@ public with sharing class SurveyController {
         @AuraEnabled public List<Survey_Answer__c> answers;        
     }    
 
+    /**
+    * @description Wrapper class containing survey, question and responses
+    * 
+    */        
     public class ResponseWrapper {
         @AuraEnabled public String questionId;
         @AuraEnabled public String surveyId;
