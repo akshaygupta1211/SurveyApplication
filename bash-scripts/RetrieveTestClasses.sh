@@ -14,12 +14,12 @@ then
     do
         FILE_NAMES+="$file,"
     done
-
+    FILE_NAMES=${FILE_NAMES:0:${#FILE_NAMES}-1}
 fi
 
 if [ ${#FILE_NAMES} == 0 ]
 then
-    sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
+    sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml
 else
-    sfdx force:source:deploy -c -x ${{ github.event.repository.name }}/changed-sources/package/package.xml --classnames "${FILE_NAMES}" --resultformat tap --codecoverage
+    sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --classnames "${FILE_NAMES}" --resultformat tap --codecoverage
 fi    
