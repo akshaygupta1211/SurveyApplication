@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #Check if changed-sources contain salesforce changes
-ls -la
 if [[ -d changed-sources/force-app/main/default ]]
 then
     echo "Changes detected in following file(s):"
