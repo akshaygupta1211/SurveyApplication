@@ -91,7 +91,7 @@ public class SurveyControllerTest {
             
             SurveyController.submitResponses(JSON.serialize(wrapperList));
 
-            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to closed.');
+            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to Closed.');
         }
         
         Test.stopTest();
