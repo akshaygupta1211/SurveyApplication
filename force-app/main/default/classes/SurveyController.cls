@@ -6,7 +6,7 @@ public with sharing class SurveyController {
     
     /**
     * @description Method for getting the details for survey assigned to the running user.
-    * 
+    * @return SurveyWrapper
     */
     @AuraEnabled(cacheable=true)
     public static SurveyWrapper getDetails() {
@@ -52,7 +52,7 @@ public with sharing class SurveyController {
 
     /**
     * @description Method for handling the submission of response(s)
-    * 
+    * @param ResponseWrapper
     */    
     @AuraEnabled
     public static void submitResponses(String responseWrapper) {

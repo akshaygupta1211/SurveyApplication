@@ -18,7 +18,7 @@ then
     echo "Changes detected in following test class(es): ${FILE_NAMES}"
     
     #If no changes detected in test class(es) just run validation
-    if [ "${FILE_NAMES}" == "*Test," ]
+    if [ "${FILE_NAMES}" == "*Test" ]
     then
         echo "Running validation"
         sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --verbose
