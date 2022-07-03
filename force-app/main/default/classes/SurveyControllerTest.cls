@@ -72,7 +72,7 @@ public class SurveyControllerTest {
     @isTest
     public static void testSubmitResponses() {
         List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
-        List<Survey_Question__c> questionList = [SELECT Id, Survey__c FROM Survey_Question__c LIMIT 2];
+        List<Survey_Question__c> questionList = [SELECT Id, Survey__c FROM Survey_Question__c LIMIT 3];
 
         Test.startTest();
 
