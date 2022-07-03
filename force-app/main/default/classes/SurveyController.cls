@@ -1,3 +1,7 @@
+/**
+* @description controller class for SurveyComponent
+* @author Akshay Gupta
+*/
 public with sharing class SurveyController {
     
     @AuraEnabled(cacheable=true)
