@@ -47,7 +47,8 @@ public class SurveyControllerTest {
     *@description test method checking if the survey is assigned to user
     *
     */
-    public static testMethod void testGetDetails() {
+    @isTest
+    public static void testGetDetails() {
         List<User> userList = [SELECT Id FROM User WHERE UserName='standarduser@testorgmail.com' LIMIT 1];
 
         Test.startTest();
@@ -90,7 +91,7 @@ public class SurveyControllerTest {
             
             SurveyController.submitResponses(JSON.serialize(wrapperList));
 
-            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to closed.');
+            System.assertEquals([SELECT Status__c FROM Survey__c][0].Status__c, 'Closed', 'Survey status should be updated to Closed.');
         }
         
         Test.stopTest();
