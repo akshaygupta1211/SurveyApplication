@@ -18,14 +18,14 @@ public with sharing class SurveyController {
 
             Id assigneeUserId = UserInfo.getUserId();
 
-            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned'].get(0);
+            Survey__c survey = [SELECT Id, Name, (SELECT Id FROM Survey_Questions__r) FROM Survey__c WHERE Assign_To__c =: assigneeUserId AND Status__c = 'Assigned' WITH SECURITY_ENFORCED].get(0);
 
             for(Survey_Question__c question : survey.Survey_Questions__r) {
                 questionIdSet.add(question.Id);
             }
 
             if(questionIdSet.size() > 0) {
-                questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet];                
+                questionList = [SELECT Id, Name, Response_Type__c, (SELECT Id, Name FROM Survey_Answers__r ORDER BY Name ASC) FROM Survey_Question__c WHERE Id IN :questionIdSet WITH SECURITY_ENFORCED];                
             }
 
             if(questionList.size() > 0) {
