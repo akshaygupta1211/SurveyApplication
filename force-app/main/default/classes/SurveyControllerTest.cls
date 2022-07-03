@@ -6,7 +6,7 @@
 public class SurveyControllerTest {
 
     /**
-    *@description method for preparing data
+    *@description method for preparing test data
     *
     */
     @TestSetup
@@ -55,7 +55,7 @@ public class SurveyControllerTest {
         System.runAs(userList[0]) {
             SurveyController.SurveyWrapper wrapper = SurveyController.getDetails();
 
-            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name, 'Survey should be assigned.');
+            System.assertEquals(wrapper.title, [SELECT Name FROM Survey__c][0].Name, 'Survey should be assigned to the user.');
         }
         
         Test.stopTest();
