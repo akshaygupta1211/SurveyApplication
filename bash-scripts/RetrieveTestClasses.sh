@@ -1,22 +1,22 @@
 #!/bin/bash
 
-FILE_NAMES="" 
-#Check if changed-sources contain classes
-if [[ -d changed-sources/force-app/main/default/classes ]]
-then
-    #Loop through all the test classes files and store the names in csv format   
-    for file in changed-sources/force-app/main/default/classes/*Test.cls
-    do
-        FILE_NAMES+="$(basename ${file} .cls),"
-    done
-    FILE_NAMES=${FILE_NAMES:0:${#FILE_NAMES}-1}
-fi
-
-echo "Changes detected in following test class(es): ${FILE_NAMES}"
-
 #Check if changed-sources contain salesforce changes
 if [[ -d changed-sources/force-app/main/default ]]
 then
+    FILE_NAMES="" 
+    #Check if changed-sources contain classes
+    if [[ -d changed-sources/force-app/main/default/classes ]]
+    then
+        #Loop through all the test classes files and store the names in csv format   
+        for file in changed-sources/force-app/main/default/classes/*Test.cls
+        do
+            FILE_NAMES+="$(basename ${file} .cls),"
+        done
+        FILE_NAMES=${FILE_NAMES:0:${#FILE_NAMES}-1}
+    fi
+
+    echo "Changes detected in following test class(es): ${FILE_NAMES}"
+    
     #If no changes detected in test class(es) just run validation
     if [ ${#FILE_NAMES} == 0 ]
     then
