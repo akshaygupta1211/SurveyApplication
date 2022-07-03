@@ -6,7 +6,7 @@
 public class SurveyControllerTest {
 
     /**
-    *@description method for preparing data
+    *@description method for preparing test data
     *
     */
     @TestSetup
