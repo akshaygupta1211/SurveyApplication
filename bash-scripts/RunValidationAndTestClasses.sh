@@ -15,10 +15,15 @@ then
         FILE_NAMES=${FILE_NAMES:0:${#FILE_NAMES}-1}
     fi
 
-    echo "Changes detected in following test class(es): ${FILE_NAMES}"
+    if [ ${#FILE_NAMES} != 0 ]
+    then
+        echo "Changes detected in following test class(es): ${FILE_NAMES}"
+    else
+        echo "No test class changes detected!"
+    fi    
     
     #If no changes detected in test class(es) just run validation
-    if [ "${FILE_NAMES}" == "*Test" ]
+    if [ "${FILE_NAMES}" == "*Test" ] || [ "${FILE_NAMES}" == "" ] 
     then
         echo "Running validation"
         sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --verbose

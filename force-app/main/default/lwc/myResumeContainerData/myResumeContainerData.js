@@ -79,7 +79,9 @@ export const EXPERIENCE_DATA={
                     "Aura",
                     "Experience Sites",
                     "Git",
-                    "Bitbucket"
+                    "Bitbucket",
+                    "Pardot",
+                    "REST API"
                 ]
             }
         },
