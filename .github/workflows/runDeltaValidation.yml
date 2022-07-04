@@ -16,7 +16,7 @@ env:
   REPO_NAME: ${{ github.event.repository.name }}
   SERVER_URL: ${{ github.server_url }}
   REPOSITORY: ${{ github.repository }}
-  BRANCH: ${GITHUB_HEAD_REF}
+  BRANCH: ${{ github.head_ref }}
   JWT_KEY: ${{ secrets.JWT_KEY }}
   CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
   USER_NAME: ${{ secrets.USER_NAME }}
