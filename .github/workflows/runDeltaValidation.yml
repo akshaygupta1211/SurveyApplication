@@ -14,6 +14,12 @@ on:
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
+  SERVER_URL: ${{ github.server_url }}
+  REPOSITORY: ${{ github.repository }}
+  BRANCH: ${{ github.head_ref }}
+  JWT_KEY: ${{ secrets.JWT_KEY }}
+  CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
+  USER_NAME: ${{ secrets.USER_NAME }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,16 +37,11 @@ jobs:
         with:
           repository: ${{ github.repository }}
 
-      - name: Clone the repository for later use
-        run: git clone ${{ github.server_url }}/${{ github.repository }}
-
       - name: Install delta generator and code scanner plugin
         run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
 
       - name: Generate the package consisting of delta changes
-        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && 
-              sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta &&
-              chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
+        run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Run code scan on delta changes
         run: chmod +x ./bash-scripts/RunCodeScan.sh && ./bash-scripts/RunCodeScan.sh
@@ -58,26 +59,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
-
-      - name: Clone the repository for later use
-        run: git clone ${{ github.server_url }}/${{ github.repository }}
-
-      - name: Copy jwt token
-        run: echo "${{ secrets.JWT_KEY }}" > jwt.key
       
-      - name: Authorize with the org
-        run: sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
-      
-      - name: Set configuration
-        run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+      - name: Authorize with the org and set configuration
+        run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
       - name: Install delta generator and code scanner plugin
         run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
 
       - name: Generate the package consisting of delta changes
-        run:  cd ${{ github.event.repository.name }} && mkdir changed-sources && 
-              sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta && 
-              chmod +x ./bash-scripts/DetectedSFChanges.sh && ./bash-scripts/DetectedSFChanges.sh
+        run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Get test classes if any from delta changes and run validation.
         run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
