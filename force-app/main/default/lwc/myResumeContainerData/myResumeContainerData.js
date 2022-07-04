@@ -81,7 +81,8 @@ export const EXPERIENCE_DATA={
                     "Git",
                     "Bitbucket",
                     "Pardot",
-                    "REST API"
+                    "REST API",
+                    "Javascript"
                 ]
             }
         },
