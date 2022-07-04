@@ -1,3 +1,7 @@
+/**
+* @description Test class for BotController, BotHandler, BotResponse
+* @author Akshay Gupta
+*/
 @isTest
 public class BotTest {
     
@@ -94,7 +98,7 @@ public class BotTest {
         insert c;
         BotHandler handler = new HandlerMyOpenCases();
         BotResponse response = handler.handle('', null, null, null, null);
-        System.assert(response.messages[0].records.size() == 1);
+        System.assert(response.messages[0].records.size() == 1, 'New case should be created.');
     }
 
     @isTest
