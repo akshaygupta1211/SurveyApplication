@@ -1,5 +1,15 @@
 #!/bin/bash
 
+git clone ${SERVER_URL}/${REPOSITORY}
+
+cd ${REPO_NAME}
+
+git checkout ${BRANCH}
+
+mkdir changed-sources 
+
+sfdx sgd:source:delta --source force-app/main/default --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta
+
 #Check if changed-sources contain salesforce changes
 if [[ -d changed-sources/force-app/main/default ]]
 then
