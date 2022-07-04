@@ -29,9 +29,9 @@ public class CustomAccountControllerTest {
 
         System.runAs(userList[0]) {
 
-            Id accountId = CustomAccountController.addAccount('Test Account ' + Date.today(), 'Customer - Direct');
+            Id accountId = CustomAccountController.addAccount('Test Account 2', 'Customer - Direct');
 
-            String name = 'Test Account' + Date.today();
+            String name = 'Test Account 2';
 
             System.assertEquals([SELECT Id FROM Account WHERE Name =: name].get(0).Id, accountId, 'Account should be created.');
 
