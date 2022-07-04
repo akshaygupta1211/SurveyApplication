@@ -31,7 +31,7 @@ public class CustomAccountControllerTest {
 
             Id accountId = CustomAccountController.addAccount('Test Account ' + Date.today(), 'Customer - Direct');
 
-            System.assertEquals([SELECT Id FROM Account WHERE Name =: 'Test Account' + Date.today()], accountId, 'Account should be created.');
+            System.assertEquals([SELECT Id FROM Account WHERE Name =: 'Test Account' + Date.today()].get(0).Id, accountId, 'Account should be created.');
 
         }
     }
