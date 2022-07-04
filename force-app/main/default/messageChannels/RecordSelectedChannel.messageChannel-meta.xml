@@ -7,11 +7,11 @@
         <fieldName>recordId</fieldName>
     </lightningMessageFields>
     <lightningMessageFields>
-        <description>This is the record email of the record that changed</description>
+        <description>This is the email of the record that changed</description>
         <fieldName>recordAddress</fieldName>
     </lightningMessageFields>
     <lightningMessageFields>
-        <description>This is the record name of the record that changed</description>
+        <description>This is the name of the record that changed</description>
         <fieldName>recordName</fieldName>
     </lightningMessageFields>
     <masterLabel>RecordSelectedChannel</masterLabel>
