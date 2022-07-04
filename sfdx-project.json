@@ -8,5 +8,5 @@
   "name": "SurveyApplication",
   "namespace": "",
   "sfdcLoginUrl": "https://akshaygupta-dev-ed.my.salesforce.com",
-  "sourceApiVersion": "55.0"
+  "sourceApiVersion": "54.0"
 }

@@ -4,7 +4,10 @@ git clone ${SERVER_URL}/${REPOSITORY}
 
 cd ${REPO_NAME}
 
-git checkout ${BRANCH}
+if [ "${JOB_TYPE}" == "Validation" ]
+then
+    git checkout ${BRANCH}
+fi
 
 mkdir changed-sources 
 

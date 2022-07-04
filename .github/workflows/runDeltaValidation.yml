@@ -20,6 +20,7 @@ env:
   JWT_KEY: ${{ secrets.JWT_KEY }}
   CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
   USER_NAME: ${{ secrets.USER_NAME }}
+  JOB_TYPE: "Validation"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
