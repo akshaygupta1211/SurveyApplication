@@ -5,6 +5,15 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  REPO_NAME: ${{ github.event.repository.name }}
+  SERVER_URL: ${{ github.server_url }}
+  REPOSITORY: ${{ github.repository }}
+  BRANCH: ${{ github.head_ref }}
+  JWT_KEY: ${{ secrets.JWT_KEY }}
+  CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
+  USER_NAME: ${{ secrets.USER_NAME }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Code-Scan:
@@ -41,14 +50,8 @@ jobs:
         with:
           repository: ${{ github.repository }}
       
-      - name: Copy jwt token
-        run: echo "${{ secrets.JWT_KEY }}" > jwt.key
-      
-      - name: Authorize with the org
-        run: sfdx auth:jwt:grant --clientid ${{ secrets.CLIENT_KEY }} --jwtkeyfile jwt.key --username ${{ secrets.USER_NAME }}
-      
-      - name: Set configuration
-        run: sfdx config:set defaultusername=${{ secrets.USER_NAME }}
+      - name: Authorize with the org and set configuration
+        run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
       - name: Install code analysis plugin
         run: sfdx plugins:install @salesforce/sfdx-scanner && sfdx plugins:install @salesforce/sfdx-scanner
