@@ -56,6 +56,7 @@ export const EXPERIENCE_DATA={
                     "LWC",
                     "HTML5/CSS",
                     "SOQL",
+                    "Javascript"
                 ]
             },
         },
@@ -76,7 +77,9 @@ export const EXPERIENCE_DATA={
                     "HTML5/CSS",
                     "SOQL",
                     "Aura",
-                    "Experience Sites"
+                    "Experience Sites",
+                    "Git",
+                    "Bitbucket"
                 ]
             }
         },
@@ -172,7 +175,8 @@ export const SKILLS_DATA ={
             "Docker",
             "JIRA",
             "Bitbucket",
-            "Confluence"]
+            "Confluence"
+        ]
     }
 }
 
