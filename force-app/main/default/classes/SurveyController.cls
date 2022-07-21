@@ -69,7 +69,7 @@ public with sharing class SurveyController {
             }
 
             if(responseList.size() > 0) {
-                if(Schema.sObjectType.Survey_Response__c.isCreateable()) {
+                if(Survey_Response__c.sObjectType.getDescribe().isCreatable()) {
                     insert responseList;
                 } else {
                     throw new SurveyControllerException('You are not allowed to create this record(s).');
