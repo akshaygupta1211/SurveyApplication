@@ -1,3 +1,7 @@
+/**
+* @description Controller class for Survey_Response__c object
+* @author Akshay Gupta
+*/
 public with sharing class SurveyResponseController {
 
     public static void updateSurveyScore(Map<Id, Survey_Response__c> responseMap) {
@@ -6,7 +10,7 @@ public with sharing class SurveyResponseController {
             for(Survey_Response__c response : responseMap.values()) {
                 surveyIdSet.add(response.Survey__c);
             }
-            List<Survey__c> surveyList = [SELECT Id, Score__c, (SELECT Value__c, Survey_Question__r.Response_Type__c FROM Survey_Responses__r) FROM Survey__c WHERE Id IN :surveyIdSet];
+            List<Survey__c> surveyList = [SELECT Id, Score__c, (SELECT Value__c, Survey_Question__r.Response_Type__c FROM Survey_Responses__r) FROM Survey__c WHERE Id IN :surveyIdSet WITH SECURITY_ENFORCED];
             List<Survey__c> surveyListToUpdate = new List<Survey__c>();
 
             for(Survey__c survey : surveyList) {
@@ -33,11 +37,11 @@ public with sharing class SurveyResponseController {
                 surveyListToUpdate.add(surveyToUpdate);
             }
     
-            if(surveyListToUpdate.size() > 0) {
+            if(surveyListToUpdate.size() > 0 && Schema.sObjectType.Survey__c.fields.Score__c.isUpdateable()) {
                 update surveyListToUpdate;
             }
         } catch(Exception ex) {
-            System.debug(ex);
+            //System.debug(ex);
         }
     }
 
