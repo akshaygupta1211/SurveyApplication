@@ -101,7 +101,7 @@ public with sharing class SurveyController {
     }
 
     /**
-    * @description Wrapper class containing the question and answers' details.
+    * @description Wrapper class containing the questions' and answers' details.
     * 
     */        
     public class QuestionWrapper {

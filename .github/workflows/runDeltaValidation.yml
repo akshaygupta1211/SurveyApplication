@@ -17,6 +17,7 @@ env:
   SERVER_URL: ${{ github.server_url }}
   REPOSITORY: ${{ github.repository }}
   BRANCH: ${{ github.head_ref }}
+  PR_BODY: ${{ github.event.pull_request.body }}
   JWT_KEY: ${{ secrets.JWT_KEY }}
   CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
   USER_NAME: ${{ secrets.USER_NAME }}
@@ -24,12 +25,6 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  print_body_of_pr:
-    runs-on: ubuntu-20.04
-    steps:
-    - name : Print body of PR
-      run: echo The body of your PR is ${{ github.event.pull_request.body }}
-
   Code-Scan: 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -77,4 +72,4 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Get test classes if any from delta changes and run validation.
-        run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
+        run: echo ${{ github.event.pull_request.body }} && chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
