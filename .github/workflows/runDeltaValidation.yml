@@ -24,6 +24,12 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  print_body_of_pr:
+    runs-on: ubuntu-20.04
+    steps:
+    - name : Print body of PR
+      run: echo The body of your PR is ${{ github.event.pull_request.body }}
+
   Code-Scan: 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
