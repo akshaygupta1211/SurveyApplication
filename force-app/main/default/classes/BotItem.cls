@@ -1,4 +1,4 @@
-public class BotItem {
+public with sharing class BotItem {
 
     @AuraEnabled public String name { get;set; }
     @AuraEnabled public String linkURL { get;set; }
