@@ -72,4 +72,4 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Get test classes if any from delta changes and run validation.
-        run: echo ${{ github.event.pull_request.body }} && chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
+        run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
