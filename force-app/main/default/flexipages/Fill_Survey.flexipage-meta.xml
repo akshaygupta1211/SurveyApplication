@@ -4,6 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>surveyComponent</componentName>
+                <identifier>c_surveyComponent1</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

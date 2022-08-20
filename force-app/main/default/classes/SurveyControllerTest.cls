@@ -18,7 +18,7 @@ public class SurveyControllerTest {
         insert testUser;    
 
         Survey__c survey = new Survey__c();
-        survey.Name = 'Product and Service Survey';
+        survey.Name = 'New Product and Service Survey';
         survey.Status__c = 'Assigned';
         survey.Assign_To__c = testUser.Id;
         insert survey;
