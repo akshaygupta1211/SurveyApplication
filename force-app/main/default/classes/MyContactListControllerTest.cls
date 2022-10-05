@@ -14,7 +14,7 @@ public class MyContactListControllerTest {
         Contact cont = new Contact();
         cont.FirstName = 'John';
         cont.LastName = 'Doe';
-        cont.AccountId acc.Id;
+        cont.AccountId = acc.Id;
         insert cont;
 
     }
