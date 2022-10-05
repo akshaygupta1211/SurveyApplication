@@ -1,3 +1,4 @@
+/**
 * @description Controller class for MyContactList Component
 * @author Akshay Gupta
 */
