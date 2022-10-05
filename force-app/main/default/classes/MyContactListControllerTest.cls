@@ -13,7 +13,7 @@ public class MyContactListControllerTest {
 
         Contact cont = new Contact();
         cont.FirstName = 'John';
-        cont.LastName = 'Doe';
+        cont.LastName = 'Dong';
         cont.AccountId = acc.Id;
         insert cont;
 
@@ -25,6 +25,6 @@ public class MyContactListControllerTest {
 
         List<Contact> contList = MyContactListController.getContacts(acc.Id);
 
-        System.assertEquals(1, contList.size());
+        System.assertEquals(1, contList.size(), 'Contact records should be returned.');
     }
 }
