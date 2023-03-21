@@ -4,12 +4,10 @@
 
 # Constants
 readonly CHANGED_SRC_LIST_FILE='ChangedFileNames.txt'
-readonly SFDC_PACKAGE_CHANGE_DIR='src/package.xml'
+readonly SFDC_PACKAGE_CHANGE_DIR='manifest/package.xml'
 readonly OUTPUT_XML_FILE='package.xml'
 readonly API_VERSION=56.0
 readonly jsonData='v56.json'
-readonly source=$0
-readonly destination=$1
 
 # Declare an empty array variable
 declare -a lines
@@ -32,7 +30,7 @@ touch "${CHANGED_SRC_LIST_FILE}"
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" >> "${OUTPUT_XML_FILE}"
 echo "<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">" >> "${OUTPUT_XML_FILE}"
 
-git diff $source..$destination --name-only > "${CHANGED_SRC_LIST_FILE}"
+git diff $1..$2 --name-only > "${CHANGED_SRC_LIST_FILE}"
 
 readarray -t lines < "$CHANGED_SRC_LIST_FILE"
 
@@ -42,15 +40,15 @@ previous_file=''
 for line in "${lines[@]}"
 do
   echo "Processing file(s) "$i" out of ${#lines[@]}" 
-  if [[ "$line" == *"$SFDC_PACKAGE_CHANGE_DIR"* ]] || [[ "$line" != *"src/"* ]]; then
+  if [[ "$line" == *"$SFDC_PACKAGE_CHANGE_DIR"* ]] || [[ "$line" != *"force-app/main/default"* ]]; then
     continue
   else
-    directory_name=$(echo "${line}" | cut -d'/' -f2)
+    directory_name=$(echo "${line}" | cut -d'/' -f4)
     if [[ "${exceptional_metadata[*]}" =~ "$directory_name" ]]; then
-      temp_line=$(echo "${line}" | cut -d'/' -f3)
+      temp_line=$(echo "${line}" | cut -d'/' -f5)
       file_name=$(echo ${temp_line//$(echo "${exceptional_metadata_suffix[$directory_name]}")})
     else
-      file_name=$(echo "${line}" | cut -d'/' -f3 | cut -d'.' -f1)
+      file_name=$(echo "${line}" | cut -d'/' -f5 | cut -d'.' -f1)
     fi
     metadata_name=$(echo ${metadata_array[$directory_name]})
     if [[ "$previous_file" != "$file_name" ]]; then
