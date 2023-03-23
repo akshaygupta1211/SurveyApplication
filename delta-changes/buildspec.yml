@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  shell: /bin/sh
+  parameter-store:
+    USER_NAME: '{{resolve:ssm-secure:/CodeBuild/ORG_USERNAME:1}}'
+    PASSWORD: '{{resolve:ssm-secure:/CodeBuild/ORG_PASSWORD:1}}'
+  variables:
+    SERVER_URL: '{{resolve:ssm:serverurl}}'
+    REPO_URL: 'https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/SurveyApplication.git'
+    REPO_NAME: 'SurveyApplication'
+  git-credential-helper: yes
+phases:
+  install:
+    commands:
+      - sudo yum install java-1.8.0-amazon-corretto-devel -y
+      - sudo yum install git -y
+      - sudo echo JAVA_HOME=$(which java) >> ~/.bash_profile
+      - wget https://dlcdn.apache.org//ant/binaries/apache-ant-1.9.16-bin.tar.gz
+      - tar -xzf apache-ant-1.9.16-bin.tar.gz
+      - sudo echo ANT_HOME=$(echo "$(pwd)/apache-ant-1.9.16-bin/bin") >> ~/.bash_profile
+  build:
+    commands:
+      - echo "sf.username = ${USER_NAME}" >> build.properties
+      - echo "sf.password = ${PASSWORD}" >> build.properties
+      - echo "sf.serverurl = ${SERVER_URL}" >> build.properties
+      - echo "sf.maxPoll = 20" >> build.properties
+      - chmod +x ./gdp.sh
+      - ./gdp.sh feature/addedBuildfiles master
+      - ant validate -verbose
