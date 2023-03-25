@@ -17,12 +17,16 @@ phases:
       - sudo yum install git -y
       - echo JAVA_HOME=$(which java) >> ~/.bash_profile
       - |
-        if ! [ -f "cache-dir/apache-ant.tar.gz" ]; then
+        if ! [ -d "cache-dir" ]; then
+          mkdir cache-dir
+        fi      
+      - |
+        if ! [ -d "cache-dir/apache-ant-1.9.16" ]; then
           curl -L -o cache-dir/apache-ant.tar.gz https://dlcdn.apache.org//ant/binaries/apache-ant-1.9.16-bin.tar.gz
-          tar -xzf cache-dir/apache-ant.tar.gz -C cache-dir
-          echo "ANT_HOME=$(pwd)/cache-dir/apache-ant-1.9.16" >> ~/.bash_profile
-          source ~/.bash_profile          
+          tar -xzf cache-dir/apache-ant.tar.gz -C cache-dir         
         fi
+      - echo "ANT_HOME=$(pwd)/cache-dir/apache-ant-1.9.16" >> ~/.bash_profile
+      - source ~/.bash_profile 
 
   pre_build:
     commands:
