@@ -12,7 +12,7 @@ export const SOCIAL_LINKS=[
     {
         type: "linkedin",
         label: "linkedin/akshaygupta",
-        link: "https://www.linkedin.com/in/akshay-gupta-9b4a99163/",
+        link: "https://www.linkedin.com/",
         icon: SOCIAL + '/SOCIAL/linkedin.svg'
     },
     {
@@ -26,8 +26,8 @@ export const SOCIAL_LINKS=[
 export const USER_DETAILS={
     NAME:'Akshay Gupta',
     ROLE:'Salesforce Developer',
-    EMAIL:'akshaygupta1997@outlook.com',
-    PHONE:'+91 9305611680'
+    EMAIL:'akshaygupta@outlook.com',
+    PHONE:'+91 9876543210'
 }
 
 export const CAREER_SUMMARY={
@@ -42,7 +42,7 @@ export const EXPERIENCE_DATA={
     EXPERIENCES: [
         {
             ROLE: "Software Engineer",
-            COMPANY_NAME: "Telstra",
+            COMPANY_NAME: "XYZ Inc.",
             DURATION: "2021 - Present",
             DESCRIPTION:
                 "Working primarily as a Salesforce and Cloudsense developer, also acting as SME for improving security posture of our org.",
@@ -62,7 +62,7 @@ export const EXPERIENCE_DATA={
         },
         {
             ROLE: "Associate Consultant",
-            COMPANY_NAME: "Capgemini",
+            COMPANY_NAME: "ABC Industries",
             DURATION: "2019 - 2021",
             DESCRIPTION:
                 "Worked as a Salesforce Developer and Administrator, developed custom solution using LWC and Aura. Participated in the devops team as release manager and also performed data migration.",
@@ -96,7 +96,7 @@ export const EXPERIENCE_DATA={
      LIST:[
          {
              NAME: "Bachelors in Electronics and Communication Engineering",
-             UNIVERSITY_NAME: "National Institute of Technology Patna",
+             UNIVERSITY_NAME: "National Institute of Technology",
              DURATION: "2015 - 2019",
          }
      ]
