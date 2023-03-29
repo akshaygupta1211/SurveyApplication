@@ -22,7 +22,7 @@ declare -r API_VERSION=51.0
 
 declare -a lines
 declare -a apex_classes_list=()
-declare -a exceptional_metadata=("customMetadata" "quickActions")
+declare -a exceptional_metadata=("customMetadata" "quickActions" "approvalProcesses")
 
 declare -A exceptional_metadata_suffix=(
   ["customMetadata"]=".md"
@@ -33,43 +33,50 @@ declare -A exceptional_metadata_suffix=(
 # Parse the JSON text using jq and store the result in an associative array
 declare -A dir_xml_name_array
 
-eval $(jq -r 'to_entries[] | @sh "dir_xml_name_array[\(.key|tostring)]=\(.value)"' < $DIR_XML_NAME_JSON_DATA)
+eval $(jq -r 'to_entries[] | @sh "dir_xml_name_array[\(.key|tostring)]=\(.value)"' < "$DIR_XML_NAME_JSON_DATA")
 
 declare -A dir_meta_file_exist_array
 
-eval $(jq -r 'to_entries[] | @sh "dir_meta_file_exist_array[\(.key|tostring)]=\(.value)"' < $DIR_NAME_META_FILE_JSON_DATA)
+eval $(jq -r 'to_entries[] | @sh "dir_meta_file_exist_array[\(.key|tostring)]=\(.value)"' < "$DIR_NAME_META_FILE_JSON_DATA")
 
 declare -A test_class_mapping_array
 
-eval $(jq -r 'to_entries[] | @sh "test_class_mapping_array[\(.key|tostring)]=\(.value)"' < $TEST_CLASS_MAPPING_JSON_DATA)
+eval $(jq -r 'to_entries[] | @sh "test_class_mapping_array[\(.key|tostring)]=\(.value)"' < "$TEST_CLASS_MAPPING_JSON_DATA")
 
 
 # Creating directory to store changed sources and package.xml
 if [[ -d "$WORKING_DIR" ]]
 then
-  rm -Rf $WORKING_DIR || { echo "Error removing directory $WORKING_DIR"; exit 1; }
+  rm -Rf "$WORKING_DIR" || { echo "Error removing directory $WORKING_DIR"; exit 1; }
 fi
 
-mkdir -p $WORKING_DIR || { echo "Error creating directory $WORKING_DIR"; exit 1; }
+mkdir -p "$WORKING_DIR" || { echo "Error creating directory $WORKING_DIR"; exit 1; }
 
 if [[ -f "$CHANGED_SRC_LIST_FILE" ]]
 then
-  rm $CHANGED_SRC_LIST_FILE || { echo "Error removing file $CHANGED_SRC_LIST_FILE"; exit 1; }
+  rm -f "$CHANGED_SRC_LIST_FILE" || { echo "Error removing file $CHANGED_SRC_LIST_FILE"; exit 1; }
 fi
 
-touch $OUTPUT_XML_FILE || { echo "Error creating file $OUTPUT_XML_FILE"; exit 1; }
-touch $CHANGED_SRC_LIST_FILE || { echo "Error creating file $CHANGED_SRC_LIST_FILE"; exit 1; }
+touch "$OUTPUT_XML_FILE" || { echo "Error creating file $OUTPUT_XML_FILE"; exit 1; }
+touch "$CHANGED_SRC_LIST_FILE" || { echo "Error creating file $CHANGED_SRC_LIST_FILE"; exit 1; }
 
-pushd "$3" && git checkout $1 && git pull && git checkout $2 && git pull && git diff "$1..$2" --name-only --diff-filter=ACMR > "${CHANGED_SRC_LIST_FILE}" && popd || { echo "Error getting changed files list"; exit 1; }
+{pushd "$3" && git checkout "$2" && git pull && git checkout "$1" && git pull && git diff $(git merge-base "$1" "$2") "$1" --name-only --diff-filter=ACMRTUXB > "${CHANGED_SRC_LIST_FILE}" && popd} || { echo "Error getting changed files list"; exit 1; }
 
 while read line; do
   if [[ "$line" == *"src/"* ]] && [[ "$line" != *"src/package.xml"* ]]
   then
     directory_name=$(echo "${line}" | cut -d'/' -f2)
-    meta_file_exist=$(echo ${dir_meta_file_exist_array[$directory_name]})
-    install -Dv $3"/${line}" $WORKING_DIR/"${line}" || { echo "Error copying file $line to $WORKING_DIR"; exit 1; }
-    if [[ "$meta_file_exist" == true ]]; then
-      install -Dv $3"/${line}-meta.xml" $WORKING_DIR/"${line}-meta.xml" || { echo "Error copying meta file $line-meta.xml to $WORKING_DIR"; exit 1; }
+    meta_file_exist=$(echo "${dir_meta_file_exist_array[$directory_name]}")
+    install -Dv "$3""/${line}" "$WORKING_DIR"/"${line}" || { echo "Error copying file $line to $WORKING_DIR"; exit 1; }
+    if [[ "${exceptional_metadata[*]}" =~ "$directory_name" ]]
+    then
+      temp_line=$(echo "${line}" | cut -d'/' -f3)
+      file_name=$(echo "${temp_line//$(echo "${exceptional_metadata_suffix[$directory_name]}")}")
+    else
+      file_name=$(echo "${line}" | cut -d'/' -f3 | cut -d'.' -f1)
+    fi
+    if [[ "$meta_file_exist" == true ]] && [[ ! "$file_name" =~ *".cls-meta.xml"* ]]; then
+      install -Dv "$3""/${line}-meta.xml" "$WORKING_DIR"/"${line}-meta.xml" || { echo "Error copying meta file $line-meta.xml to $WORKING_DIR"; exit 1; }
     fi
   fi
 done < "${CHANGED_SRC_LIST_FILE}"
@@ -92,11 +99,11 @@ for line in "${lines[@]}"; do
     if [[ "${exceptional_metadata[*]}" =~ "$directory_name" ]]
     then
       temp_line=$(echo "${line}" | cut -d'/' -f3)
-      file_name=$(echo ${temp_line//$(echo "${exceptional_metadata_suffix[$directory_name]}")})
+      file_name=$(echo "${temp_line//$(echo "${exceptional_metadata_suffix[$directory_name]}")}")
     else
       file_name=$(echo "${line}" | cut -d'/' -f3 | cut -d'.' -f1)
     fi
-    metadata_name=$(echo ${dir_xml_name_array[$directory_name]})
+    metadata_name=$(echo "${dir_xml_name_array[$directory_name]}")
     if [[ "$directory_name" == "classes" ]]
     then
       apex_classes_list+=($file_name)
@@ -120,18 +127,20 @@ rm "$CHANGED_SRC_LIST_FILE" || { echo "Error: Failed to remove file $CHANGED_SRC
 mv "${OUTPUT_XML_FILE}" "$WORKING_DIR/src/package.xml" || { echo "Error: Failed to move package.xml file"; exit 1; }
 
 testClassNameList=""
-echo "Apex Class Changes Detected!!!"
 
 for class_name in "${!test_class_mapping_array[@]}"
 do
   if [[ "${apex_classes_list[*]}" =~ "$class_name" ]]
   then
-    test_class_name=$(echo ${test_class_mapping_array[$class_name]})
-    testClassNameList+="<runTest>${test_class_name}<\/runTest>"
+    test_class_name=$(echo "${test_class_mapping_array[$class_name]}")
+    testClassNameList+="<runTest>${test_class_name}<\/runTest>\n\t\t"
    fi
 done
 
-sed 's/<runTest><\/runTest>/'${testClassNameList}'/g' build_template.xml > build.xml
+if [[ "$testClassNameList" != "" ]]
+then
+  sed 's/<runTest><\/runTest>/'"${testClassNameList}"'/g' build_template.xml > build.xml || { echo "Error adding test classes to build.xml"; exit 1; }
+fi
 
-unset $apex_classes_list
+unset "$apex_classes_list"
 echo "Processing Completed!!"
