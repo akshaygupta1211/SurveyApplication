@@ -60,7 +60,12 @@ fi
 touch "$OUTPUT_XML_FILE" || { echo "Error creating file $OUTPUT_XML_FILE"; exit 1; }
 touch "$CHANGED_SRC_LIST_FILE" || { echo "Error creating file $CHANGED_SRC_LIST_FILE"; exit 1; }
 
-{pushd "$3" && git checkout "$2" && git pull && git checkout "$1" && git pull && git diff $(git merge-base "$1" "$2") "$1" --name-only --diff-filter=ACMRTUXB > "${CHANGED_SRC_LIST_FILE}" && popd} || { echo "Error getting changed files list"; exit 1; }
+pushd "$3" && git checkout "$2" && git pull && git checkout "$1" && git pull && git diff $(git merge-base "$1" "$2") "$1" --name-only --diff-filter=ACMRTUXB > "${CHANGED_SRC_LIST_FILE}" && popd || { echo "Error getting changed files list"; exit 1; }
+
+if [ ! -s "$CHANGED_SRC_LIST_FILE" ]
+then 
+  echo "There is no difference between the branches exiting..."; exit 0;
+fi
 
 while read line; do
   if [[ "$line" == *"src/"* ]] && [[ "$line" != *"src/package.xml"* ]]
