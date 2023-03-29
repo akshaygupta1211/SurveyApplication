@@ -21,7 +21,7 @@
 Help()
 {
    # Display Help
-   echo "This is a Bash script that generates a package.xml file based on the changes made to files in a Salesforce development environment."
+   echo "This script generates a package.xml file based on the changes made to files in a Salesforce development environment."
    echo
    echo "Syntax: ./gdp.sh -s feature/something -t release/something -d /path/To/Repository"
    echo "options:"
@@ -32,14 +32,19 @@ Help()
 }
 
 while getopts "s:t:d:" option; do
-   case "$option" in
-      s) source=${OPTARG};;
-      t) target=${OPTARG};;
-      d) directory=${OPTARG};;
-      *) Help
-   esac
+  case "$option" in
+    s) source=${OPTARG};;
+    t) target=${OPTARG};;
+    d) directory=${OPTARG};;
+    *) Help;;
+  esac
 done
 shift $((OPTIND - 1))
+
+if [[ -z "$source" ]] || [[ -z "$target" ]] || [[ -z "$directory" ]]
+then
+  Help
+fi
 
 set -euo pipefail
 
@@ -55,7 +60,7 @@ declare -r DIR_NAME_META_FILE_JSON_DATA="$SCRIPT_PATH/DirectoryNameMetafile_v56.
 declare -r TEST_CLASS_MAPPING_JSON_DATA="$SCRIPT_PATH/TestClassMapping.json"
 declare -r API_VERSION=51.0
 
-declare -a lines
+declare -a changed_file_path_list
 declare -a apex_classes_list=()
 declare -a exceptional_metadata=("customMetadata" "quickActions" "approvalProcesses")
 
@@ -102,7 +107,7 @@ then
   echo "There is no difference between the branches exiting..."; exit 0;
 fi
 
-while read line; do
+while read -r line; do
   if [[ "$line" == *"src/"* ]] && [[ "$line" != *"src/package.xml"* ]]
   then
     directory_name=$(echo "${line}" | cut -d'/' -f2)
@@ -125,14 +130,14 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" >> "${OUTPUT_XML_FILE}"
 echo "<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">" >> "${OUTPUT_XML_FILE}"
 
 # Reading the file as an array
-readarray -t lines < "$CHANGED_SRC_LIST_FILE"
+readarray -t changed_file_path_list < "$CHANGED_SRC_LIST_FILE"
 
 iterator=1
 previous_file=""
 
 # Skipping NON-SFDC and package.xml changes and appending relevant changes to package.xml
-for line in "${lines[@]}"; do
-  echo "Processing file(s) $iterator out of ${#lines[@]}"
+for line in "${changed_file_path_list[@]}"; do
+  echo "Processing file(s) $iterator out of ${#changed_file_path_list[@]}"
   if [[ "$line" == *"src/"* ]] && [[ "$line" != *"src/package.xml"* ]]
   then
     directory_name=$(echo "${line}" | cut -d'/' -f2)
@@ -182,5 +187,5 @@ then
   sed 's/<runTest><\/runTest>/'"${testClassNameList}"'/g' build_template.xml > build.xml || { echo "Error adding test classes to build.xml"; exit 1; }
 fi
 
-unset "$apex_classes_list"
+unset "${apex_classes_list[@]}"
 echo "Processing Completed!!"
