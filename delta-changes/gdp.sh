@@ -28,6 +28,7 @@ Help()
    echo "s     Name of the source branch."
    echo "t     Name of the target branch."
    echo "d     Absolute Path to git repository."
+   exit 1
 }
 
 while getopts "s:t:d:" option; do
@@ -35,16 +36,10 @@ while getopts "s:t:d:" option; do
       s) source=${OPTARG};;
       t) target=${OPTARG};;
       d) directory=${OPTARG};;
-      *) echo "usage: $0 [-s] [-t] [-d]" >&2; exit 1 ;;        
+      *) Help
    esac
 done
 shift $((OPTIND - 1))
-
-if [[ -z $* ]]
-then
-  Help
-  exit 1
-fi
 
 set -euo pipefail
 
@@ -102,7 +97,7 @@ touch "$CHANGED_SRC_LIST_FILE" || { echo "Error creating file $CHANGED_SRC_LIST_
 
 pushd "$directory" && git checkout "$target" && git pull && git checkout "$source" && git pull && git diff "$(git merge-base "$source" "$target")" "$source" --name-only --diff-filter=ACMRTUXB > "${CHANGED_SRC_LIST_FILE}" && popd || { echo "Error getting changed files list"; exit 1; }
 
-if [ ! -s "$CHANGED_SRC_LIST_FILE" ]
+if [[ ! -s "$CHANGED_SRC_LIST_FILE" ]]
 then
   echo "There is no difference between the branches exiting..."; exit 0;
 fi
