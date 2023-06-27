@@ -4,10 +4,10 @@ name: Salesforce Delta Validation Job
 on:
   # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
-    types: [ opened, synchronize ]
-    branches: [ "master" ]
-    paths: 
-      - 'force-app/main/default/**'    
+    types: [opened, synchronize]
+    branches: ["master"]
+    paths:
+      - "force-app/main/default/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,10 +25,10 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Code-Scan: 
+  Code-Scan:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment : Production
+    environment: Production
     # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
@@ -51,7 +51,7 @@ jobs:
   Delta-Validation:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment : Production
+    environment: Production
     # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
@@ -61,7 +61,29 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
-      
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Authorize with the org and set configuration
         run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
@@ -70,6 +92,12 @@ jobs:
 
       - name: Generate the package consisting of delta changes
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
+
+      - name: Validate JS Syntax
+        run: chmod +x bash-scripts/RunJSSyntaxValidation.sh
+
+      - name: Validate JSON Syntax
+        run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh
 
       - name: Get test classes if any from delta changes and run validation.
         run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
