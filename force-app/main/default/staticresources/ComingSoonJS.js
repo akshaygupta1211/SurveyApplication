@@ -18,11 +18,11 @@ var countdownfunction = setInterval(function () {
 
   // Output the result in an element with id="demo"
   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-    + minutes + "m " + seconds + "s ";
+    + minutes + "m " + seconds + "s "
 
   // If the count down is over, write some text 
   if (distance < 0) {
     clearInterval(countdownfunction);
     document.getElementById("demo").innerHTML = "EXPIRED";
   }
-}, 1000)
+}, 1000);
