@@ -4,8 +4,8 @@ jsonlint_output_log_file="jsonlint_output.log"
 
 if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default/staticresources ]]
 then
-    json_files=("$WORKING_DIR/src/objects"/*.json)
-    if [[ -v "$json_files" ]]
+    json_files=($(find ${REPO_NAME}/changed-sources/force-app/main/default/staticresources -type f -name "*.json"))
+    if [[ ${#json_files[@]} -ne 0 ]]
     then
         echo "Change(s) detected in JSON file(s) in static resource"
     fi

@@ -25,4 +25,4 @@ var countdownfunction = setInterval(function () {
     clearInterval(countdownfunction);
     document.getElementById("demo").innerHTML = "EXPIRED";
   }
-}, 1000);
+}, 1000)
