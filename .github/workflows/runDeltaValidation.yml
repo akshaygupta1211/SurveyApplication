@@ -89,13 +89,10 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Validate JS Syntax
-        continue-on-error: false
-        run: chmod +x bash-scripts/RunJSSyntaxValidation.sh
+        run: chmod +x bash-scripts/RunJSSyntaxValidation.sh && ./bash-scripts/RunJSSyntaxValidation.sh
 
       - name: Validate JSON Syntax
-        continue-on-error: false
-        run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh
+        run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh && ./bash-scripts/RunJSONSyntaxValidation.sh
 
       - name: Get test classes if any from delta changes and run validation.
-        continue-on-error: false
         run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
