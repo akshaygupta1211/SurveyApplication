@@ -49,9 +49,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
-      
+
       - name: Authorize with the org and set configuration
         run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
       - name: Running validation and test classes
-        run: sfdx force:source:deploy -c -p force-app --testlevel RunLocalTests
+        run: sf project deploy validate --source-dir force-app --testlevel RunLocalTests
