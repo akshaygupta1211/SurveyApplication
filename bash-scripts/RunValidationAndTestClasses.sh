@@ -26,11 +26,11 @@ then
     if [ "${FILE_NAMES}" == "" ] 
     then
         echo "Running validation"
-        sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --verbose
+        sf project deploy validate -c -x ${REPO_NAME}/changed-sources/package/package.xml --verbose
     #If changes detected in class(es) run specified test class(es) and validation  
     else
         echo "Running validation with test class(es)"
-        sfdx force:source:deploy -c -x ${REPO_NAME}/changed-sources/package/package.xml --testlevel RunSpecifiedTests --runtests "${PR_BODY}" --verbose
+        sf project deploy validate -c -x ${REPO_NAME}/changed-sources/package/package.xml --test-level RunSpecifiedTests --tests "${PR_BODY}" --verbose
     fi
     unset FILE_NAMES
 fi        

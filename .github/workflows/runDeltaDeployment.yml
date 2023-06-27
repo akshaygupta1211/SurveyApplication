@@ -4,10 +4,10 @@ name: Salesforce Delta Deployment Job
 on:
   # Triggers the workflow when pull request is merged but only for the "master" branch
   pull_request:
-    types: [ closed ]
-    branches: [ "master" ]
-    paths: 
-      - 'force-app/main/default/**'    
+    types: [closed]
+    branches: ["master"]
+    paths:
+      - "force-app/main/default/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
   Delta-Deployment:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment : Production
+    environment: Production
     # Use salesforcedx container
     container:
       image: salesforce/salesforcedx:latest-full
@@ -48,4 +48,4 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Running Deployment
-        run: sfdx force:source:deploy -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
+        run: sf project deploy start -x ${{ github.event.repository.name }}/changed-sources/package/package.xml
