@@ -2,7 +2,8 @@ jsonlint_output_log_file="jsonlint_output.log"
 
 for file in ${REPO_NAME}/changed-sources/force-app/main/default/staticresources/*.json
 do
-    npx jsonlint file > ${jsonlint_output_log_file}
+    echo "Checking ${file}"
+    npx jsonlint $file > ${jsonlint_output_log_file}
 done
 
 for line in "${jsonlint_output_log_file[@]}"; do
