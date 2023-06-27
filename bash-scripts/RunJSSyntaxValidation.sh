@@ -44,8 +44,10 @@ then
         npx eslint $file >> ${eslint_output_log_file}
     done    
 fi
-
-cat $eslint_output_log_file
+if [ -s $eslint_output_log_file ]
+then
+    cat $eslint_output_log_file
+fi
 
 for line in "${eslint_output_log_file[@]}"; do
     if [[ "$line" == *"error"* ]] || [[ "$line" == *"Error"* ]]
