@@ -19,6 +19,6 @@ fi
 for line in "${jsonlint_output_log_file[@]}"; do
     if [[ "$line" == *"error"* ]] || [[ "$line" == *"Error"* ]]
     then
-        return 1
+        exit 1
     fi
 done
