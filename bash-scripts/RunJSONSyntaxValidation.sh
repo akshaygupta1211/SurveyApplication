@@ -1,3 +1,5 @@
+#!/bin/bash
+
 jsonlint_output_log_file="jsonlint_output.log"
 
 for file in ${REPO_NAME}/changed-sources/force-app/main/default/staticresources/*.json
