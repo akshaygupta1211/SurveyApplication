@@ -1,14 +1,57 @@
 {
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@salesforce/eslint-plugin-aura/recommended",
+        "plugin:@salesforce/eslint-plugin-aura/locker"
+    ],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
-        "ecmaVersion": "latest",
+        "requireConfigFile": false,
+        "babelOptions": {
+            "parserOpts": {
+                "plugins": [
+                    "classProperties",
+                    [
+                        "decorators",
+                        {
+                            "decoratorsBeforeExport": false
+                        }
+                    ]
+                ]
+            }
+        },
+        "ecmaVersion": 2020,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
         }
     },
+    "env": {
+        "commonjs": true,
+        "es2020": true,
+        "node": true,
+        "mocha": true
+    },
     "rules": {
         "semi": "error",
+        "no-undef": "warn",
+        "dot-notation": "warn",
+        "no-mixed-spaces-and-tabs": "warn",
+        "no-prototype-builtins": "warn",
+        "no-constant-condition": "warn",
+        "no-inner-declarations": "warn",
+        "@lwc/lwc/no-deprecated": "error",
+        "@lwc/lwc/valid-api": "error",
+        "@lwc/lwc/no-document-query": "error",
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
+        ],
         "no-unused-vars": [
             "warn",
             {
@@ -16,11 +59,11 @@
                 "args": "after-used",
                 "ignoreRestSiblings": false
             }
-        ],
-        "no-undef": "warn",
-        "no-mixed-spaces-and-tabs": "warn",
-        "no-prototype-builtins": "warn",
-        "no-constant-condition": "warn",
-        "no-inner-declarations": "warn"
-    }
+
+        ]
+    },
+    "plugins": [
+        "@salesforce/eslint-plugin-aura",
+        "@lwc/eslint-plugin-lwc"
+    ]
 }
