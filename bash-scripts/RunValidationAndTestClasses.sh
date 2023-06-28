@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #Check if changed-sources contain salesforce changes
 if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default ]]
 then
@@ -26,7 +28,7 @@ then
     if [ "${FILE_NAMES}" == "" ] 
     then
         echo "Running validation"
-        sf project deploy validate -x ${REPO_NAME}/changed-sources/package/package.xml --verbose
+        sf project deploy validate -x ${REPO_NAME}/changed-sources/package/package.xml --test-level NoTestRun --verbose
     #If changes detected in class(es) run specified test class(es) and validation  
     else
         echo "Running validation with test class(es)"

@@ -38,11 +38,11 @@ jobs:
         with:
           repository: ${{ github.repository }}
 
-      - name: Authorize with the org and set configuration
-        run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
-
       - name: Install delta deployment plugin
         run: echo y | sfdx plugins:install sfdx-git-delta
+
+      - name: Authorize with the org and set configuration
+        run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
       - name: Generate the package consisting of changed files
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh

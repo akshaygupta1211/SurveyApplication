@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 jsonlint_output_log_file="jsonlint_output.log"
 
 if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default/staticresources ]]
