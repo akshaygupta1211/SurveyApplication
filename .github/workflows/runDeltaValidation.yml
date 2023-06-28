@@ -82,20 +82,14 @@ jobs:
       - name: Authorize with the org and set configuration
         run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
 
-      - name: Install delta generator and code scanner plugin
-        run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
-
       - name: Generate the package consisting of delta changes
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Validate JS Syntax
-        if: always()
         run: chmod +x bash-scripts/RunJSSyntaxValidation.sh && ./bash-scripts/RunJSSyntaxValidation.sh
 
       - name: Validate JSON Syntax
-        if: always()
         run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh && ./bash-scripts/RunJSONSyntaxValidation.sh
 
       - name: Get test classes if any from delta changes and run validation.
-        if: always()
         run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh

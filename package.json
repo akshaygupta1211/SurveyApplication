@@ -22,6 +22,7 @@
     "@salesforce/eslint-plugin-aura": "^2.0.0",
     "@salesforce/eslint-plugin-lightning": "^0.1.1",
     "@salesforce/sfdx-lwc-jest": "^0.13.0",
+    "@salesforce/sfdx-scanner": "^3.13.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
@@ -29,7 +30,8 @@
     "jsonlint": "^1.6.3",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.2",
-    "prettier-plugin-apex": "^1.10.1"
+    "prettier-plugin-apex": "^1.10.1",
+    "sfdx-git-delta": "^5.22.0"
   },
   "lint-staged": {
     "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
