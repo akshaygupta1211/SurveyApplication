@@ -44,13 +44,14 @@ then
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
             echo "Validation with test class(es) succeeded."
+            unset FILE_NAMES
             exit 0
         else
             echo "Validation with test class(es) failed with exit code $exit_code."
+            unset FILE_NAMES
             exit $exit_code
         fi        
     fi
-    unset FILE_NAMES
 fi
 echo "No Salesforce changes detected."
 exit 0
