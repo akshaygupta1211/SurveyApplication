@@ -41,3 +41,6 @@ $RECYCLE.BIN/
 
 # Folder containing delta changes
 changed-sources/
+
+eslint_output.log
+jsonlint_output.log
