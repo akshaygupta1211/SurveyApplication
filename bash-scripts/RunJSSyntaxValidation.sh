@@ -51,9 +51,8 @@ then
     cat $eslint_output_log_file
 fi
 
-for line in "${eslint_output_log_file[@]}"; do
-    if [[ "$line" == *"error"* ]] || [[ "$line" == *"Error"* ]]
-    then
-        exit 1
-    fi
-done
+if grep -qE 'error|Error' "$eslint_output_log_file"; then
+    exit 1
+else
+    exit 0
+fi

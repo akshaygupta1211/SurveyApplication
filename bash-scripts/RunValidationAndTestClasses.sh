@@ -29,10 +29,28 @@ then
     then
         echo "Running validation"
         sf project deploy validate -x ${REPO_NAME}/changed-sources/package/package.xml --test-level NoTestRun --verbose
+        exit_code=$?
+        if [[ $exit_code -eq 0 ]]; then
+            echo "Validation succeeded."
+            exit 0
+        else
+            echo "Validation failed with exit code $exit_code."
+            exit $exit_code
+        fi        
     #If changes detected in class(es) run specified test class(es) and validation
     else
         echo "Running validation with test class(es)"
         sf project deploy validate -x ${REPO_NAME}/changed-sources/package/package.xml --test-level RunSpecifiedTests --tests "${PR_BODY}" --verbose
+        exit_code=$?
+        if [[ $exit_code -eq 0 ]]; then
+            echo "Validation with test class(es) succeeded."
+            exit 0
+        else
+            echo "Validation with test class(es) failed with exit code $exit_code."
+            exit $exit_code
+        fi        
     fi
     unset FILE_NAMES
 fi
+echo "No Salesforce changes detected."
+exit 0
