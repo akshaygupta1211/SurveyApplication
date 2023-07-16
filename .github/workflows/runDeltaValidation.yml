@@ -89,7 +89,13 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Validate JS Syntax
-        run: chmod +x bash-scripts/RunJSSyntaxValidation.sh && ./bash-scripts/RunJSSyntaxValidation.sh
+        run: |
+          chmod +x bash-scripts/RunJSSyntaxValidation.sh && ./bash-scripts/RunJSSyntaxValidation.sh
+          exit_code=$?
+          if [[ $exit_code -eq 1 ]]; then
+            echo "::error::JavaScript syntax validation failed."
+            exit 1
+          fi
 
       - name: Validate JSON Syntax
         run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh && ./bash-scripts/RunJSONSyntaxValidation.sh
