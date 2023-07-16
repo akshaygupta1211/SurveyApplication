@@ -46,13 +46,11 @@ then
         npx eslint $file >> ${eslint_output_log_file}
     done    
 fi
-if [ -s $eslint_output_log_file ]
+
+if [[ -s $eslint_output_log_file ]] && [[ grep -qE 'error|Error' "$eslint_output_log_file" ]]
 then
     cat $eslint_output_log_file
-fi
-
-if grep -qE 'error|Error' "$eslint_output_log_file"; then
     exit 1
 else
-    exit 0
+    exit 0    
 fi

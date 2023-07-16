@@ -18,7 +18,7 @@ then
     done
 fi
 
-if grep -qE 'error|Error' "$jsonlint_output_log_file"; then
+if [[ -s $jsonlint_output_log_file ]] && [[ grep -qE 'error|Error' "$jsonlint_output_log_file" ]]; then
     exit 1
 else
     exit 0
