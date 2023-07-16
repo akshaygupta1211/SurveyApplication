@@ -46,7 +46,13 @@ jobs:
         run: chmod +x ./bash-scripts/DetectDeltaAndCreatePackage.sh && ./bash-scripts/DetectDeltaAndCreatePackage.sh
 
       - name: Run code scan on delta changes
-        run: chmod +x ./bash-scripts/RunCodeScan.sh && ./bash-scripts/RunCodeScan.sh
+        run: |
+          chmod +x ./bash-scripts/RunCodeScan.sh && ./bash-scripts/RunCodeScan.sh
+          exit_code=$?
+          if [[ $exit_code -eq 1 ]]; then
+            echo "::error::JSON syntax validation failed."
+            exit 1
+          fi
 
   Delta-Validation:
     # The type of runner that the job will run on
@@ -98,7 +104,19 @@ jobs:
           fi
 
       - name: Validate JSON Syntax
-        run: chmod +x bash-scripts/RunJSONSyntaxValidation.sh && ./bash-scripts/RunJSONSyntaxValidation.sh
+        run: |
+          chmod +x bash-scripts/RunJSONSyntaxValidation.sh && ./bash-scripts/RunJSONSyntaxValidation.sh
+          exit_code=$?
+          if [[ $exit_code -eq 1 ]]; then
+            echo "::error::JSON syntax validation failed."
+            exit 1
+          fi
 
       - name: Get test classes if any from delta changes and run validation.
-        run: chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
+        run: |
+          chmod +x bash-scripts/RunValidationAndTestClasses.sh && ./bash-scripts/RunValidationAndTestClasses.sh
+          exit_code=$?
+          if [[ $exit_code -eq 1 ]]; then
+            echo "::error::Salesforce validation failed."
+            exit 1
+          fi
