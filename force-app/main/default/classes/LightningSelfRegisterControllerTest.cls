@@ -12,7 +12,9 @@ public with sharing class LightningSelfRegisterControllerTest {
 
  @IsTest
  static void testSiteAsContainerEnabled() {
-  System.assertNotEquals(null, LightningSelfRegisterController.siteAsContainerEnabled('https://portaleu1-developer-edition.eu11.force.com'));
+    List<Network> communities = [SELECT Id, Name FROM Network WHERE Name = 'Akshay Gupta'];
+    String communityURL = Network.getLoginUrl(communities[0].Id).removeEnd('/login');   
+    System.assertNotEquals(null, LightningSelfRegisterController.siteAsContainerEnabled(communityURL));
  }
 
  /* Verifies the selfRegistration method flow with various invalid inputs */
