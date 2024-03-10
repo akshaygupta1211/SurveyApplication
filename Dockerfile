@@ -7,10 +7,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     g++ \
     build-essential \
-    python3 \
+    python3
 
-RUN set -o pipefail && wget https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y --no-install-recommends nodejs
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN wget https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
