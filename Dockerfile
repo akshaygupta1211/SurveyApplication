@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN set -o pipefail && curl -sL https://rpm.nodesource.com/setup_20.x | bash - \
+RUN curl -sL https://rpm.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends \
     nodejs \
     && apt-get clean \
