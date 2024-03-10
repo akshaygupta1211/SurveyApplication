@@ -12,10 +12,10 @@
     "test:unit:coverage": "sfdx-lwc-jest --coverage",
     "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "postinstall": "husky install",
     "precommit": "lint-staged"
   },
   "devDependencies": {
+    "@salesforce/cli": "^2.30.8",
     "@lwc/eslint-plugin-lwc": "^1.0.1",
     "@prettier/plugin-xml": "^0.13.1",
     "@salesforce/eslint-config-lwc": "^2.0.0",
@@ -26,7 +26,6 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
-    "husky": "^7.0.0",
     "jsonlint": "^1.6.3",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.2",
