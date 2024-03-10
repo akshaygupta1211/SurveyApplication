@@ -2,17 +2,14 @@
 
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
+RUN curl -sL https://debian.nodesource.com/setup_20.x | bash - \
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-21-jre \
     git \
     g++ \
     build-essential \
     python3 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN curl -sL https://rpm.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y --no-install-recommends \
     nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
