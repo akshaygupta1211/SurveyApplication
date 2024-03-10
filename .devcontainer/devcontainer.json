@@ -1,0 +1,6 @@
+{
+    "name": "Salesforce Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    }
+}
