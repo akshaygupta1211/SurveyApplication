@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     g++ \
     build-essential \
-    python=3.12.2 \
-    nodejs=20.11.1 \
+    python=3.12 \
+    nodejs=20.x \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
