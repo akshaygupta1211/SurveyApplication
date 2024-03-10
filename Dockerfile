@@ -8,13 +8,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     build-essential \
     python3 \
-    nodejs=20 \
+    nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+ADD https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz /tmp/
 
-RUN mkdir -p ~/sf && tar xJf sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && rm -rf sf-linux-x64.tar.xz
+RUN mkdir -p ~/sf && \
+    tar xJf /tmp/sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && \
+    rm -rf /tmp/sf-linux-x64.tar.xz
     
 ENV PATH=~/sf/bin:$PATH
 
