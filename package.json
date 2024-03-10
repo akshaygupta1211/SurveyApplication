@@ -15,8 +15,6 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "node-gyp": "^10.0.1",
-    "@salesforce/lwc-dev-server": "^2.11.0",
     "@lwc/eslint-plugin-lwc": "^1.0.1",
     "@prettier/plugin-xml": "^0.13.1",
     "@salesforce/eslint-config-lwc": "^2.0.0",
