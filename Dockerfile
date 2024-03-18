@@ -18,9 +18,9 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 #Install sf cli
-RUN mkdir -p ~/sf && curl -O https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz && \
-    tar xJf sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && \
-    rm -rf sf-linux-x64.tar.xz
+RUN mkdir -p ~/sf && curl https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz -o ~/sf-linux-x64.tar.xz && \
+    tar xJf ~/sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && \
+    rm -rf ~/sf-linux-x64.tar.xz
 
 ENV PATH=~/sf/bin:$PATH
 
