@@ -15,10 +15,11 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -O https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz && \
-    mkdir -p ~/sf && \
-    tar xJf /tmp/sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && \
-    rm -rf /tmp/sf-linux-x64.tar.xz && ls -la ~/sf
+RUN curl -O https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+
+RUN ls -la && mkdir -p ~/sf && \
+    tar xJf sf-linux-x64.tar.xz -C ~/sf --strip-components 1 && \
+    rm -rf sf-linux-x64.tar.xz && ls -la ~/sf
 
 ENV PATH=~/sf/bin:$PATH
 
