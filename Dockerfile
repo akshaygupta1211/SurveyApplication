@@ -4,7 +4,6 @@ FROM salesforce/cli:latest-full
 
 #Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    openjdk-21-jre \
     git \
     g++ \
     build-essential \

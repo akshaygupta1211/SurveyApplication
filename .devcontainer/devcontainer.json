@@ -2,5 +2,21 @@
     "build": {
         // Path is relative to the devcontainer.json file.
         "dockerfile": "../Dockerfile"
-    }
+    },
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+          // Add the IDs of extensions you want installed when the container is created.
+          "extensions": [
+            "salesforce.salesforcedx-vscode",
+            "redhat.vscode-xml",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "financialforce.lana",
+            "ms-azuretools.vscode-docker",
+            "HTMLHint.vscode-htmlhint",
+            "DavidAnson.vscode-markdownlint"
+          ]
+        }
+      }
 }
