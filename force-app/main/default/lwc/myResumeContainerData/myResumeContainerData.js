@@ -1,6 +1,6 @@
-import SOCIAL from '@salesforce/resourceUrl/SOCIAL'
+import SOCIAL from '@salesforce/resourceUrl/SOCIAL';
 import akshay from '@salesforce/resourceUrl/akshay';
-export const PROFILE_IMAGE = akshay
+export const PROFILE_IMAGE = akshay;
 
 export const SOCIAL_LINKS=[
     {
@@ -21,21 +21,21 @@ export const SOCIAL_LINKS=[
         link: "https://trailblazer.me/id/akshaygupta",
         icon: SOCIAL + '/SOCIAL/trailhead.svg'
     }
-]
+];
 
 export const USER_DETAILS={
     NAME:'Akshay Gupta',
     ROLE:'Salesforce Developer',
     EMAIL:'akshaygupta@outlook.com',
     PHONE:'+91 9876543210'
-}
+};
 
 export const CAREER_SUMMARY={
     HEADING:"CAREER SUMMARY",
     DESCRIPTION: "Certified Salesforce Developer and Administrator with experience working in telecom and education industries.",
     KEYS_POINTS:[
     ]
-}
+};
 
 export const EXPERIENCE_DATA={
     HEADING: "Work Experience",
@@ -87,7 +87,7 @@ export const EXPERIENCE_DATA={
             }
         },
     ]
-}
+};
 
 
  export const EDUCATION_DATA={
@@ -100,7 +100,7 @@ export const EXPERIENCE_DATA={
              DURATION: "2015 - 2019",
          }
      ]
- }
+ };
 
 export const CERTIFICATION_DATA={
     ICON: SOCIAL + '/SOCIAL/certification.svg',
@@ -125,7 +125,7 @@ export const CERTIFICATION_DATA={
             NAME: "Copado Administrator",
         }        
     ]
-}
+};
 
 export const LANGUAGES_DATA={
     HEADING: "Languages",
@@ -139,7 +139,7 @@ export const LANGUAGES_DATA={
             LEVEL: "Professional",
         }
     ]
-}
+};
 
 export const SKILLS_DATA ={
     HEADING: "SKILLS & TOOLS",
@@ -181,9 +181,9 @@ export const SKILLS_DATA ={
             "Confluence"
         ]
     }
-}
+};
 
 export const INTERESTS_DATA = {
     HEADING: "Interests",
     LIST: ["Reading", "Gaming"]
-}
+};

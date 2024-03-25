@@ -46,8 +46,6 @@ public with sharing class CustomAccountController {
    */
   @AuraEnabled
   public static List<Account> fetchAccounts() {
-    return Database.query(
-      'SELECT Name, Type FROM Account WHERE CreatedDate=TODAY WITH SECURITY_ENFORCED'
-    );
+    return [SELECT Name, Type FROM Account WHERE CreatedDate=TODAY WITH SECURITY_ENFORCED];
   }
 }
