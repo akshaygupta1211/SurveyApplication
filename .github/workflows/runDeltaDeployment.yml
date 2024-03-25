@@ -30,16 +30,16 @@ jobs:
     environment: Production
     # Use salesforcedx container
     container:
-      image: salesforce/salesforcedx:latest-full
+      image: salesforce/cli:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
 
       - name: Install delta deployment plugin
-        run: echo y | sfdx plugins:install sfdx-git-delta
+        run: echo y | sf plugins:install sfdx-git-delta
 
       - name: Authorize with the org and set configuration
         run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
