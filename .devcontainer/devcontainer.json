@@ -15,7 +15,8 @@
             "financialforce.lana",
             "ms-azuretools.vscode-docker",
             "HTMLHint.vscode-htmlhint",
-            "DavidAnson.vscode-markdownlint"
+            "DavidAnson.vscode-markdownlint",
+            "chuckjonas.apex-pmd"
           ]
         }
       }
