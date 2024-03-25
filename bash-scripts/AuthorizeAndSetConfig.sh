@@ -4,7 +4,4 @@
 echo "${JWT_KEY}" > jwt.key
 
 #Authorize with the org
-sfdx auth:jwt:grant --client-id ${CLIENT_KEY} --jwt-key-file jwt.key --username ${USER_NAME}
-
-#Set configuration
-sfdx config:set defaultusername=${USER_NAME}
+sf org login jwt --username ${USER_NAME} --jwt-key-file jwt.key --client-id ${CLIENT_KEY} --alias ci-org --set-default

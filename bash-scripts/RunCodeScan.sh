@@ -5,7 +5,7 @@ set -euo pipefail
 #If changes detected are salesforce related code changes
 if [[ -d ${REPO_NAME}/changed-sources/force-app/main/default ]]
 then 
-    sfdx scanner:run --target "${REPO_NAME}/changed-sources/force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
+    sf scanner:run --target "${REPO_NAME}/changed-sources/force-app/main/default" --engine "eslint-lwc,retire-js,cpd,pmd" --verbose
     exit_code=$?
     if [[ $exit_code -eq 0 ]]; then
         echo "Validation succeeded."

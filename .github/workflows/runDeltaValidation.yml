@@ -31,11 +31,11 @@ jobs:
     environment: Production
     # Use salesforcedx container
     container:
-      image: salesforce/salesforcedx:latest-full
+      image: salesforce/cli:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
 
@@ -60,11 +60,11 @@ jobs:
     environment: Production
     # Use salesforcedx container
     container:
-      image: salesforce/salesforcedx:latest-full
+      image: salesforce/cli:latest-full
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
 
@@ -86,7 +86,7 @@ jobs:
         run: npm install
 
       - name: Install delta generator and code scanner plugin
-        run: echo y | sfdx plugins:install sfdx-git-delta && sfdx plugins:install @salesforce/sfdx-scanner
+        run: echo y | sf plugins:install sfdx-git-delta && sf plugins:install @salesforce/sfdx-scanner
 
       - name: Authorize with the org and set configuration
         run: chmod +x bash-scripts/AuthorizeAndSetConfig.sh && ./bash-scripts/AuthorizeAndSetConfig.sh
