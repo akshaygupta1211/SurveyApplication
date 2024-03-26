@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     g++ \
     build-essential \
-    python3
+    python3 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #Install nodejs v20.x
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
